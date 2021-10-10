@@ -19,9 +19,9 @@ public interface UserService {
 
     void changePassword(String oldPassword, String newPassword);
 
-    void createUser(UserDto userDto);
+    void createUser(UserDto userDto, User user);
 
-    void saveUser(User user);
+    boolean saveUser(User user);
 
     void deleteUser(int id);
 }
