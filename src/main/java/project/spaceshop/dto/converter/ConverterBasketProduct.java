@@ -16,4 +16,14 @@ public class ConverterBasketProduct {
         basketProductDto.setProductImage(product.getProductImage());
         return basketProductDto;
     }
+
+    public Product fromBasketProductDtoToProduct(BasketProductDto basketProductDto){
+        Product product = new Product();
+        product.setId(basketProductDto.getId());
+        product.setProductName(basketProductDto.getProductName());
+        product.setAmountInStock(basketProductDto.getAmount());
+        product.setPrice(basketProductDto.getPrice());
+        product.setProductImage(basketProductDto.getProductImage());
+        return product;
+    }
 }

@@ -14,6 +14,7 @@ public class UserConverter {
         user.setEmail(userDto.getEmail());
         user.setPhone(userDto.getPhone());
         user.setPassword(userDto.getPassword());
+        user.setRole(userDto.getRole());
         return user;
     }
 
@@ -25,6 +26,7 @@ public class UserConverter {
         userDto.setEmail(user.getEmail());
         userDto.setPhone(user.getPhone());
         userDto.setPassword(user.getPassword());
+        userDto.setRole(user.getRole());
         return userDto;
     }
 }

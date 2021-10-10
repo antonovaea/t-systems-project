@@ -34,17 +34,24 @@ public class UserDto {
     @Column(name = "user_password")
     private String password;
 
+    private String passwordConfirm;
+
+    @Column(name = "role")
+    private String role;
+
     public UserDto(){
 
     }
 
-    public UserDto(Integer id, String userName, String userSurname, String email, String phone, String password) {
+    public UserDto(Integer id, String userName, String userSurname, String email, String phone, String password, String passwordConfirm, String role) {
         this.id = id;
         this.userName = userName;
         this.userSurname = userSurname;
         this.email = email;
         this.phone = phone;
         this.password = password;
+        this.passwordConfirm = passwordConfirm;
+        this.role = role;
     }
 
     public int getId() {
@@ -95,6 +102,22 @@ public class UserDto {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
+
     @Override
     public String toString() {
         return "UserDto{" +
@@ -104,6 +127,8 @@ public class UserDto {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
+                ", passwordConfirm='" + passwordConfirm + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

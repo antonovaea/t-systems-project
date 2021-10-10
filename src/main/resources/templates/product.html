@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>product</title>
+  <meta charset="UTF-8">
+  <title>product</title>
 </head>
 <body>
 <div class="border">
@@ -17,7 +17,7 @@
     <tbody>
     <tr th:each="product : ${product}">
       <td th:text="${product.getProductName()}">
-        <td th:text="${product.getPrice()}">
+      <td th:text="${product.getPrice()}">
       </td>
     </tr>
     </tbody>

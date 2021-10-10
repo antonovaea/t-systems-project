@@ -27,8 +27,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByEmail(String email)
-    {
+    public User findUserByEmail(String email) {
         if (email == null || email.isEmpty()) return null;
         return userRepository.findUserByEmail(email);
     }
@@ -53,7 +52,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changePassword(String oldPassword, String newPassword) {
         User user = findUserFromSecurityContextHolder();
-        if(passwordEncoder.matches(oldPassword,user.getPassword())){
+        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
             user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
         }
@@ -61,13 +60,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(UserDto userDto) {
+    public void createUser(UserDto userDto, User user) {
+        user.setUserName(userDto.getUserName());
+        user.setUserSurname(user.getUserSurname());
+        user.setPhone(userDto.getPhone());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setRole(userDto.getRole());
+        userRepository.save(user);
 
     }
 
     @Override
-    public void saveUser(User user) {
+    public boolean saveUser(User user) {
         userRepository.save(user);
+        return true;
     }
 
     @Override

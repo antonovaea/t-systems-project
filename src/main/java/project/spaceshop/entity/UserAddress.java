@@ -137,4 +137,14 @@ public class UserAddress {
                 '}';
     }
 
+    public String toStringForOrder() {
+        return "UserAddress{" +
+                "country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", postcode='" + postcode + '\'' +
+                ", street='" + street + '\'' +
+                ", house='" + house + '\'' +
+                ", flat='" + flat + '\'' +
+                '}';
+    }
 }
