@@ -28,7 +28,7 @@
             <td th:text="${product.getIdCategory()}">
             <td th:text="${product.getProductDescription()}">
             <td th:text="${product.getAmountInStock()}">
-            <img th:src="@{product.getProductImage()}">
+            <img th:src="'data:jpg;base64,' + ${imgUtil.getImgData(product.getProductImage())}"/>
         </tr>
         </tbody>
     </table>

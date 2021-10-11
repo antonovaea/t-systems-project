@@ -2,6 +2,7 @@ package project.spaceshop.dto;
 
 import org.jetbrains.annotations.NotNull;
 
+import javax.persistence.Lob;
 import java.io.Serializable;
 
 public class ProductDto implements Serializable {
@@ -23,7 +24,8 @@ public class ProductDto implements Serializable {
     @NotNull
     private Integer amountInStock;
 
-    private String productImage;
+    @Lob
+    private byte[] productImage;
 
     public ProductDto() {
 
@@ -37,11 +39,11 @@ public class ProductDto implements Serializable {
         this.id = id;
     }
 
-    public String getProductImage() {
+    public byte[] getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(String productImage) {
+    public void setProductImage(byte[] productImage) {
         this.productImage = productImage;
     }
 
@@ -92,7 +94,7 @@ public class ProductDto implements Serializable {
 
 
 
-    public ProductDto(int id, @NotNull String productName, @NotNull Integer idCategory, @NotNull Integer price, @NotNull String productDescription, @NotNull Integer amountInStock, String productImage) {
+    public ProductDto(int id, @NotNull String productName, @NotNull Integer idCategory, @NotNull Integer price, @NotNull String productDescription, @NotNull Integer amountInStock, byte[] productImage) {
         this.id = id;
         this.productName = productName;
         this.idCategory = idCategory;

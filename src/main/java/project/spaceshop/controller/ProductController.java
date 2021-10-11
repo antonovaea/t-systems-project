@@ -10,6 +10,7 @@ import project.spaceshop.repository.ProductRepository;
 import project.spaceshop.entity.Product;
 import project.spaceshop.service.api.CategoryService;
 import project.spaceshop.service.api.ProductService;
+import project.spaceshop.util.ImageUtil;
 
 @Controller
 @RequestMapping(value = "/home")
@@ -31,6 +32,7 @@ public class ProductController {
     @GetMapping(value = "/catalog")
     public String getProductList(Model model){
         model.addAttribute("products", productService.findAllProducts());
+        model.addAttribute("imgUtil", new ImageUtil());
         return "products";
     }
 

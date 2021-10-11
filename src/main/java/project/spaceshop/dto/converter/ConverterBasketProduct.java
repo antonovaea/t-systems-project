@@ -13,7 +13,6 @@ public class ConverterBasketProduct {
         basketProductDto.setProductName(product.getProductName());
         basketProductDto.setAmount(product.getAmountInStock());
         basketProductDto.setPrice(product.getPrice());
-        basketProductDto.setProductImage(product.getProductImage());
         return basketProductDto;
     }
 
@@ -23,7 +22,6 @@ public class ConverterBasketProduct {
         product.setProductName(basketProductDto.getProductName());
         product.setAmountInStock(basketProductDto.getAmount());
         product.setPrice(basketProductDto.getPrice());
-        product.setProductImage(basketProductDto.getProductImage());
         return product;
     }
 }

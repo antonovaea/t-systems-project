@@ -100,7 +100,6 @@ public class BasketProductServiceImpl implements BasketProductService {
 
     @Override
     public BasketProductDto createBasketProductFromProduct(Product product) {
-        return new BasketProductDto(product.getId(), product.getProductName(), 1,
-                product.getPrice(), product.getProductImage());
+        return new BasketProductDto(product.getId(), product.getProductName(), 1, product.getPrice());
     }
 }
