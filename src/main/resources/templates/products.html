@@ -2,7 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>product</title>
+    <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/style/main.css}" rel="stylesheet">
 </head>
 <body>
 <div class="border">
@@ -12,12 +15,14 @@
         <tr>
             <th>Name</th>
             <th>Price</th>
+            <th>Image</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="product : ${products}">
             <td th:text="${product.getProductName()}">
             <td th:text="${product.getPrice()}">
+            <td th:text="${product.getProductImage()}">
             </td>
         </tr>
         </tbody>

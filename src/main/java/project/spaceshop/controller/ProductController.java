@@ -14,7 +14,7 @@ import project.spaceshop.service.api.ProductService;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/")
+@RequestMapping(value = "/home")
 public class ProductController {
 
     @Autowired

@@ -11,10 +11,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
     private UserDetailsService userDetailsService;
 
@@ -42,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/login").permitAll()
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .loginProcessingUrl("/account/user")
+                .loginProcessingUrl("/login/sign-in")
                 .failureUrl("/login.html?error=true")
                 .successForwardUrl("/account")
                 .and()
@@ -68,5 +70,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry){
+        registry.addViewController("/login").setViewName("login");
     }
 }
