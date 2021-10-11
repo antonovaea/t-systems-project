@@ -9,7 +9,7 @@ public class HelloController {
 
     @GetMapping("/")
     public String index() {
-        return "sign-in";
+        return "redirect:/home/catalog";
     }
 
 }

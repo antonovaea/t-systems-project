@@ -19,5 +19,5 @@ public interface ProductService {
 
     Product createProduct(ProductDto productDto);
 
-    List<ProductDto> filter(int idCategory, boolean adminMode);
+    List<ProductDto> filter(int idCategory);
 }

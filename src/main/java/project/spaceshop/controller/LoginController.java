@@ -7,19 +7,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import project.spaceshop.dto.UserDto;
 import project.spaceshop.entity.User;
+import project.spaceshop.entity.enums.UserRoleEnum;
 import project.spaceshop.service.api.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
-@Secured({"ROLE_ANONYMOUS","ROLE_ADMIN"})
+@Secured({"ROLE_ANONYMOUS"})
 @RequestMapping(value = "/")
 public class LoginController extends CommonController {
     private final UserService userService;
-    private static final String PAGE_REGISTRATION = "userForm";
+    private static final String PAGE_REGISTRATION = "registration";
     @Autowired
     public LoginController(UserDetailsService userDetailsService, UserService userService) {
         super(userDetailsService);
@@ -31,9 +31,15 @@ public class LoginController extends CommonController {
         return "login";
     }
 
+//    @PostMapping("/process")
+//    public String handleForm(HttpServletRequest request){
+//        String email = request.getParameter("email");
+//        return "";
+//    }
+
     @GetMapping(value = "/registration")
     public String registration(Model model) {
-        model.addAttribute("userDto", new UserDto());
+        model.addAttribute("user", new User());
         return "registration";
     }
 
@@ -52,16 +58,16 @@ public class LoginController extends CommonController {
 
 
     @PostMapping(value = "/registration")
-    public String signUp(@Valid UserDto userDto, BindingResult result, User user,
+    public String signUp(@Valid User user, BindingResult result,
                          final HttpServletRequest request) {
         if (result.hasErrors()) {
             return PAGE_REGISTRATION;
-        } else {
+        }else{
             if (!userService.isEmailFree(user.getEmail())) return PAGE_REGISTRATION;
-            userService.createUser(userDto, user);
+            userService.createUser(user, UserRoleEnum.USER.name());
             authenticateUserAndSetSession(user.getEmail(), request);
         }
-        return "redirect:/account/user";
+        return "redirect:/account";
     }
 
 }

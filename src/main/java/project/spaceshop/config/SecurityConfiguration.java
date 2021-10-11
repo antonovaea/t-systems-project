@@ -2,9 +2,11 @@ package project.spaceshop.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,6 +18,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
+@ComponentScan("project.spaceshop")
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
     private UserDetailsService userDetailsService;
@@ -25,10 +29,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
         this.userDetailsService = userDetailsService;
     }
 
-    @Autowired
-    public void configureGlobalAuthentication(AuthenticationManagerBuilder authenticationMgr) {
-        authenticationMgr.authenticationProvider(authProvider());
-    }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
@@ -44,15 +44,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                 .loginPage("/login").permitAll()
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .loginProcessingUrl("/login/sign-in")
-                .failureUrl("/login.html?error=true")
+                .defaultSuccessUrl("/account")
+                .loginProcessingUrl("/process")
+                .failureUrl("/error")
                 .successForwardUrl("/account")
                 .and()
                 .logout()
-                .logoutUrl("/j_spring_security_logout")
+                .permitAll()
                 .logoutSuccessUrl("/");
 
     }
+
+//    @Autowired
+//    public void configureGlobalAuthentication(AuthenticationManagerBuilder authenticationMgr) {
+//        authenticationMgr.authenticationProvider(authProvider());
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -73,7 +79,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
     }
 
     @Override
-    public void addViewControllers(ViewControllerRegistry registry){
+    public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
     }
+
+
 }

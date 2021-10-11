@@ -9,12 +9,15 @@
 </head>
 <body>
 <div class="border">
-    <h2>products</h2>
+    <h2>Products</h2>
     <table class="table">
         <thead>
         <tr>
             <th>Name</th>
             <th>Price</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>In stock</th>
             <th>Image</th>
         </tr>
         </thead>
@@ -22,8 +25,10 @@
         <tr th:each="product : ${products}">
             <td th:text="${product.getProductName()}">
             <td th:text="${product.getPrice()}">
-            <td th:text="${product.getProductImage()}">
-            </td>
+            <td th:text="${product.getIdCategory()}">
+            <td th:text="${product.getProductDescription()}">
+            <td th:text="${product.getAmountInStock()}">
+            <img th:src="@{product.getProductImage()}">
         </tr>
         </tbody>
     </table>
