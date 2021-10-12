@@ -19,7 +19,7 @@ public interface UserService {
 
     void changePassword(String oldPassword, String newPassword);
 
-    void createUser(UserDto userDto, User user);
+    void createUser(User user, String role);
 
     boolean saveUser(User user);
 

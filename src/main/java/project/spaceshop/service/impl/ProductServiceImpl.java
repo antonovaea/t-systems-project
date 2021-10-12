@@ -66,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> filter(int idCategory, boolean adminMode) {
+    public List<ProductDto> filter(int idCategory) {
         List<ProductDto> productsDto;
         if (idCategory == 0) productsDto = findAllProducts();
         else productsDto = findProductByCategory(idCategory);

@@ -6,43 +6,35 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import project.spaceshop.repository.ProductRepository;
 import project.spaceshop.entity.Product;
+import project.spaceshop.service.api.CategoryService;
 import project.spaceshop.service.api.ProductService;
-
-import java.util.List;
+import project.spaceshop.util.ImageUtil;
 
 @Controller
-@RequestMapping(value = "/")
+@RequestMapping(value = "/home")
 public class ProductController {
 
-    @Autowired
     private final ProductRepository productRepository;
 
-    @Autowired
     private final ProductService productService;
 
-    public ProductController(ProductRepository productRepository, ProductService productService) {
+    private final CategoryService categoryService;
+
+    @Autowired
+    public ProductController(ProductRepository productRepository, ProductService productService, CategoryService categoryService) {
         this.productRepository = productRepository;
         this.productService = productService;
+        this.categoryService = categoryService;
     }
-
-//    @GetMapping(value = "/index")
-//    public String index(){
-//        return "index";
-//    }
 
     @GetMapping(value = "/catalog")
     public String getProductList(Model model){
         model.addAttribute("products", productService.findAllProducts());
+        model.addAttribute("imgUtil", new ImageUtil());
         return "products";
     }
-
-//    @GetMapping(value = "/products")
-//    public List<Product> getProducts(){
-//        return productService.findAllProducts();
-//    }
 
     @GetMapping(value = "/catalog/{id}")
     public String getProduct(Model model, @PathVariable("id") int id){
@@ -50,13 +42,5 @@ public class ProductController {
         model.addAttribute("product", product);
         return "product";
     }
-
-//    @GetMapping(value ="/catalog/{id}")
-//    public String getProductPage(Model model, @PathVariable("id") int id){
-//        model.addAttribute("product", productService.findProductById(id, false));
-//        return "product";
-//    }
-
-
 
 }

@@ -11,7 +11,7 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column("id_user")
+    @Column("id")
     private int id;
 
     @NotNull
@@ -23,9 +23,8 @@ public class User {
     private String userSurname;
 
     @NotNull
-    @DateTimeFormat(pattern="yyyy-MM-dd")
     @Column("user_date_of_birth")
-    private Date userDateOfBirth;
+    private String userDateOfBirth;
 
     @Column("role")
     private String role;
@@ -35,7 +34,7 @@ public class User {
     private String phone;
 
     @NotNull
-    @Column("user_email")
+    @Column("email")
     private String email;
 
     @NotNull
@@ -44,14 +43,14 @@ public class User {
     private UserAddress userAddress;
 
     @NotNull
-    @Column("user_password")
+    @Column("password")
     private String password;
 
     public User(){
 
     }
 
-    public User(int id, String userName, String userSurname, Date userDateOfBirth, String role, String phone, String email, UserAddress userAddress, String password) {
+    public User(int id, String userName, String userSurname, String userDateOfBirth, String role, String phone, String email, UserAddress userAddress, String password) {
         this.id = id;
         this.userName = userName;
         this.userSurname = userSurname;
@@ -90,11 +89,11 @@ public class User {
     }
 
     @NotNull
-    public Date getUserDateOfBirth() {
+    public String getUserDateOfBirth() {
         return userDateOfBirth;
     }
 
-    public void setUserDateOfBirth(@NotNull Date userDateOfBirth) {
+    public void setUserDateOfBirth(@NotNull String userDateOfBirth) {
         this.userDateOfBirth = userDateOfBirth;
     }
 

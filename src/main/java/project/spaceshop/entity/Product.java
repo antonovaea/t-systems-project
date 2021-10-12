@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Table(name = "products", schema = "planetshop")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_product")
     private int id;
 
@@ -25,9 +25,9 @@ public class Product {
     @Column(name = "price")
     private Integer price;
 
-    @NotNull
+    @Lob
     @Column(name = "image")
-    private String productImage;
+    private byte[] productImage;
 
     @NotNull
     @Column(name = "description")
@@ -49,7 +49,7 @@ public class Product {
 
     }
 
-    public Product(int id, @NotNull String productName, @NotNull Category category, @NotNull Integer price, @NotNull String productImage, @NotNull String productDescription, @NotNull Integer amountInStock, boolean available, @NotNull String inhabitants) {
+    public Product(int id, @NotNull String productName, @NotNull Category category, @NotNull Integer price, @NotNull byte[] productImage, @NotNull String productDescription, @NotNull Integer amountInStock, boolean available, @NotNull String inhabitants) {
         this.id = id;
         this.productName = productName;
         this.category = category;
@@ -98,11 +98,11 @@ public class Product {
     }
 
     @NotNull
-    public String getProductImage() {
+    public byte[] getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(@NotNull String productImage) {
+    public void setProductImage(@NotNull byte[] productImage) {
         this.productImage = productImage;
     }
 

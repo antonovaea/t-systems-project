@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration page</title>
+    <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/style/css/main.css}" rel="stylesheet">
 </head>
 <body>
-Registration page
+<div class="container mt-5">
+    <div class="group">
+        <label for="user" class="label">Name</label>
+        <input id="user" type="text" class="input">
+    </div>
+    <div class="group">
+        <label for="user" class="label">Surname</label>
+        <input id="userSurname" type="text" class="input">
+    </div>
+    <div class="group">
+        <label for="user" class="label">Email</label>
+        <input id="user_email" type="text" class="input">
+    </div>
+    <div class="group">
+        <label for="user" class="label">Phone</label>
+        <input id="phone" type="tel" class="input">
+    </div>
+    <div class="group">
+        <label for="pass" class="label">Password</label>
+        <input id="pass" type="password" class="input" data-type="password">
+    </div>
+    <div class="group">
+        <label for="pass" class="label">Password Confirm</label>
+        <input id="pass" type="password" class="input" data-type="password">
+    </div>
+    <div class="group">
+        <input type="submit" class="button" value="Sign Up" th:method="post">
+    </div>
+</div>
+
 </body>
 </html>

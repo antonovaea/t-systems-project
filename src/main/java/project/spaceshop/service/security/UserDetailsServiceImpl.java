@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import project.spaceshop.entity.User;
 import project.spaceshop.entity.enums.UserRoleEnum;
 import project.spaceshop.repository.UserRepository;
-import project.spaceshop.service.api.UserService;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -33,8 +32,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         Set<GrantedAuthority> roles = new HashSet<>();
 
-        if (user.getRole().equals(UserRoleEnum.ROLE_ADMIN.name())) {
-            roles.add(new SimpleGrantedAuthority(UserRoleEnum.ROLE_ADMIN.name()));
+        if (user.getRole().equals(UserRoleEnum.ADMIN.name())) {
+            roles.add(new SimpleGrantedAuthority(UserRoleEnum.ADMIN.name()));
         } else {
             roles.add(new SimpleGrantedAuthority(user.getRole()));
         }

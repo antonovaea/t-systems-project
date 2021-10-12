@@ -14,12 +14,11 @@ public class BasketProductDto implements Serializable {
 
     }
 
-    public BasketProductDto(int id, String productName, int amount, int price, String productImage) {
+    public BasketProductDto(int id, String productName, int amount, int price) {
         this.id = id;
         this.productName = productName;
         this.amount = amount;
         this.price = price;
-        this.productImage = productImage;
     }
 
     public Integer getId() {

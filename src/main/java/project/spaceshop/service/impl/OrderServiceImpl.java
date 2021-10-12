@@ -81,8 +81,7 @@ public class OrderServiceImpl implements OrderService {
         List<BasketProductDto> basket = new ArrayList<>();
         for (ProductInOrder productInOrder : order.getProducts()) {
             BasketProductDto basketItem = new BasketProductDto(productInOrder.getProduct().getId(),
-                    productInOrder.getProduct().getProductName(), productInOrder.getAmountInOrder(), productInOrder.getProduct().getPrice(),
-                    productInOrder.getProduct().getProductImage());
+                    productInOrder.getProduct().getProductName(), productInOrder.getAmountInOrder(), productInOrder.getProduct().getPrice());
             basketProductService.addToBasket(basketItem, basket);
         }
         return basket;
