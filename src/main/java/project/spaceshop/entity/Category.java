@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "categories", schema = "planetshop")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_category")
     private int id;
 

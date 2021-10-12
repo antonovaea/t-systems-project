@@ -11,7 +11,7 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column("id_user")
+    @Column("id")
     private int id;
 
     @NotNull
@@ -34,7 +34,7 @@ public class User {
     private String phone;
 
     @NotNull
-    @Column("user_email")
+    @Column("email")
     private String email;
 
     @NotNull
@@ -43,7 +43,7 @@ public class User {
     private UserAddress userAddress;
 
     @NotNull
-    @Column("user_password")
+    @Column("password")
     private String password;
 
     public User(){
