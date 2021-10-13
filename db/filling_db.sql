@@ -64,8 +64,8 @@ INSERT INTO planetshop.products (product_name,id_category,price,image,descriptio
 
 
 INSERT INTO planetshop.users (user_name, user_surname, user_date_of_birth, role, phone, email, password)
-	VALUES ('user', 'user userov', '01.01.01', 'ADMIN', '89999999999', 'user@mail.ru', '1234');
+	VALUES ('user', 'user userov', '01.01.01', 'ADMIN', '89999999999', 'user@mail.ru', '$2a$10$.r55cydHD1Hu4ud5eFMGJ.a56qfIZkW.3pDjb2VMwtz4htGh4Bpp6');
 INSERT INTO planetshop.users (user_name, user_surname, user_date_of_birth, role, phone, email, password)
-	VALUES ('user2', 'user userov2', '02.02.02', 'USER', '82222222222', 'user2@mail.ru', '1234');
+	VALUES ('user2', 'user userov2', '02.02.02', 'USER', '82222222222', 'user2@mail.ru', '$2a$10$.r55cydHD1Hu4ud5eFMGJ.a56qfIZkW.3pDjb2VMwtz4htGh4Bpp6');
 
 

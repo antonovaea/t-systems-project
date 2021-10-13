@@ -31,12 +31,6 @@ public class LoginController extends CommonController {
         return "login";
     }
 
-//    @PostMapping("/process")
-//    public String handleForm(HttpServletRequest request){
-//        String email = request.getParameter("email");
-//        return "";
-//    }
-
     @GetMapping(value = "/registration")
     public String registration(Model model) {
         model.addAttribute("user", new User());

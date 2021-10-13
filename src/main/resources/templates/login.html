@@ -7,16 +7,16 @@
     <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
 </head>
 <body>
-<form action="process" method="post">
+<form action="/login/process" method="post">
     <div class="container mt-5">
         <h3 class="text-center">Login form</h3>
         <div class="mb-3">
             <label for="userEmail" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="userEmail" aria-describedby="emailHelp" placeholder="Enter here">
+            <input type="email" class="form-control" name="email" id="userEmail" aria-describedby="emailHelp" placeholder="Enter here">
         </div>
         <div class="mb-3">
             <label for="userPassword" class="form-label">Password</label>
-            <input type="password" class="form-control" id="userPassword" aria-describedby="emailHelp" placeholder="Enter here">
+            <input type="password" class="form-control" name="password" id="userPassword" aria-describedby="emailHelp" placeholder="Enter here">
         </div>
 
     </div>
