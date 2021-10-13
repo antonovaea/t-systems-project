@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `planetshop`.`users` (
   `role` VARCHAR(45) NOT NULL,
   `phone` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(60) NOT NULL,
+  `password` VARCHAR(250) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `phone_UNIQUE` (`phone` ASC) VISIBLE,
   UNIQUE INDEX `user_email_UNIQUE` (`email` ASC) VISIBLE)

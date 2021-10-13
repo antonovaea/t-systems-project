@@ -3,16 +3,12 @@ package project.spaceshop.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import project.spaceshop.entity.User;
-import project.spaceshop.entity.enums.UserRoleEnum;
 import project.spaceshop.service.api.UserService;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 @Controller
 @Secured({"ROLE_ANONYMOUS"})
@@ -33,35 +29,26 @@ public class LoginController extends CommonController {
 
     @GetMapping(value = "/registration")
     public String registration(Model model) {
-        model.addAttribute("user", new User());
+        User user = new User();
+        model.addAttribute("user", user);
+        model.addAttribute("userName", user.getUserName());
+        model.addAttribute("userSurname", user.getUserSurname());
+        model.addAttribute("userDateOfBirth", user.getUserDateOfBirth());
+        model.addAttribute("email", user.getEmail());
+        model.addAttribute("password", user.getPassword());
         return "registration";
     }
 
-
-    @PostMapping(value = "/registration/email")
-    @ResponseBody
-    public boolean isEmailFree(@RequestParam(name = "email") String email) {
-        return userService.isEmailFree(email);
-    }
-
-    @PostMapping(value = "/registration/phone")
-    @ResponseBody
-    public boolean isPhoneFree(@RequestParam(name = "phone") String phone) {
-        return userService.isPhoneFree(phone);
+    @PostMapping(value = "/registration_process")
+    public String processRegister(User user) {
+        user.setRole("USER");
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        userService.saveUser(user);
+        return "registration_process";
     }
 
 
-    @PostMapping(value = "/registration")
-    public String signUp(@Valid User user, BindingResult result,
-                         final HttpServletRequest request) {
-        if (result.hasErrors()) {
-            return PAGE_REGISTRATION;
-        }else{
-            if (!userService.isEmailFree(user.getEmail())) return PAGE_REGISTRATION;
-            userService.createUser(user, UserRoleEnum.USER.name());
-            authenticateUserAndSetSession(user.getEmail(), request);
-        }
-        return "redirect:/account";
-    }
 
 }
