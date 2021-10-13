@@ -2,7 +2,6 @@ package project.spaceshop.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,13 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
-@ComponentScan("project.spaceshop")
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
     private UserDetailsService userDetailsService;
@@ -32,33 +29,28 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
+        http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/home/**")
-                .access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_ANONYMOUS')")
+                .permitAll()
                 .antMatchers("/user/**")
-                .access("hasRole('ROLE_USER')")
+                .access("hasAuthority('USER')")
                 .antMatchers("/admin/**")
-                .access("hasRole('ROLE_ADMIN')")
+                .access("hasAuthority('ADMIN')")
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll()
+                .loginPage("/login")
+                .permitAll()
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/account")
-                .loginProcessingUrl("/process")
+                .loginProcessingUrl("/login/process")
                 .failureUrl("/error")
-                .successForwardUrl("/account")
+                .defaultSuccessUrl("/account")
                 .and()
-                .logout()
-                .permitAll()
+                .logout().logoutUrl("/j_spring_security_logout")
                 .logoutSuccessUrl("/");
 
     }
-
-//    @Autowired
-//    public void configureGlobalAuthentication(AuthenticationManagerBuilder authenticationMgr) {
-//        authenticationMgr.authenticationProvider(authProvider());
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -74,14 +66,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
     }
 
     @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authProvider());
     }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
-    }
-
 
 }

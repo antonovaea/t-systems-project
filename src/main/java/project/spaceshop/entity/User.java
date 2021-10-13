@@ -70,7 +70,6 @@ public class User {
         this.id = id;
     }
 
-    @NotNull
     public String getUserName() {
         return userName;
     }
@@ -79,7 +78,7 @@ public class User {
         this.userName = userName;
     }
 
-    @NotNull
+
     public String getUserSurname() {
         return userSurname;
     }
@@ -88,7 +87,6 @@ public class User {
         this.userSurname = userSurname;
     }
 
-    @NotNull
     public String getUserDateOfBirth() {
         return userDateOfBirth;
     }
@@ -105,7 +103,7 @@ public class User {
         this.role = role;
     }
 
-    @NotNull
+
     public String getPhone() {
         return phone;
     }
@@ -114,7 +112,7 @@ public class User {
         this.phone = phone;
     }
 
-    @NotNull
+
     public String getEmail() {
         return email;
     }
@@ -131,7 +129,7 @@ public class User {
         this.userAddress = userAddress;
     }
 
-    @NotNull
+
     public String getPassword() {
         return password;
     }
