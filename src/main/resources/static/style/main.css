@@ -13,8 +13,9 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
+    margin-top: 10px;
     font-family: "Lato";
-    font-weight: 300;
+    font-weight: 600;
     color: #333;
 }
 
@@ -56,6 +57,17 @@ hr {
 
 .image {
     position: relative;
+    margin-top: 10px;
+
+}
+
+.image img{
+    min-height: 280px;
+    min-width: 450px;
+    max-height: 280px;
+    max-width: 480px;
+    vertical-align: middle;
+    horiz-align: center;
 }
 
 .overlay {
@@ -97,6 +109,10 @@ hr {
 .buy:hover {
     background-color: #434444;
     color: #fff;
+}
+
+.row{
+    margin: 10px;
 }
 
 
