@@ -9,15 +9,15 @@ import java.util.Optional;
 
 public interface ProductService {
 
-    List<ProductDto> findAllProducts();
+    List<Product> findAllProducts();
 
     Product findProductById(int id);
 
     Product saveProduct(Product product);
 
-    List<ProductDto> findProductByCategory(int id);
+    List<Product> findProductByCategory(int id);
 
     Product createProduct(ProductDto productDto);
 
-    List<ProductDto> filter(int idCategory);
+    List<Product> filter(int idCategory);
 }

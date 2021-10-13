@@ -29,13 +29,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> findAllProducts() {
+    public List<Product> findAllProducts() {
         List<Product> list = productRepository.findAll();
-        List<ProductDto> listDto = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++){
-            listDto.add(productConverter.fromProductToProductDto(list.get(i)));
-        }
-        return listDto;
+//        List<ProductDto> listDto = new ArrayList<>();
+//        for (int i = 0; i < list.size(); i++){
+//            listDto.add(productConverter.fromProductToProductDto(list.get(i)));
+//        }
+        return list;
     }
 
     @Override
@@ -49,13 +49,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> findProductByCategory(int id) {
+    public List<Product> findProductByCategory(int id) {
         List<Product> list = categoryService.findCategoryById(id).getProducts();
-        List<ProductDto> listDto = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++){
-            listDto.add(productConverter.fromProductToProductDto(list.get(i)));
-        }
-        return listDto;
+//        List<ProductDto> listDto = new ArrayList<>();
+//        for (int i = 0; i < list.size(); i++){
+//            listDto.add(productConverter.fromProductToProductDto(list.get(i)));
+//        }
+        return list;
     }
 
     @Override
@@ -66,10 +66,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> filter(int idCategory) {
-        List<ProductDto> productsDto;
-        if (idCategory == 0) productsDto = findAllProducts();
-        else productsDto = findProductByCategory(idCategory);
-        return productsDto;
+    public List<Product> filter(int idCategory) {
+        List<Product> list;
+        if (idCategory == 0) list = findAllProducts();
+        else list = findProductByCategory(idCategory);
+        return list;
     }
 }

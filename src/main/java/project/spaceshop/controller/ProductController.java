@@ -22,6 +22,7 @@ public class ProductController {
 
     private final CategoryService categoryService;
 
+
     @Autowired
     public ProductController(ProductRepository productRepository, ProductService productService, CategoryService categoryService) {
         this.productRepository = productRepository;
@@ -33,13 +34,14 @@ public class ProductController {
     public String getProductList(Model model){
         model.addAttribute("products", productService.findAllProducts());
         model.addAttribute("imgUtil", new ImageUtil());
-        return "products";
+        return "main";
     }
 
     @GetMapping(value = "/catalog/{id}")
     public String getProduct(Model model, @PathVariable("id") int id){
         Product product = productService.findProductById(id);
         model.addAttribute("product", product);
+        model.addAttribute("imgUtil", new ImageUtil());
         return "product";
     }
 
