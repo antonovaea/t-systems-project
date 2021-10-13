@@ -40,6 +40,7 @@ public class ProductController {
     public String getProduct(Model model, @PathVariable("id") int id){
         Product product = productService.findProductById(id);
         model.addAttribute("product", product);
+        model.addAttribute("imgUtil", new ImageUtil());
         return "product";
     }
 

@@ -1,28 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>product</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>product</title>
+    <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/style/main.css}" rel="stylesheet">
 </head>
 <body>
-<div class="border">
-  <h2>product</h2>
-  <table class="table">
-    <thead>
-    <tr>
-      <th>Name</th>
-      <th>Price</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="product : ${product}">
-      <td th:text="${product.getProductName()}">
-      <td th:text="${product.getPrice()}">
-      </td>
-    </tr>
-    </tbody>
-  </table>
+<div class="card" style="width: 18rem;">
+    <img th:src="'data:jpg;base64,' + ${imgUtil.getImgData(product.getProductImage())}" class="card-img-top" alt="..."/>
+    <div class="card-body">
+        <h5 class="card-title" th:text="${product.getProductName}"></h5>
+        <p class="card-text" th:text="${product.getProductDescription()}"></p>
+        <p class="card-text" th:text="'Inhabitants: ' + ${product.getInhabitants()}"></p>
+        <p class="card-text" th:text="'Price: ' + ${product.getPrice()}"></p>
+        <a href="#" class="btn btn-primary">Add to basket</a>
+    </div>
 </div>
-
 </body>
 </html>
