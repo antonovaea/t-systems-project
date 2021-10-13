@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>main</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>product</title>
+    <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/style/main.css}" rel="stylesheet">
+</head>
+<body>
+<div th:insert="navbar.html"></div>
+<div class="row">
+    <div class="col-md-4 product grid" th:each="product : ${products}">
+        <div class="image">
+            <a href="#">
+                <img th:src="'data:jpg;base64,' + ${imgUtil.getImgData(product.getProductImage())}" class="w-100" alt="..."/>
+                <div class="overlay">
+                    <div class="detail">View Details</div>
+                </div>
+            </a>
+        </div>
+        <h5 class="text-center" th:text="${product.getProductName}"></h5>
+        <p class="text-center" th:text="'Price: ' + ${product.getPrice()}"></p>
+        <a href="#" class="btn buy">BUY</a>
+    </div>
+    </div>
+</div>
+
+</body>
+</html>
