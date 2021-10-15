@@ -9,6 +9,8 @@ import project.spaceshop.entity.Product;
 import project.spaceshop.service.api.ProductService;
 import project.spaceshop.util.ImageUtil;
 
+import java.util.List;
+
 @Controller
 public class TrainingController {
 
@@ -19,12 +21,9 @@ public class TrainingController {
         this.productService = productService;
     }
 
-    @GetMapping(value = "/main")
-    public String getProduct(Model model, int id){
-        Product product = productService.findProductById(id);
-        model.addAttribute("products", productService.findAllProducts());
-        model.addAttribute("product", product);
-        model.addAttribute("imgUtil", new ImageUtil());
-        return "main";
+    @GetMapping(value = "/home/categorytraining/{idCategory}")
+    public String getProductsByCategory(Model model, @PathVariable int idCategory){
+        model.addAttribute("products", productService.findProductByCategory(idCategory));
+        return "categorytraining";
     }
 }

@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <title>User Account</title>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/style/main.css}" rel="stylesheet">
 </head>
 <body>
-account
+<div th:insert="navbar.html"></div>
+<div class="container text-center mt-5" >
+    <h3 class="text-center">Account</h3>
+    <div class="card-block">
+        <table class="table table-hover mt-5">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Birthday</th>
+                <th>Phone</th>
+                <th>Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${user.getUserName()}"></td>
+                <td th:text="${user.getUserSurname()}"></td>
+                <td th:text="${user.getUserDateOfBirth()}"></td>
+                <td th:text="${user.getPhone()}"></td>
+                <td th:text="${user.getEmail()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>

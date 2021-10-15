@@ -15,6 +15,7 @@ public class HelloController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/account")
     public String account() {
-        return "redirect:/home/catalog";
+        return "redirect:/home/account";
     }
+
 }

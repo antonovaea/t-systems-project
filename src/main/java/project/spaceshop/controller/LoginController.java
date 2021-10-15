@@ -15,7 +15,6 @@ import project.spaceshop.service.api.UserService;
 @RequestMapping(value = "/")
 public class LoginController extends CommonController {
     private final UserService userService;
-    private static final String PAGE_REGISTRATION = "registration";
     @Autowired
     public LoginController(UserDetailsService userDetailsService, UserService userService) {
         super(userDetailsService);
