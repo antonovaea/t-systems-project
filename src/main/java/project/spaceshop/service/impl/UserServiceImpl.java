@@ -33,6 +33,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findUserById(int id) {
+        return userRepository.getById(id);
+    }
+
+    @Override
     public User findUserFromSecurityContextHolder() {
         return findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
     }
