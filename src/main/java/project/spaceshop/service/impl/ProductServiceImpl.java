@@ -3,6 +3,7 @@ package project.spaceshop.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.spaceshop.dto.converter.ProductConverter;
+import project.spaceshop.entity.Category;
 import project.spaceshop.repository.ProductRepository;
 import project.spaceshop.entity.Product;
 import project.spaceshop.dto.ProductDto;
@@ -64,6 +65,7 @@ public class ProductServiceImpl implements ProductService {
         product = saveProduct(product);
         return product;
     }
+
 
     @Override
     public List<Product> filter(int idCategory) {

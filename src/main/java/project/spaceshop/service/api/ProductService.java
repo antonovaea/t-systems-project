@@ -2,6 +2,7 @@ package project.spaceshop.service.api;
 
 import project.spaceshop.dto.ProductDto;
 import project.spaceshop.dto.ProductSendDto;
+import project.spaceshop.entity.Category;
 import project.spaceshop.entity.Product;
 
 import java.util.List;

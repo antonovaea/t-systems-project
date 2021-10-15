@@ -7,6 +7,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -45,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                 .passwordParameter("password")
                 .loginProcessingUrl("/login/process")
                 .failureUrl("/error")
-                .defaultSuccessUrl("/account")
+                .defaultSuccessUrl("/home/account")
                 .and()
                 .logout().logoutUrl("/j_spring_security_logout")
                 .logoutSuccessUrl("/");
@@ -65,9 +66,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
         return authProvider;
     }
 
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authProvider());
     }
+
+
 
 }
