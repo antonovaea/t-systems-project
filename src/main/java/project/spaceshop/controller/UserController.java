@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import project.spaceshop.entity.User;
 import project.spaceshop.entity.UserAddress;
+import project.spaceshop.repository.UserAddressRepository;
 import project.spaceshop.service.api.AddressService;
 import project.spaceshop.service.api.OrderService;
 import project.spaceshop.service.api.UserService;
@@ -17,12 +18,14 @@ import project.spaceshop.service.api.UserService;
 @RequestMapping(value = "/")
 public class UserController extends CommonController {
 
+    private final UserAddressRepository userAddressRepository;
     private final UserService userService;
     private final OrderService orderService;
     private final AddressService addressService;
 
-    public UserController(UserDetailsService userDetailsService, UserService userService, OrderService orderService, AddressService addressService) {
+    public UserController(UserDetailsService userDetailsService, UserAddressRepository userAddressRepository, UserService userService, OrderService orderService, AddressService addressService) {
         super(userDetailsService);
+        this.userAddressRepository = userAddressRepository;
         this.userService = userService;
         this.orderService = orderService;
         this.addressService = addressService;
@@ -47,14 +50,22 @@ public class UserController extends CommonController {
     }
 
     @GetMapping(value = "/home/account/address")
-    public String address(){
-        return "redirect:/home/account/address_add";
+    public String address(Model model){
+        User user = userService.findUserFromSecurityContextHolder();
+        model.addAttribute("user", user);
+        model.addAttribute("address", user.getUserAddress());
+        model.addAttribute("country", user.getUserAddress().getCountry());
+        model.addAttribute("city", user.getUserAddress().getCity());
+        model.addAttribute("postcode", user.getUserAddress().getPostcode());
+        model.addAttribute("house", user.getUserAddress().getHouse());
+        model.addAttribute("flat", user.getUserAddress().getFlat());
+        return "userAddress";
     }
 
     @GetMapping(value = "/home/account/address_add")
     public String getAddress(Model model){
         UserAddress userAddress = new UserAddress();
-        model.addAttribute("nameUser", userService.findUserFromSecurityContextHolder().getUserName());
+        User user = userService.findUserFromSecurityContextHolder();
         model.addAttribute("address", userAddress);
         model.addAttribute("country", userAddress.getCountry());
         model.addAttribute("city", userAddress.getCity());
@@ -65,20 +76,22 @@ public class UserController extends CommonController {
         return "address_add";
     }
 
-    @PostMapping(value = "/address_process")
-    public String processSavingAddress(UserAddress userAddress) {
-        User user = userService.findUserFromSecurityContextHolder();
+    @PostMapping(value = "/home/account/address_process")
+    public String processSavingAddress(UserAddress userAddress, User user) {
         user.setUserAddress(userAddress);
         addressService.saveAddress(userAddress);
-        userService.saveUser(user);
-        return "address_process";
+        return "redirect:/home/account/address_process";
     }
 
-    @PostMapping(value = "home/account/address/{id}")
-    public String addAddress(Model model, @PathVariable("id") int id){
-        if (addressService.findAddressById(userService.findUserById(id).getUserAddress().getId()) != null){
+    @GetMapping(value = "/home/account/address/{id}")
+    public String address(Model model, @PathVariable("id") int id){
+        try{
+            if (addressService.findAddressById(userService.findUserById(id).getUserAddress().getId()) != null){
+                return "userAddress";
+            } else return "address_add";
+        } catch (NullPointerException e){
             return "userAddress";
-        } else return "address_add";
+        }
 
     }
 

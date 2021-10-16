@@ -24,16 +24,17 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:object="${address}">
-                <td th:text="${address.getCountry()}"></td>
-                <td th:text="${address.getCity()}"></td>
-                <td th:text="${address.getPostcode()}"></td>
-                <td th:text="${address.getHouse()}"></td>
-                <td th:text="${address.getFlat()}"></td>
+            <tr th:object="${user}">
+                <td th:text="${country}"></td>
+                <td th:text="${city}"></td>
+                <td th:text="${postcode}"></td>
+                <td th:text="${house}"></td>
+                <td th:text="${flat}"></td>
             </tr>
             </tbody>
         </table>
-        <a th:href="@{/home/account/address/add}"><button type="submit" class="btn btn-success">Add address</button></a>
+        <a th:href="@{/home/account/address/change}"><button type="submit" class="btn btn-success">Change address</button></a>
+        <a th:href="@{/home/account/address_add}"><button type="submit" class="btn btn-success">Add address</button></a>
     </div>
 </div>
 
