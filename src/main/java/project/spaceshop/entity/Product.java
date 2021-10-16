@@ -45,6 +45,8 @@ public class Product {
     @Column(name = "inhabitants")
     private String inhabitants;
 
+    private int amountInBasket;
+
     public Product() {
 
     }
@@ -60,6 +62,19 @@ public class Product {
         this.available = available;
         this.inhabitants = inhabitants;
 
+    }
+
+    public Product(int id, @NotNull String productName, @NotNull Category category, @NotNull Integer price, byte[] productImage, @NotNull String productDescription, @NotNull Integer amountInStock, @NotNull boolean available, @NotNull String inhabitants, int amountInBasket) {
+        this.id = id;
+        this.productName = productName;
+        this.category = category;
+        this.price = price;
+        this.productImage = productImage;
+        this.productDescription = productDescription;
+        this.amountInStock = amountInStock;
+        this.available = available;
+        this.inhabitants = inhabitants;
+        this.amountInBasket = amountInBasket;
     }
 
     public int getId() {
@@ -139,6 +154,14 @@ public class Product {
 
     public void setInhabitants(@NotNull String inhabitants) {
         this.inhabitants = inhabitants;
+    }
+
+    public int getAmountInBasket() {
+        return amountInBasket;
+    }
+
+    public void setAmountInBasket(int amountInBasket) {
+        this.amountInBasket = amountInBasket;
     }
 
     @Override
