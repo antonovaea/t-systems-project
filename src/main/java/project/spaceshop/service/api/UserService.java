@@ -7,6 +7,8 @@ public interface UserService {
 
     User findUserByEmail(String email);
 
+    User findUserById(int id);
+
     User findUserFromSecurityContextHolder();
 
     //Method checks is this email already exists, because it must be uniq

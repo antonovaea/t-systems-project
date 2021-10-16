@@ -37,7 +37,6 @@ public class User {
     @Column("email")
     private String email;
 
-    @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_user_address")
     private UserAddress userAddress;
@@ -125,7 +124,7 @@ public class User {
         return userAddress;
     }
 
-    public void setUserAddress(@NotNull UserAddress userAddress) {
+    public void setUserAddress(UserAddress userAddress) {
         this.userAddress = userAddress;
     }
 

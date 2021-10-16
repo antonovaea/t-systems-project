@@ -11,6 +11,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-xl-3">
+            <form th:action="@{/home/basket/add/{id}(id = ${product.id})}" th:object="${product}" method="post">
             <div class="card" style="width: 18rem;">
                 <img th:src="'data:jpg;base64,' + ${imgUtil.getImgData(product.getProductImage())}" class="card-img-top"
                      alt="..."/>
@@ -19,9 +20,10 @@
                     <p class="card-text" th:text="${product.getProductDescription()}"></p>
                     <p class="card-text" th:text="'Inhabitants: ' + ${product.getInhabitants()}"></p>
                     <p class="card-text" th:text="'Price: ' + ${product.getPrice()}"></p>
-                    <a href="#" class="btn buy">Buy</a>
+                    <button type="submit" class="btn btn-success">ADD TO CART</button>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 </div>

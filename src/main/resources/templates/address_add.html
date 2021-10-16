@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Address</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/style/main.css}" rel="stylesheet">
+</head>
+<body>
+<div th:insert="navbar.html"></div>
+<div class="container text-center">
+    <h3 class="text-center">Add your address</h3>
+    <form th:action="@{/adderess_process}" th:object="${address}" method="post">
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Country</label>
+                <div class="col-8">
+                    <input type="text" th:field="*{country}" class="form-control" required minlength="1" maxlength="25"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">City</label>
+                <div class="col-8">
+                    <input type="text" th:field="*{city}" class="form-control" required minlength="1" maxlength="25"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Postcode</label>
+                <div class="col-8">
+                    <input type="text" th:field="*{postcode}" class="form-control" required minlength="6" maxlength="6"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Street</label>
+                <div class="col-8">
+                    <input type="text" th:field="*{street}" class="form-control" required minlength="1" maxlength="20"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">House</label>
+                <div class="col-8">
+                    <input type="text" th:field="*{house}" class="form-control" required minlength="1" maxlength="10"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Flat</label>
+                <div class="col-8">
+                    <input type="text" th:field="*{flat}" class="form-control"/>
+                </div>
+            </div>
+            <div class="container text-center">
+                <button type="submit" class="btn btn-success">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
