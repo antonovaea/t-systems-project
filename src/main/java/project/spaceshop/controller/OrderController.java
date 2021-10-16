@@ -2,6 +2,7 @@ package project.spaceshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +19,8 @@ import project.spaceshop.service.api.UserService;
 import java.util.ArrayList;
 
 @Controller
-@Secured({"USER"})
-@RequestMapping(value = "/order")
+@PreAuthorize("hasAuthority('USER')")
+@RequestMapping(value = "/home/order")
 public class OrderController {
 
     private final OrderService orderService;
@@ -40,7 +41,8 @@ public class OrderController {
 
     @GetMapping(value = "")
     public String orderPage(Model model) {
-        model.addAttribute("totalPriceForPay", basketProductService.totalPrice((basketBean.getBasket())));
+        model.addAttribute("count", basketProductService.countProductsInBasket(basketBean.getBasket()));
+        model.addAttribute("totalPrice", basketProductService.totalPrice((basketBean.getBasket())));
         model.addAttribute("user", userService.findUserFromSecurityContextHolder());
         model.addAttribute("basket", basketBean.getBasket());
         return "order";
