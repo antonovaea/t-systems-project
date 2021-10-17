@@ -10,6 +10,11 @@
 <body>
 <div th:insert="navbar.html"></div>
 <div class="list-group mt-3">
+    <a th:href="@{/home/catalog/filter(idCategory = 1)}" class="list-group-item list-group-item-action active">
+        Planets
+    </a>
+    <a th:href="@{/home/catalog/filter(idCategory = 2)}" class="list-group-item list-group-item-action">Galaxies</a>
+    <a th:href="@{/home/catalog/filter(idCategory = 3)}" class="list-group-item list-group-item-action">Comets</a>
     <div class="container m-3">
         <div>
             <div class="form-check form-check-inline">
