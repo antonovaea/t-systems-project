@@ -9,7 +9,7 @@ public class HelloController {
 
     @GetMapping("/")
     public String index() {
-        return "redirect:/home/catalog";
+        return "redirect:/home/catalog/page/1";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

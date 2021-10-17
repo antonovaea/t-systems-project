@@ -1,6 +1,7 @@
 package project.spaceshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,8 @@ import project.spaceshop.service.CatalogFilter;
 import project.spaceshop.service.api.CategoryService;
 import project.spaceshop.service.api.ProductService;
 import project.spaceshop.util.ImageUtil;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/home")
@@ -33,19 +36,46 @@ public class ProductController {
         this.catalogFilter = catalogFilter;
     }
 
-    @GetMapping(value = "/catalog")
-    public String getProductList(Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
-        model.addAttribute("products", productRepository.findAll(PageRequest.of(page, 6)).getContent());
+//    @GetMapping(value = "/catalog")
+//    public String getProductList(Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
+//        model.addAttribute("products", productRepository.findAll(PageRequest.of(page, 6)).getContent());
+//        model.addAttribute("imgUtil", new ImageUtil());
+//        return "main";
+//    }
+
+    @GetMapping(value = "/catalog/page/{pageNo}")
+    public String getProductList(@PathVariable(value = "pageNo") int pageNo, Model model) {
+        int pageSize = 6;
+        Page<Product> page = productService.findPaginated(pageNo, pageSize);
+        List<Product> list = page.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("products", list);
         model.addAttribute("imgUtil", new ImageUtil());
         return "main";
     }
+
+//    @GetMapping(value = "/catalog/page/{pageNo}")
+//    public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model){
+//        int pageSize = 6;
+//        Page<Product> page = productService.findPaginated(pageNo, pageSize);
+//        List<Product> list = page.getContent();
+//
+//        model.addAttribute("currentPage", pageNo);
+//        model.addAttribute("totalPages", page.getTotalPages());
+//        model.addAttribute("totalItems", page.getTotalElements());
+//        model.addAttribute("productsPaginated", list);
+//        return "main";
+//    }
 
     @GetMapping(value = "/catalog/filter")
     public String filter(Model model, @RequestParam(name = "idCategory", required = false) Integer idCategory){
         catalogFilter.setIdCategory(idCategory);
         model.addAttribute("products", productService.filter(catalogFilter.getIdCategory()));
         model.addAttribute("imgUtil", new ImageUtil());
-        return "productsByCategory";
+        return "main";
     }
 
     @GetMapping(value = "/catalog/{id}")
