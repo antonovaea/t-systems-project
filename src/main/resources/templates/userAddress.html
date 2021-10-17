@@ -21,20 +21,27 @@
                 <th>Street</th>
                 <th>House</th>
                 <th>Flat</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:object="${user}">
-                <td th:text="${country}"></td>
-                <td th:text="${city}"></td>
-                <td th:text="${postcode}"></td>
-                <td th:text="${house}"></td>
-                <td th:text="${flat}"></td>
+            <tr th:each="address : ${addresses}">
+                <td th:text="${address.getCountry()}"></td>
+                <td th:text="${address.getCity()}"></td>
+                <td th:text="${address.getPostcode()}"></td>
+                <td th:text="${address.getStreet()}"></td>
+                <td th:text="${address.getHouse()}"></td>
+                <td th:text="${address.getFlat()}"></td>
+                <td>
+                    <form th:action="@{/home/account/address_delete/{id}(id = ${address.getId()})}" th:object="${address}"
+                          method="post">
+                        <button type="submit" class="btn btn-success">DELETE</button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>
-        <a th:href="@{/home/account/address/change}"><button type="submit" class="btn btn-success">Change address</button></a>
-        <a th:href="@{/home/account/address_add}"><button type="submit" class="btn btn-success">Add address</button></a>
+        <a th:href="@{/home/account/address_add/{id}(id = ${user.id})}"><button type="submit" class="btn btn-success">Add address</button></a>
     </div>
 </div>
 

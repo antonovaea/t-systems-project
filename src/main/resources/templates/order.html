@@ -29,7 +29,14 @@
         <form th:action="@{/home/basket}" method="get">
             <button type="submit" class="btn btn-success">Back to shopping cart</button>
         </form>
-        <form th:action="@{/home/basket}" method="post">
+        <form th:action="@{/home/order/pay}">
+            <select th:name="paymentType">
+                <option value="CARD">CARD</option>
+                <option value="CASH">CASH</option>
+            </select>
+            <button type="submit" class="btn btn-success">Confirm order</button>
+        </form>
+        <form th:action="@{/home/order/pay}" method="post">
             <button type="submit" class="btn btn-success">Confirm order</button>
         </form>
     </div>

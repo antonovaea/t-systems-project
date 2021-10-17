@@ -26,14 +26,14 @@ public class AddressServiceImpl implements AddressService {
     public void saveAddress(UserAddress userAddress) {
         User user = userService.findUserFromSecurityContextHolder();
         userAddress.setUser(user);
-        user.setUserAddress(userAddress);
+        user.getUserAddresses().add(userAddress);
         userService.saveUser(user);
     }
 
     @Override
-    public void changeAddress(UserAddress newUserAddress) {
+    public void deleteAddress(int idAddress){
         User user = userService.findUserFromSecurityContextHolder();
-        user.setUserAddress(newUserAddress);
+        user.getUserAddresses().remove(findAddressById(idAddress));
         userService.saveUser(user);
     }
 
