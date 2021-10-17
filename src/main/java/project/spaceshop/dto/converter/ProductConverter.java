@@ -20,6 +20,7 @@ public class ProductConverter {
         product.setPrice(productDto.getPrice());
         product.setProductDescription(productDto.getProductDescription());
         product.setAmountInStock(productDto.getAmountInStock());
+        product.setProductName(productDto.getProductImage());
         return product;
     }
 
@@ -31,6 +32,7 @@ public class ProductConverter {
         productDto.setPrice(product.getPrice());
         productDto.setProductDescription(product.getProductDescription());
         productDto.setAmountInStock(product.getAmountInStock());
+        productDto.setProductImage(product.getProductImage());
         return productDto;
     }
 }

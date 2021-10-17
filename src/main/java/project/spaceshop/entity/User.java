@@ -3,18 +3,15 @@ package project.spaceshop.entity;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "planetshop")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column("id")
+    @Column("id_user")
     private int id;
 
     @NotNull
@@ -26,8 +23,9 @@ public class User {
     private String userSurname;
 
     @NotNull
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     @Column("user_date_of_birth")
-    private String userDateOfBirth;
+    private Date userDateOfBirth;
 
     @Column("role")
     private String role;
@@ -37,21 +35,23 @@ public class User {
     private String phone;
 
     @NotNull
-    @Column("email")
+    @Column("user_email")
     private String email;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserAddress> userAddresses = new ArrayList<>();
+    @NotNull
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_user_address")
+    private UserAddress userAddress;
 
     @NotNull
-    @Column("password")
+    @Column("user_password")
     private String password;
 
-    public User() {
+    public User(){
 
     }
 
-    public User(int id, @NotNull String userName, @NotNull String userSurname, @NotNull String userDateOfBirth, String role, @NotNull String phone, @NotNull String email, List<UserAddress> userAddresses, @NotNull String password) {
+    public User(int id, String userName, String userSurname, Date userDateOfBirth, String role, String phone, String email, UserAddress userAddress, String password) {
         this.id = id;
         this.userName = userName;
         this.userSurname = userSurname;
@@ -59,7 +59,7 @@ public class User {
         this.role = role;
         this.phone = phone;
         this.email = email;
-        this.userAddresses = userAddresses;
+        this.userAddress = userAddress;
         this.password = password;
     }
 
@@ -71,6 +71,7 @@ public class User {
         this.id = id;
     }
 
+    @NotNull
     public String getUserName() {
         return userName;
     }
@@ -79,7 +80,7 @@ public class User {
         this.userName = userName;
     }
 
-
+    @NotNull
     public String getUserSurname() {
         return userSurname;
     }
@@ -88,11 +89,12 @@ public class User {
         this.userSurname = userSurname;
     }
 
-    public String getUserDateOfBirth() {
+    @NotNull
+    public Date getUserDateOfBirth() {
         return userDateOfBirth;
     }
 
-    public void setUserDateOfBirth(@NotNull String userDateOfBirth) {
+    public void setUserDateOfBirth(@NotNull Date userDateOfBirth) {
         this.userDateOfBirth = userDateOfBirth;
     }
 
@@ -104,7 +106,7 @@ public class User {
         this.role = role;
     }
 
-
+    @NotNull
     public String getPhone() {
         return phone;
     }
@@ -113,7 +115,7 @@ public class User {
         this.phone = phone;
     }
 
-
+    @NotNull
     public String getEmail() {
         return email;
     }
@@ -122,14 +124,15 @@ public class User {
         this.email = email;
     }
 
-    public List<UserAddress> getUserAddresses() {
-        return userAddresses;
+    public UserAddress getUserAddress() {
+        return userAddress;
     }
 
-    public void setUserAddresses(List<UserAddress> userAddresses) {
-        this.userAddresses = userAddresses;
+    public void setUserAddress(@NotNull UserAddress userAddress) {
+        this.userAddress = userAddress;
     }
 
+    @NotNull
     public String getPassword() {
         return password;
     }
@@ -144,11 +147,11 @@ public class User {
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", userSurname='" + userSurname + '\'' +
-                ", userDateOfBirth='" + userDateOfBirth + '\'' +
+                ", userDateOfBirth=" + userDateOfBirth +
                 ", role='" + role + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", userAddresses=" + userAddresses +
+                ", userAddress=" + userAddress +
                 ", password='" + password + '\'' +
                 '}';
     }

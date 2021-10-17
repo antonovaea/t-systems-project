@@ -38,12 +38,6 @@ public class ProductInOrder {
         this.amountInOrder = amountInOrder;
     }
 
-    public ProductInOrder(Order order, Product product, Integer amount) {
-        this.order = order;
-        this.product = product;
-        this.amountInOrder = amount;
-    }
-
     public int getId() {
         return id;
     }

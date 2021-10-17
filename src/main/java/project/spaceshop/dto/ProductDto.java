@@ -2,10 +2,7 @@ package project.spaceshop.dto;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.persistence.Column;
-import javax.persistence.Lob;
 import java.io.Serializable;
-import java.util.Arrays;
 
 public class ProductDto implements Serializable {
 
@@ -26,12 +23,7 @@ public class ProductDto implements Serializable {
     @NotNull
     private Integer amountInStock;
 
-    @Lob
-    private byte[] productImage;
-
-    @NotNull
-    @Column(name = "inhabitants")
-    private String inhabitants;
+    private String productImage;
 
     public ProductDto() {
 
@@ -45,11 +37,11 @@ public class ProductDto implements Serializable {
         this.id = id;
     }
 
-    public byte[] getProductImage() {
+    public String getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(byte[] productImage) {
+    public void setProductImage(String productImage) {
         this.productImage = productImage;
     }
 
@@ -98,15 +90,9 @@ public class ProductDto implements Serializable {
         this.amountInStock = amountInStock;
     }
 
-    public String getInhabitants() {
-        return inhabitants;
-    }
 
-    public void setInhabitants(String inhabitants) {
-        this.inhabitants = inhabitants;
-    }
 
-    public ProductDto(int id, @NotNull String productName, @NotNull Integer idCategory, @NotNull Integer price, @NotNull String productDescription, @NotNull Integer amountInStock, byte[] productImage, @NotNull String inhabitants) {
+    public ProductDto(int id, @NotNull String productName, @NotNull Integer idCategory, @NotNull Integer price, @NotNull String productDescription, @NotNull Integer amountInStock, String productImage) {
         this.id = id;
         this.productName = productName;
         this.idCategory = idCategory;
@@ -114,7 +100,6 @@ public class ProductDto implements Serializable {
         this.productDescription = productDescription;
         this.amountInStock = amountInStock;
         this.productImage = productImage;
-        this.inhabitants = inhabitants;
     }
 
     @Override
@@ -126,8 +111,7 @@ public class ProductDto implements Serializable {
                 ", price=" + price +
                 ", productDescription='" + productDescription + '\'' +
                 ", amountInStock=" + amountInStock +
-                ", productImage=" + Arrays.toString(productImage) +
-                ", inhabitants='" + inhabitants + '\'' +
+                ", productImage='" + productImage + '\'' +
                 '}';
     }
 }

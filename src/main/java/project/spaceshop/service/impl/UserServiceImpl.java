@@ -1,8 +1,6 @@
 package project.spaceshop.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.spaceshop.dto.UserDto;
 import project.spaceshop.dto.converter.UserConverter;
@@ -17,30 +15,23 @@ public class UserServiceImpl implements UserService {
 
     private final UserConverter userConverter;
 
-    private final PasswordEncoder passwordEncoder;
-
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserConverter userConverter, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, UserConverter userConverter) {
         this.userRepository = userRepository;
         this.userConverter = userConverter;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public User findUserByEmail(String email) {
+    public User findUserByEmail(String email)
+    {
         if (email == null || email.isEmpty()) return null;
         return userRepository.findUserByEmail(email);
     }
 
-    @Override
-    public User findUserById(int id) {
-        return userRepository.getById(id);
-    }
-
-    @Override
-    public User findUserFromSecurityContextHolder() {
-        return findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-    }
+//    @Override
+//    public User findUserFromSecurityContextHolder() {
+//        return findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+//    }
 
     @Override
     public boolean isEmailFree(String email) {
@@ -55,27 +46,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changePassword(String oldPassword, String newPassword) {
-        User user = findUserFromSecurityContextHolder();
-        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
-            user.setPassword(passwordEncoder.encode(newPassword));
-            userRepository.save(user);
-        }
-
-    }
-
-    @Override
-    public void createUser(User user, String role) {
-        user.setRole(role);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public void changePassword(User user, String newPassword) {
+//        User user = findUserFromSecurityContextHolder();
+        user.setPassword(newPassword);
         userRepository.save(user);
 
     }
 
     @Override
-    public boolean saveUser(User user) {
+    public void saveUser(User user) {
         userRepository.save(user);
-        return true;
     }
 
     @Override
