@@ -16,23 +16,18 @@ public class UserAddress {
     @JoinColumn(name = "id_user")
     private User user;
 
-    @NotNull
     @Column(name = "country")
     private String country;
 
-    @NotNull
     @Column(name = "city")
     private String city;
 
-    @NotNull
     @Column(name = "postcode")
     private String postcode;
 
-    @NotNull
     @Column(name = "street")
     private String street;
 
-    @NotNull
     @Column(name = "house")
     private String house;
 
@@ -43,7 +38,7 @@ public class UserAddress {
 
     }
 
-    public UserAddress(int id, User user, @NotNull String country, @NotNull String city, @NotNull String postcode, @NotNull String street, @NotNull String house, String flat) {
+    public UserAddress(int id, User user, String country, String city, String postcode, String street, String house, String flat) {
         this.id = id;
         this.user = user;
         this.country = country;
@@ -70,7 +65,6 @@ public class UserAddress {
         this.user = user;
     }
 
-    @NotNull
     public String getCountry() {
         return country;
     }
@@ -79,7 +73,7 @@ public class UserAddress {
         this.country = country;
     }
 
-    @NotNull
+
     public String getCity() {
         return city;
     }
@@ -88,7 +82,7 @@ public class UserAddress {
         this.city = city;
     }
 
-    @NotNull
+
     public String getPostcode() {
         return postcode;
     }
@@ -97,7 +91,7 @@ public class UserAddress {
         this.postcode = postcode;
     }
 
-    @NotNull
+
     public String getStreet() {
         return street;
     }
@@ -106,7 +100,7 @@ public class UserAddress {
         this.street = street;
     }
 
-    @NotNull
+
     public String getHouse() {
         return house;
     }
@@ -137,4 +131,14 @@ public class UserAddress {
                 '}';
     }
 
+    public String toStringForOrder() {
+        return "UserAddress{" +
+                "country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", postcode='" + postcode + '\'' +
+                ", street='" + street + '\'' +
+                ", house='" + house + '\'' +
+                ", flat='" + flat + '\'' +
+                '}';
+    }
 }

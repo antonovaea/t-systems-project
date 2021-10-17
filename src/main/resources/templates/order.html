@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Order</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/style/main.css}" rel="stylesheet">
+</head>
+<body>
+<div th:insert="navbar.html"></div>
+<div class="container text-center mt-5">
+    <h3 class="text-center">Your Order</h3>
+    <div class="card-block">
+        <table class="table table-hover mt-5">
+            <thead>
+            <tr>
+                <th>Total amount of products</th>
+                <th>Total price of purchase</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${count}"></td>
+                <td th:text="${totalPrice}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <form th:action="@{/home/basket}" method="get">
+            <button type="submit" class="btn btn-success">Back to shopping cart</button>
+        </form>
+        <form th:action="@{/home/order/pay}">
+            <select th:name="idAddress">
+                <option th:each="address : ${addresses}" th:value="${address.getId()}" th:text="${address.getCountry()}"></option>
+            </select>
+            <select th:name="paymentType">
+                <option value="CARD">CARD</option>
+                <option value="CASH">CASH</option>
+            </select>
+            <button type="submit" class="btn btn-success">Confirm order</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

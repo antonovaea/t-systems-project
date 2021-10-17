@@ -6,7 +6,7 @@ public class BasketProductDto implements Serializable {
 
     private Integer id;
     private String productName;
-    private String productImage;
+    private byte[] productImage;
     private Integer amount;
     private Integer price;
 
@@ -14,12 +14,19 @@ public class BasketProductDto implements Serializable {
 
     }
 
-    public BasketProductDto(int id, String productName, int amount, int price, String productImage) {
+    public BasketProductDto(Integer id, String productName, byte[] productImage, Integer amount, Integer price) {
+        this.id = id;
+        this.productName = productName;
+        this.productImage = productImage;
+        this.amount = amount;
+        this.price = price;
+    }
+
+    public BasketProductDto(Integer id, String productName, Integer amount, Integer price) {
         this.id = id;
         this.productName = productName;
         this.amount = amount;
         this.price = price;
-        this.productImage = productImage;
     }
 
     public Integer getId() {
@@ -38,11 +45,11 @@ public class BasketProductDto implements Serializable {
         this.productName = productName;
     }
 
-    public String getProductImage() {
+    public byte[] getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(String productImage) {
+    public void setProductImage(byte[] productImage) {
         this.productImage = productImage;
     }
 

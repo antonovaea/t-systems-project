@@ -7,7 +7,9 @@ public interface UserService {
 
     User findUserByEmail(String email);
 
-//    User findUserFromSecurityContextHolder();
+    User findUserById(int id);
+
+    User findUserFromSecurityContextHolder();
 
     //Method checks is this email already exists, because it must be uniq
 
@@ -17,9 +19,11 @@ public interface UserService {
 
     boolean isPhoneFree(String phone);
 
-    void changePassword(User user, String newPassword);
+    void changePassword(String oldPassword, String newPassword);
 
-    void saveUser(User user);
+    void createUser(User user, String role);
+
+    boolean saveUser(User user);
 
     void deleteUser(int id);
 }

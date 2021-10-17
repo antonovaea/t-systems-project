@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Table(name = "products", schema = "planetshop")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_product")
     private int id;
 
@@ -25,9 +25,9 @@ public class Product {
     @Column(name = "price")
     private Integer price;
 
-    @NotNull
+    @Lob
     @Column(name = "image")
-    private String productImage;
+    private byte[] productImage;
 
     @NotNull
     @Column(name = "description")
@@ -45,11 +45,13 @@ public class Product {
     @Column(name = "inhabitants")
     private String inhabitants;
 
+    private int amountInBasket;
+
     public Product() {
 
     }
 
-    public Product(int id, @NotNull String productName, @NotNull Category category, @NotNull Integer price, @NotNull String productImage, @NotNull String productDescription, @NotNull Integer amountInStock, boolean available, @NotNull String inhabitants) {
+    public Product(int id, @NotNull String productName, @NotNull Category category, @NotNull Integer price, @NotNull byte[] productImage, @NotNull String productDescription, @NotNull Integer amountInStock, boolean available, @NotNull String inhabitants) {
         this.id = id;
         this.productName = productName;
         this.category = category;
@@ -60,6 +62,19 @@ public class Product {
         this.available = available;
         this.inhabitants = inhabitants;
 
+    }
+
+    public Product(int id, @NotNull String productName, @NotNull Category category, @NotNull Integer price, byte[] productImage, @NotNull String productDescription, @NotNull Integer amountInStock, @NotNull boolean available, @NotNull String inhabitants, int amountInBasket) {
+        this.id = id;
+        this.productName = productName;
+        this.category = category;
+        this.price = price;
+        this.productImage = productImage;
+        this.productDescription = productDescription;
+        this.amountInStock = amountInStock;
+        this.available = available;
+        this.inhabitants = inhabitants;
+        this.amountInBasket = amountInBasket;
     }
 
     public int getId() {
@@ -98,11 +113,11 @@ public class Product {
     }
 
     @NotNull
-    public String getProductImage() {
+    public byte[] getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(@NotNull String productImage) {
+    public void setProductImage(@NotNull byte[] productImage) {
         this.productImage = productImage;
     }
 
@@ -139,6 +154,14 @@ public class Product {
 
     public void setInhabitants(@NotNull String inhabitants) {
         this.inhabitants = inhabitants;
+    }
+
+    public int getAmountInBasket() {
+        return amountInBasket;
+    }
+
+    public void setAmountInBasket(int amountInBasket) {
+        this.amountInBasket = amountInBasket;
     }
 
     @Override

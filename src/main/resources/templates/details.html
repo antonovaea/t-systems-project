@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>product</title>
+    <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/style/main.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-xl-3">
+            <form th:action="@{/home/basket/add/{id}(id = ${product.id})}" th:object="${product}" method="post">
+            <div class="card" style="width: 18rem;">
+                <img th:src="'data:jpg;base64,' + ${imgUtil.getImgData(product.getProductImage())}" class="card-img-top"
+                     alt="..."/>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${product.getProductName}"></h5>
+                    <p class="card-text" th:text="${product.getProductDescription()}"></p>
+                    <p class="card-text" th:text="'Inhabitants: ' + ${product.getInhabitants()}"></p>
+                    <p class="card-text" th:text="'Price: ' + ${product.getPrice()}"></p>
+                    <button type="submit" class="btn btn-success">ADD TO CART</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,62 +1,59 @@
 package project.spaceshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import project.spaceshop.repository.ProductRepository;
+import org.springframework.web.bind.annotation.*;
 import project.spaceshop.entity.Product;
+import project.spaceshop.repository.ProductRepository;
+import project.spaceshop.service.CatalogFilter;
+import project.spaceshop.service.api.CategoryService;
 import project.spaceshop.service.api.ProductService;
-
-import java.util.List;
+import project.spaceshop.util.ImageUtil;
 
 @Controller
-@RequestMapping(value = "/")
+@RequestMapping(value = "/home")
 public class ProductController {
 
-    @Autowired
     private final ProductRepository productRepository;
 
-    @Autowired
     private final ProductService productService;
 
-    public ProductController(ProductRepository productRepository, ProductService productService) {
+    private final CategoryService categoryService;
+
+    private final CatalogFilter catalogFilter;
+
+
+    @Autowired
+    public ProductController(ProductRepository productRepository, ProductService productService, CategoryService categoryService, CatalogFilter catalogFilter) {
         this.productRepository = productRepository;
         this.productService = productService;
+        this.categoryService = categoryService;
+        this.catalogFilter = catalogFilter;
     }
-
-//    @GetMapping(value = "/index")
-//    public String index(){
-//        return "index";
-//    }
 
     @GetMapping(value = "/catalog")
-    public String getProductList(Model model){
-        model.addAttribute("products", productService.findAllProducts());
-        return "products";
+    public String getProductList(Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
+        model.addAttribute("products", productRepository.findAll(PageRequest.of(page, 6)).getContent());
+        model.addAttribute("imgUtil", new ImageUtil());
+        return "main";
     }
 
-//    @GetMapping(value = "/products")
-//    public List<Product> getProducts(){
-//        return productService.findAllProducts();
-//    }
+    @GetMapping(value = "/catalog/filter")
+    public String filter(Model model, @RequestParam(name = "idCategory", required = false) Integer idCategory){
+        catalogFilter.setIdCategory(idCategory);
+        model.addAttribute("products", productService.filter(catalogFilter.getIdCategory()));
+        model.addAttribute("imgUtil", new ImageUtil());
+        return "productsByCategory";
+    }
 
     @GetMapping(value = "/catalog/{id}")
-    public String getProduct(Model model, @PathVariable("id") int id){
+    public String getProduct(Model model, @PathVariable("id") int id) {
         Product product = productService.findProductById(id);
         model.addAttribute("product", product);
-        return "product";
+        model.addAttribute("imgUtil", new ImageUtil());
+        return "details";
     }
-
-//    @GetMapping(value ="/catalog/{id}")
-//    public String getProductPage(Model model, @PathVariable("id") int id){
-//        model.addAttribute("product", productService.findProductById(id, false));
-//        return "product";
-//    }
-
-
 
 }
