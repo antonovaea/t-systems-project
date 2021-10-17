@@ -1,6 +1,6 @@
 package project.spaceshop.entity.enums;
 
 public enum UserRoleEnum {
-    USER,
-    ADMIN
+    ROLE_USER,
+    ROLE_ADMIN
 }

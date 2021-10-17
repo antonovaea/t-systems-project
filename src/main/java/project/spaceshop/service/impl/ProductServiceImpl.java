@@ -3,7 +3,6 @@ package project.spaceshop.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.spaceshop.dto.converter.ProductConverter;
-import project.spaceshop.entity.Category;
 import project.spaceshop.repository.ProductRepository;
 import project.spaceshop.entity.Product;
 import project.spaceshop.dto.ProductDto;
@@ -30,13 +29,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllProducts() {
+    public List<ProductDto> findAllProducts() {
         List<Product> list = productRepository.findAll();
-//        List<ProductDto> listDto = new ArrayList<>();
-//        for (int i = 0; i < list.size(); i++){
-//            listDto.add(productConverter.fromProductToProductDto(list.get(i)));
-//        }
-        return list;
+        List<ProductDto> listDto = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++){
+            listDto.add(productConverter.fromProductToProductDto(list.get(i)));
+        }
+        return listDto;
     }
 
     @Override
@@ -50,13 +49,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findProductByCategory(int id) {
+    public List<ProductDto> findProductByCategory(int id) {
         List<Product> list = categoryService.findCategoryById(id).getProducts();
-//        List<ProductDto> listDto = new ArrayList<>();
-//        for (int i = 0; i < list.size(); i++){
-//            listDto.add(productConverter.fromProductToProductDto(list.get(i)));
-//        }
-        return list;
+        List<ProductDto> listDto = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++){
+            listDto.add(productConverter.fromProductToProductDto(list.get(i)));
+        }
+        return listDto;
     }
 
     @Override
@@ -66,12 +65,11 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
-
     @Override
-    public List<Product> filter(int idCategory) {
-        List<Product> list;
-        if (idCategory == 0) list = findAllProducts();
-        else list = findProductByCategory(idCategory);
-        return list;
+    public List<ProductDto> filter(int idCategory, boolean adminMode) {
+        List<ProductDto> productsDto;
+        if (idCategory == 0) productsDto = findAllProducts();
+        else productsDto = findProductByCategory(idCategory);
+        return productsDto;
     }
 }

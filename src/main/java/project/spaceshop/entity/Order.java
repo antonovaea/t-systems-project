@@ -21,8 +21,9 @@ public class Order {
     private User user;
 
     @NotNull
-    @Column(name = "address")
-    private String userAddress;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_user_address")
+    private UserAddress userAddress;
 
     @NotNull
     @Column(name = "order_status")
@@ -49,17 +50,17 @@ public class Order {
     @Column(name = "payment_status")
     private String paymentStatus;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL)
     private List<ProductInOrder> products = new ArrayList<>();
 
     public Order() {
     }
 
-    public Order(int id, @NotNull User user, @NotNull String userAddress, @NotNull String orderStatus, @NotNull Date dateOrder, @NotNull String paymentMethod, @NotNull String deliveryMethod, @NotNull Integer orderPrice, @NotNull String paymentStatus, List<ProductInOrder> products) {
+    public Order(int id, @NotNull User user, @NotNull String orderStatus, @NotNull UserAddress userAddress, @NotNull Date dateOrder, @NotNull String paymentMethod, @NotNull String deliveryMethod, @NotNull Integer orderPrice, @NotNull String paymentStatus, List<ProductInOrder> products) {
         this.id = id;
         this.user = user;
-        this.userAddress = userAddress;
         this.orderStatus = orderStatus;
+        this.userAddress = userAddress;
         this.dateOrder = dateOrder;
         this.paymentMethod = paymentMethod;
         this.deliveryMethod = deliveryMethod;
@@ -94,11 +95,12 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public String getUserAddress() {
+    @NotNull
+    public UserAddress getUserAddress() {
         return userAddress;
     }
 
-    public void setUserAddress(String userAddress) {
+    public void setUserAddress(@NotNull UserAddress userAddress) {
         this.userAddress = userAddress;
     }
 
