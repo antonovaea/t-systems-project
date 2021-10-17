@@ -48,7 +48,6 @@ public class ProductController {
         int pageSize = 6;
         Page<Product> page = productService.findPaginated(pageNo, pageSize);
         List<Product> list = page.getContent();
-
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
