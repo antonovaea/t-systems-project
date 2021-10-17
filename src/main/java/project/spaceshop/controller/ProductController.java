@@ -41,10 +41,8 @@ public class ProductController {
     }
 
     @GetMapping(value = "/catalog/filter")
-    public String filter(Model model, @RequestParam(name = "idCategory", required = false) Integer idCategory, int id){
-        Product product = productService.findProductById(id);
+    public String filter(Model model, @RequestParam(name = "idCategory", required = false) Integer idCategory){
         catalogFilter.setIdCategory(idCategory);
-        model.addAttribute("product", product);
         model.addAttribute("products", productService.filter(catalogFilter.getIdCategory()));
         model.addAttribute("imgUtil", new ImageUtil());
         return "productsByCategory";
