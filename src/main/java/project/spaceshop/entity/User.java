@@ -3,8 +3,11 @@ package project.spaceshop.entity;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "planetshop")
@@ -37,19 +40,18 @@ public class User {
     @Column("email")
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_user_address")
-    private UserAddress userAddress;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserAddress> userAddresses = new ArrayList<>();
 
     @NotNull
     @Column("password")
     private String password;
 
-    public User(){
+    public User() {
 
     }
 
-    public User(int id, String userName, String userSurname, String userDateOfBirth, String role, String phone, String email, UserAddress userAddress, String password) {
+    public User(int id, @NotNull String userName, @NotNull String userSurname, @NotNull String userDateOfBirth, String role, @NotNull String phone, @NotNull String email, List<UserAddress> userAddresses, @NotNull String password) {
         this.id = id;
         this.userName = userName;
         this.userSurname = userSurname;
@@ -57,7 +59,7 @@ public class User {
         this.role = role;
         this.phone = phone;
         this.email = email;
-        this.userAddress = userAddress;
+        this.userAddresses = userAddresses;
         this.password = password;
     }
 
@@ -120,14 +122,13 @@ public class User {
         this.email = email;
     }
 
-    public UserAddress getUserAddress() {
-        return userAddress;
+    public List<UserAddress> getUserAddresses() {
+        return userAddresses;
     }
 
-    public void setUserAddress(UserAddress userAddress) {
-        this.userAddress = userAddress;
+    public void setUserAddresses(List<UserAddress> userAddresses) {
+        this.userAddresses = userAddresses;
     }
-
 
     public String getPassword() {
         return password;
@@ -143,11 +144,11 @@ public class User {
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", userSurname='" + userSurname + '\'' +
-                ", userDateOfBirth=" + userDateOfBirth +
+                ", userDateOfBirth='" + userDateOfBirth + '\'' +
                 ", role='" + role + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", userAddress=" + userAddress +
+                ", userAddresses=" + userAddresses +
                 ", password='" + password + '\'' +
                 '}';
     }

@@ -8,7 +8,7 @@ public interface AddressService {
 
     void saveAddress(UserAddress userAddress);
 
-    void changeAddress(UserAddress userAddress);
+    void deleteAddress(int idAddress);
 
     UserAddress findAddressById(int idAddress);
 

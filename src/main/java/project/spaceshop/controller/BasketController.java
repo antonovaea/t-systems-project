@@ -1,6 +1,7 @@
 package project.spaceshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,11 +10,10 @@ import project.spaceshop.entity.Product;
 import project.spaceshop.service.BasketBean;
 import project.spaceshop.service.api.BasketProductService;
 import project.spaceshop.service.api.ProductService;
-import project.spaceshop.util.ImageDtoUtil;
 import project.spaceshop.util.ImageUtil;
 
 @Controller
-//@Secured({"USER"})
+@PreAuthorize("hasAuthority('USER')")
 @RequestMapping(value = "/home/basket")
 public class BasketController {
 
@@ -58,13 +58,4 @@ public class BasketController {
         return "redirect:/home/basket";
     }
 
-    @GetMapping(value = "/count/{id}")
-    public String countProductsInBasketById(final @PathVariable("id") int id) {
-        return basketProductService.countProductsInBasketById(id, basketBean.getBasket()).toString();
-    }
-
-    @GetMapping(value = "/count")
-    public String countProductsInBasket() {
-        return basketProductService.countProductsInBasket(basketBean.getBasket()).toString();
-    }
 }
