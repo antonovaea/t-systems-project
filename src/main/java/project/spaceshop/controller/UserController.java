@@ -61,20 +61,13 @@ public class UserController extends CommonController {
         return "userAddress";
     }
 
-    @GetMapping(value = "/home/account/address/{id}")
-    public String address(Model model, @PathVariable("id") int id) {
+
+    @GetMapping(value = "/home/account/address/{userId}")
+    public String addAddress(Model model, @PathVariable("userId") int id) {
         User user = userService.findUserFromSecurityContextHolder();
         List<UserAddress> userAddressList = userService.findUserById(id).getUserAddresses();
-            model.addAttribute("user", user);
-            model.addAttribute("addresses", userAddressList);
-        return "userAddress";
-
-    }
-
-    @GetMapping(value = "/home/account/address_add/{id}")
-    public String getAddress(Model model, @PathVariable("id") int id) {
-        List<UserAddress> userAddressList = userService.findUserById(id).getUserAddresses();
         for (UserAddress userAddress : userAddressList){
+            model.addAttribute("user", user);
             model.addAttribute("address", userAddress);
             model.addAttribute("country", userAddress.getCountry());
             model.addAttribute("city", userAddress.getCity());
@@ -86,14 +79,14 @@ public class UserController extends CommonController {
         return "address_add";
     }
 
-    @PostMapping(value = "/home/account/address_delete/{id}")
-    public String deleteAddress(Model model, @PathVariable("id") int id){
+    @PostMapping(value = "/home/account/address/{id}")
+    public String deleteAddress(@PathVariable("id") int id){
         addressService.deleteAddress(id);
         return "redirect:/home/account";
     }
 
     @PostMapping(value = "/home/account/address_process")
-    public String processSavingAddress(Model model, UserAddress userAddress) {
+    public String processSavingAddress(UserAddress userAddress) {
         addressService.saveAddress(userAddress);
         return "address_process";
     }

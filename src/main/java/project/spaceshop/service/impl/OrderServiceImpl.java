@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
         UserAddress address = addressService.findAddressById(idAddress);
         Order order = new Order();
         order.setUser(address.getUser());
-        order.setUserAddress(address.toString());
+        order.setUserAddress(address.toStringForOrder());
         if (paymentType.equals("CASH")) {
             order.setPaymentMethod(PaymentMethodEnum.CASH.toString());
             order.setPaymentStatus(PaymentStatusEnum.AWAITING_PAYMENT.toString());

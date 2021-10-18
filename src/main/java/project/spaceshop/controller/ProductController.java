@@ -2,7 +2,6 @@ package project.spaceshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +44,7 @@ public class ProductController {
 
     @GetMapping(value = "/catalog/page/{pageNo}")
     public String getProductList(@PathVariable(value = "pageNo") int pageNo, Model model) {
+        //privat final static
         int pageSize = 6;
         Page<Product> page = productService.findPaginated(pageNo, pageSize);
         List<Product> list = page.getContent();
@@ -55,19 +55,6 @@ public class ProductController {
         model.addAttribute("imgUtil", new ImageUtil());
         return "main";
     }
-
-//    @GetMapping(value = "/catalog/page/{pageNo}")
-//    public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model){
-//        int pageSize = 6;
-//        Page<Product> page = productService.findPaginated(pageNo, pageSize);
-//        List<Product> list = page.getContent();
-//
-//        model.addAttribute("currentPage", pageNo);
-//        model.addAttribute("totalPages", page.getTotalPages());
-//        model.addAttribute("totalItems", page.getTotalElements());
-//        model.addAttribute("productsPaginated", list);
-//        return "main";
-//    }
 
     @GetMapping(value = "/catalog/filter")
     public String filter(Model model, @RequestParam(name = "idCategory", required = false) Integer idCategory){

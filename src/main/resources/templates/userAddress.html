@@ -33,7 +33,7 @@
                 <td th:text="${address.getHouse()}"></td>
                 <td th:text="${address.getFlat()}"></td>
                 <td>
-                    <form th:action="@{/home/account/address_delete/{id}(id = ${address.getId()})}" th:object="${address}"
+                    <form th:action="@{/home/account/address/{id}(id = ${address.getId()})}" th:object="${address}"
                           method="post">
                         <button type="submit" class="btn btn-success">DELETE</button>
                     </form>
@@ -41,7 +41,7 @@
             </tr>
             </tbody>
         </table>
-        <a th:href="@{/home/account/address_add/{id}(id = ${user.id})}"><button type="submit" class="btn btn-success">Add address</button></a>
+        <a th:href="@{/home/account/address/{userId}(userId = ${user.id})}"><button type="submit" class="btn btn-success">Add address</button></a>
     </div>
 </div>
 

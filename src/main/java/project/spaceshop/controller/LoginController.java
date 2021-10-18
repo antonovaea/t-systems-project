@@ -11,7 +11,7 @@ import project.spaceshop.entity.User;
 import project.spaceshop.service.api.UserService;
 
 @Controller
-@Secured({"ROLE_ANONYMOUS"})
+//@Secured({"ROLE_ANONYMOUS"})
 @RequestMapping(value = "/")
 public class LoginController extends CommonController {
     private final UserService userService;

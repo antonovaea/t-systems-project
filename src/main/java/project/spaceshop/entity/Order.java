@@ -15,7 +15,6 @@ public class Order {
     @Column(name = "id_order")
     private int id;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
@@ -38,10 +37,6 @@ public class Order {
     private String paymentMethod;
 
     @NotNull
-    @Column(name = "delivery_method")
-    private String deliveryMethod;
-
-    @NotNull
     @Column(name = "order_price")
     private Integer orderPrice;
 
@@ -55,14 +50,13 @@ public class Order {
     public Order() {
     }
 
-    public Order(int id, @NotNull User user, @NotNull String userAddress, @NotNull String orderStatus, @NotNull Date dateOrder, @NotNull String paymentMethod, @NotNull String deliveryMethod, @NotNull Integer orderPrice, @NotNull String paymentStatus, List<ProductInOrder> products) {
+    public Order(int id, @NotNull User user, @NotNull String userAddress, @NotNull String orderStatus, @NotNull Date dateOrder, @NotNull String paymentMethod, @NotNull Integer orderPrice, @NotNull String paymentStatus, List<ProductInOrder> products) {
         this.id = id;
         this.user = user;
         this.userAddress = userAddress;
         this.orderStatus = orderStatus;
         this.dateOrder = dateOrder;
         this.paymentMethod = paymentMethod;
-        this.deliveryMethod = deliveryMethod;
         this.orderPrice = orderPrice;
         this.paymentStatus = paymentStatus;
         this.products = products;
@@ -121,15 +115,6 @@ public class Order {
     }
 
     @NotNull
-    public String getDeliveryMethod() {
-        return deliveryMethod;
-    }
-
-    public void setDeliveryMethod(@NotNull String deliveryMethod) {
-        this.deliveryMethod = deliveryMethod;
-    }
-
-    @NotNull
     public Integer getOrderPrice() {
         return orderPrice;
     }
@@ -164,7 +149,6 @@ public class Order {
                 ", userAddress='" + userAddress + '\'' +
                 ", dateOrder=" + dateOrder +
                 ", paymentMethod='" + paymentMethod + '\'' +
-                ", deliveryMethod='" + deliveryMethod + '\'' +
                 ", orderPrice=" + orderPrice +
                 ", paymentStatus='" + paymentStatus + '\'' +
                 ", products=" + products +

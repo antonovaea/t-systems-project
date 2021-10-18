@@ -26,9 +26,6 @@
             </tr>
             </tbody>
         </table>
-        <form th:action="@{/home/basket}" method="get">
-            <button type="submit" class="btn btn-success">Back to shopping cart</button>
-        </form>
         <form th:action="@{/home/order/pay}">
             <select th:name="idAddress">
                 <option th:each="address : ${addresses}" th:value="${address.getId()}" th:text="${address.getCountry()}"></option>
@@ -38,6 +35,9 @@
                 <option value="CASH">CASH</option>
             </select>
             <button type="submit" class="btn btn-success">Confirm order</button>
+        </form>
+        <form th:action="@{/home/basket}" method="get">
+            <button type="submit" class="btn btn-success">Back to shopping cart</button>
         </form>
     </div>
 </div>

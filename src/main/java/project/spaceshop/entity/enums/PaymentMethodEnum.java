@@ -3,7 +3,7 @@ package project.spaceshop.entity.enums;
 public enum PaymentMethodEnum {
 
     CASH("Cash"),
-    CARD("Credit card");
+    CARD("Card");
 
     private final String name;
 

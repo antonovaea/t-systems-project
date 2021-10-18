@@ -40,7 +40,7 @@ public class User {
     @Column("email")
     private String email;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserAddress> userAddresses = new ArrayList<>();
 
     @NotNull

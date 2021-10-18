@@ -33,6 +33,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public void deleteAddress(int idAddress){
         User user = userService.findUserFromSecurityContextHolder();
+
         user.getUserAddresses().remove(findAddressById(idAddress));
         userService.saveUser(user);
     }
