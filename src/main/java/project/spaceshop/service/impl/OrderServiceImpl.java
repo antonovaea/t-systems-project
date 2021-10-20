@@ -2,6 +2,7 @@ package project.spaceshop.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.spaceshop.dto.BasketProductDto;
 import project.spaceshop.dto.converter.ConverterBasketProduct;
 import project.spaceshop.entity.*;
@@ -64,6 +65,7 @@ public class OrderServiceImpl implements OrderService {
             order.getProducts().add(productInOrder);
         }
         userService.saveUser(user);
+
         return orderRepository.save(order);
 
     }
@@ -108,23 +110,6 @@ public class OrderServiceImpl implements OrderService {
                 break;
             case "DONE":
                 order.setOrderStatus(OrderStatusEnum.DONE.toString());
-                break;
-            default:
-                break;
-        }
-        orderRepository.save(order);
-        return true;
-    }
-
-    @Override
-    public boolean changePaymentStatusById(int idOrder, String paymentStatus) {
-        Order order = orderRepository.getById(idOrder);
-        switch (paymentStatus) {
-            case "AWAITING_PAYMENT":
-                order.setPaymentStatus(PaymentStatusEnum.AWAITING_PAYMENT.toString());
-                break;
-            case "PAID":
-                order.setPaymentStatus(PaymentStatusEnum.PAID.toString());
                 break;
             default:
                 break;

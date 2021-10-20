@@ -3,6 +3,8 @@ package project.spaceshop.entity;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "products", schema = "planetshop")
@@ -44,6 +46,9 @@ public class Product {
     @NotNull
     @Column(name = "inhabitants")
     private String inhabitants;
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
+//    private List<ProductInOrder> productsInOrder = new ArrayList<>();
 
     private int amountInBasket;
 

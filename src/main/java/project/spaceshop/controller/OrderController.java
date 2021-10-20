@@ -59,7 +59,6 @@ public class OrderController {
     public String orderPay(@RequestParam(name = "idAddress") int idAddress,
                            @RequestParam(name = "paymentType") String paymentType) {
         orderService.saveOrder(idAddress, paymentType, (basketBean.getBasket()));
-
         basketBean.setBasket(new ArrayList<>());
         return "orderSuccess";
     }

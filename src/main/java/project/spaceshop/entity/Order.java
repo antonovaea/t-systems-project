@@ -15,6 +15,7 @@ public class Order {
     @Column(name = "id_order")
     private int id;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
@@ -44,7 +45,7 @@ public class Order {
     @Column(name = "payment_status")
     private String paymentStatus;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.MERGE)
     private List<ProductInOrder> products = new ArrayList<>();
 
     public Order() {

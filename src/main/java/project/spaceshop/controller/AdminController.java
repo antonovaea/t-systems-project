@@ -48,4 +48,10 @@ public class AdminController {
         return "redirect:/admins/orders";
     }
 
+    @GetMapping(value = "admins/products")
+    public String adminProductsPage(){
+        return "adminProductPage";
+    }
+
+
 }

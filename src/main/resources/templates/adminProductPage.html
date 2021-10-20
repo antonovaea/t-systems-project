@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Admin product page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/style/main.css}" rel="stylesheet">
+</head>
+<body>
+<div th:insert="navbar.html"></div>
+<div class="container text-center mt-5">
+  <h3 class="text-center">Creating new items</h3>
+</div>
+<div class="m-3">
+  <a th:href="@{/admins/products/new}"><button type="submit" class="btn btn-success">Create new product</button></a>
+  <a th:href="@{/admins/category/new}"><button type="submit" class="btn btn-success">Create new category</button></a>
+  <a th:href="@{/admins}"><button type="submit" class="btn btn-success">Back</button></a>
+</div>
+</body>
+</html>
