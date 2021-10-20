@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Password successfully changed</title>
+  <title>admin account</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
@@ -9,10 +9,12 @@
 </head>
 <body>
 <div th:insert="navbar.html"></div>
-<div class="container text-center">
-  <h3>Password successfully changed</h3>
-  <h4><a th:href="@{/home/account}">Go to your account</a></h4>
-  <h4><a th:href="@{/home/catalog}">or main page</a></h4>
+<div class="m-3">
+  <a th:href="@{/admins/orders}"><button type="submit" class="btn btn-success">All orders</button></a>
+  <a th:href="@{/admins/products}"><button type="submit" class="btn btn-success">Products</button></a>
+  <a th:href="@{/admins/statistics}"><button type="submit" class="btn btn-success">Statistics</button></a>
 </div>
+
+
 </body>
 </html>

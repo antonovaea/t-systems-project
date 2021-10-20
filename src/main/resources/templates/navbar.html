@@ -22,7 +22,7 @@
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
+                    <a class="nav-link" href="/home/about">About</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/login">Sign in</a>
@@ -37,6 +37,9 @@
                     <div sec:authorize="isAuthenticated()">
                         <a class="nav-link" href="/j_spring_security_logout">Sign out</a>
                     </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admins">Only for admins</a>
                 </li>
             </ul>
         </div>

@@ -36,28 +36,21 @@
         </div>
     </div>
 </div>
-
-<div th:if = "${totalPages > 1}">
-    <div class="row col-sm-10">
-        <div class="col-sm-2">
-            Total items: [[${totalItems}]]
-        </div>
-        <div class="col-sm-1">
-            <span th:each="i : ${#numbers.sequence(1, totalPages)}">
-                <a th:if="${currentPage != i}" th:href="@{'/home/catalog/page/' + ${i}}">[[${i}]]</a>
+<div class="container">
+    <nav aria-label="Search results pages">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" th:if="${currentPage < totalPages}"
+                                     th:href="@{'/home/catalog/page/' + ${totalPages}}">Previous</a>
+                <span th:unless="${currentPage < totalPages}">Last</span></li>
+            <li class="page-item"><span th:each="i : ${#numbers.sequence(1, totalPages)}">
+                <a class="page-link" th:if="${currentPage != i}" th:href="@{'/home/catalog/page/' + ${i}}">[[${i}]]</a>
                 <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-            </span>
-        </div>
-        <div class="col-sm-1">
-            <a th:if="${currentPage < totalPages}" th:href="@{'/home/catalog/page/' + ${currentPage + 1}}">Next</a>
-            <span th:unless="${currentPage < totalPages}">Next</span>
-        </div>
-        <div class="col-sm-1">
-            <a th:if="${currentPage < totalPages}" th:href="@{'/home/catalog/page/' + ${totalPages}}">Last</a>
-            <span th:unless="${currentPage < totalPages}">Last</span>
-        </div>
-    </div>
+            </span></li>
+            <li class="page-item"><a class="page-link" th:if="${currentPage < totalPages}"
+                                     th:href="@{'/home/catalog/page/' + ${currentPage + 1}}">Next</a>
+                <span th:unless="${currentPage < totalPages}">Next</span></li>
+        </ul>
+    </nav>
 </div>
-
 </body>
 </html>

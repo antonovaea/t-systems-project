@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin orders</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/style/main.css}" rel="stylesheet">
+</head>
+<body>
+<div th:insert="navbar.html"></div>
+<div class="container text-center mt-5" >
+    <h3 class="text-center">All orders</h3>
+    <div class="card-block">
+        <table class="table table-hover mt-5">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Products</th>
+                <th>Total price</th>
+                <th>Address</th>
+                <th>Date</th>
+                <th>Payment method</th>
+                <th>Order Status</th>
+                <th>Payment status</th>
+                <th>Change order status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.getId()}"></td>
+                <td th:text="${order.getProducts()}"></td>
+                <td th:text="${order.getOrderPrice()}"></td>
+                <td th:text="${order.getUserAddress()}"></td>
+                <td th:text="${order.getDateOrder()}"></td>
+                <td th:text="${order.getPaymentMethod()}"></td>
+                <td th:text="${order.getPaymentStatus()}"></td>
+                <td th:text="${order.getOrderStatus()}"></td>
+                <td>
+                    <form th:action="@{/admins/orders/status}"
+                          method="get">
+                        <select th:name="orderStatus">
+                            <option value="AWAITING_SHIPMENT">AWAITING_SHIPMENT</option>
+                            <option value="SHIPPED">SHIPPED</option>
+                            <option value="DELIVERED">DELIVERED</option>
+                            <option value="DONE">DONE</option>
+                        </select>
+                        <input th:name="orderId" th:value="${order.getId()}"/>
+                        <button type="submit" class="btn btn-success">CHANGE ORDER STATUS</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

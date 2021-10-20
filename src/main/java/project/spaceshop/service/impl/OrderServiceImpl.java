@@ -97,9 +97,6 @@ public class OrderServiceImpl implements OrderService {
     public boolean changeOrderStatusById(int idOrder, String orderStatus) {
         Order order = orderRepository.getById(idOrder);
         switch (orderStatus) {
-            case "AWAITING_PAYMENT":
-                order.setOrderStatus(OrderStatusEnum.AWAITING_PAYMENT.toString());
-                break;
             case "AWAITING_SHIPMENT":
                 order.setOrderStatus(OrderStatusEnum.AWAITING_SHIPMENT.toString());
                 break;

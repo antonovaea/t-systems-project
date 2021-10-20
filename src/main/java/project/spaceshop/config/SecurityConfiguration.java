@@ -46,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                 .passwordParameter("password")
                 .loginProcessingUrl("/login/process")
                 .failureUrl("/error")
-                .defaultSuccessUrl("/home/account")
+                .defaultSuccessUrl("/home/catalog/page/1")
                 .and()
                 .logout().logoutUrl("/j_spring_security_logout")
                 .logoutSuccessUrl("/");

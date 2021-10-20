@@ -12,6 +12,11 @@ public class HelloController {
         return "redirect:/home/catalog/page/1";
     }
 
+    @GetMapping("/home/about")
+    public String about(){
+        return "about";
+    }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/account")
     public String account() {
