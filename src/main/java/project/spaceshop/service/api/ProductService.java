@@ -21,7 +21,5 @@ public interface ProductService {
 
     List<Product> findProductByCategory(int id);
 
-    Product createProduct(ProductDto productDto);
-
     List<Product> filter(int idCategory);
 }

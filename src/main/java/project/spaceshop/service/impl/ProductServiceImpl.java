@@ -61,14 +61,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product createProduct(ProductDto productDto) {
-        Product product = productConverter.fromProductDtoToProduct(productDto);
-        product = saveProduct(product);
-        return product;
-    }
-
-
-    @Override
     public List<Product> filter(int idCategory) {
         List<Product> list;
         if (idCategory == 0) list = findAllProducts();

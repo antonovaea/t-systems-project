@@ -78,6 +78,12 @@ public class AdminController {
         return "redirect:/admin/category/new";
     }
 
+    @PostMapping(value = "/admin/existing/product/{idCategory}")
+    public String deleteCategoryById(@PathVariable("idCategory") int id){
+        categoryService.deleteCategoryById(id);
+        return "redirect:/admin/category/new";
+    }
+
     @GetMapping(value = "/admin/existing/product")
     public String existingProducts(Model model){
         model.addAttribute("products", productRepository.findAll());
@@ -99,6 +105,8 @@ public class AdminController {
         productService.saveProduct(product);
         return "redirect:/admin/product/new";
     }
+
+
 
 
 }

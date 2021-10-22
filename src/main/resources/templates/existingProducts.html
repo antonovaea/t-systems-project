@@ -34,7 +34,7 @@
       <td th:text="${product.getPrice()}"></td>
       <td>
         <img th:src="'data:jpg;base64,' + ${imgUtil.getImgData(product.getProductImage())}" class="card-img-top"
-             alt="..."/>
+             alt="no image yet"/>
       </td>
       <td th:text="${product.getProductDescription()}"></td>
       <td th:text="${product.getAmountInStock()}"></td>
