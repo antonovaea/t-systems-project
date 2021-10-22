@@ -106,5 +106,4 @@ public class AdminController {
         return "redirect:/admin/product/new";
     }
 
-
 }

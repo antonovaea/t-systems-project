@@ -23,7 +23,6 @@
                 <th>Status</th>
                 <th>Payment method</th>
                 <th>Payment status</th>
-                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -36,12 +35,6 @@
                 <td th:text="${order.getOrderStatus()}"></td>
                 <td th:text="${order.getPaymentMethod()}"></td>
                 <td th:text="${order.getPaymentStatus()}"></td>
-                <td>
-                    <form th:action="@{/home/account/history/repeat/{id}(id = ${order.getId()})}" th:object="${order}"
-                          method="get">
-                        <button type="submit" class="btn btn-success">REPEAT</button>
-                    </form>
-                </td>
             </tr>
             </tbody>
         </table>
