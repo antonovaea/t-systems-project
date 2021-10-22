@@ -2,7 +2,6 @@ package project.spaceshop.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import project.spaceshop.dto.BasketProductDto;
 import project.spaceshop.dto.converter.ConverterBasketProduct;
 import project.spaceshop.entity.*;
@@ -10,6 +9,7 @@ import project.spaceshop.entity.enums.OrderStatusEnum;
 import project.spaceshop.entity.enums.PaymentMethodEnum;
 import project.spaceshop.entity.enums.PaymentStatusEnum;
 import project.spaceshop.repository.OrderRepository;
+import project.spaceshop.repository.ProductInOrderRepository;
 import project.spaceshop.service.api.AddressService;
 import project.spaceshop.service.api.OrderService;
 import project.spaceshop.service.api.UserService;
@@ -32,13 +32,16 @@ public class OrderServiceImpl implements OrderService {
 
     private final ConverterBasketProduct converterBasketProduct;
 
+    private final ProductInOrderRepository productInOrderRepository;
+
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, BasketProductServiceImpl basketProductService, AddressService addressService, ConverterBasketProduct converterBasketProduct) {
+    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, BasketProductServiceImpl basketProductService, AddressService addressService, ConverterBasketProduct converterBasketProduct, ProductInOrderRepository productInOrderRepository) {
         this.orderRepository = orderRepository;
         this.userService = userService;
         this.basketProductService = basketProductService;
         this.addressService = addressService;
         this.converterBasketProduct = converterBasketProduct;
+        this.productInOrderRepository = productInOrderRepository;
     }
 
     @Override
@@ -62,6 +65,7 @@ public class OrderServiceImpl implements OrderService {
         for (BasketProductDto basketItem : basket) {
             Product product = converterBasketProduct.fromBasketProductDtoToProduct(basketItem);
             ProductInOrder productInOrder = new ProductInOrder(order, product, basketItem.getAmount());
+//            productInOrderRepository.save(productInOrder);
             order.getProducts().add(productInOrder);
         }
         userService.saveUser(user);

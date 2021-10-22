@@ -47,8 +47,8 @@ public class Product {
     @Column(name = "inhabitants")
     private String inhabitants;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
-//    private List<ProductInOrder> productsInOrder = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductInOrder> productsInOrder = new ArrayList<>();
 
     private int amountInBasket;
 

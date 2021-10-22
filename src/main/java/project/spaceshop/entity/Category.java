@@ -14,7 +14,6 @@ public class Category {
     @Column(name = "id_category")
     private int id;
 
-    @NotNull
     @Column(name = "category_name")
     private String categoryName;
 
@@ -39,12 +38,11 @@ public class Category {
         this.id = id;
     }
 
-    @NotNull
     public String getCategoryName() {
         return categoryName;
     }
 
-    public void setCategoryName(@NotNull String categoryName) {
+    public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
 
