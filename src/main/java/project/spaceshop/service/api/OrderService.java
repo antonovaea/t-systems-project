@@ -15,6 +15,4 @@ public interface OrderService {
     List<Order> findAllOrder();
 
     boolean changeOrderStatusById(int idOrder, String orderStatus);
-
-    boolean changePaymentStatusById(int idOrder, String paymentStatus);
 }

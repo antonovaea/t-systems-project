@@ -3,25 +3,24 @@ package project.spaceshop.entity;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "products", schema = "planetshop")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_product")
     private int id;
 
-    @NotNull
     @Column(name = "product_name")
     private String productName;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "id_category")
     private Category category;
 
-    @NotNull
     @Column(name = "price")
     private Integer price;
 
@@ -29,21 +28,20 @@ public class Product {
     @Column(name = "image")
     private byte[] productImage;
 
-    @NotNull
     @Column(name = "description")
     private String productDescription;
 
-    @NotNull
     @Column(name = "amount_in_stock")
     private Integer amountInStock;
 
-    @NotNull
     @Column(name = "available")
     private boolean available = true;
 
-    @NotNull
     @Column(name = "inhabitants")
     private String inhabitants;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductInOrder> productsInOrder = new ArrayList<>();
 
     private int amountInBasket;
 
@@ -51,7 +49,7 @@ public class Product {
 
     }
 
-    public Product(int id, @NotNull String productName, @NotNull Category category, @NotNull Integer price, @NotNull byte[] productImage, @NotNull String productDescription, @NotNull Integer amountInStock, boolean available, @NotNull String inhabitants) {
+    public Product(int id, String productName, Category category, Integer price, byte[] productImage, String productDescription, Integer amountInStock, boolean available, String inhabitants, List<ProductInOrder> productsInOrder, int amountInBasket) {
         this.id = id;
         this.productName = productName;
         this.category = category;
@@ -61,19 +59,7 @@ public class Product {
         this.amountInStock = amountInStock;
         this.available = available;
         this.inhabitants = inhabitants;
-
-    }
-
-    public Product(int id, @NotNull String productName, @NotNull Category category, @NotNull Integer price, byte[] productImage, @NotNull String productDescription, @NotNull Integer amountInStock, @NotNull boolean available, @NotNull String inhabitants, int amountInBasket) {
-        this.id = id;
-        this.productName = productName;
-        this.category = category;
-        this.price = price;
-        this.productImage = productImage;
-        this.productDescription = productDescription;
-        this.amountInStock = amountInStock;
-        this.available = available;
-        this.inhabitants = inhabitants;
+        this.productsInOrder = productsInOrder;
         this.amountInBasket = amountInBasket;
     }
 
@@ -85,57 +71,51 @@ public class Product {
         this.id = id;
     }
 
-    @NotNull
     public String getProductName() {
         return productName;
     }
 
-    public void setProductName(@NotNull String productName) {
+    public void setProductName(String productName) {
         this.productName = productName;
     }
 
-    @NotNull
     public Category getCategory() {
         return category;
     }
 
-    public void setCategory(@NotNull Category category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
-    @NotNull
     public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(@NotNull Integer price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    @NotNull
     public byte[] getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(@NotNull byte[] productImage) {
+    public void setProductImage(byte[] productImage) {
         this.productImage = productImage;
     }
 
-    @NotNull
     public String getProductDescription() {
         return productDescription;
     }
 
-    public void setProductDescription(@NotNull String productDescription) {
+    public void setProductDescription(String productDescription) {
         this.productDescription = productDescription;
     }
 
-    @NotNull
     public Integer getAmountInStock() {
         return amountInStock;
     }
 
-    public void setAmountInStock(@NotNull Integer amountInStock) {
+    public void setAmountInStock(Integer amountInStock) {
         this.amountInStock = amountInStock;
     }
 
@@ -147,12 +127,11 @@ public class Product {
         this.available = available;
     }
 
-    @NotNull
     public String getInhabitants() {
         return inhabitants;
     }
 
-    public void setInhabitants(@NotNull String inhabitants) {
+    public void setInhabitants(String inhabitants) {
         this.inhabitants = inhabitants;
     }
 

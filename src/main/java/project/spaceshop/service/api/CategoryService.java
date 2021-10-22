@@ -9,5 +9,7 @@ public interface CategoryService {
     @NotNull Category findCategoryById(int id);
 
     void saveCategory(CategoryDto categoryDto);
+
+    void deleteCategoryById(int idCategory);
 }
 

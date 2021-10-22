@@ -1,6 +1,9 @@
 package project.spaceshop.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import project.spaceshop.dto.converter.ProductConverter;
 import project.spaceshop.entity.Category;
@@ -30,12 +33,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<Product> findPaginated(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return this.productRepository.findAll(pageable);
+    }
+
+    @Override
     public List<Product> findAllProducts() {
         List<Product> list = productRepository.findAll();
-//        List<ProductDto> listDto = new ArrayList<>();
-//        for (int i = 0; i < list.size(); i++){
-//            listDto.add(productConverter.fromProductToProductDto(list.get(i)));
-//        }
         return list;
     }
 
@@ -49,23 +54,12 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(product);
     }
 
+
     @Override
     public List<Product> findProductByCategory(int id) {
         List<Product> list = categoryService.findCategoryById(id).getProducts();
-//        List<ProductDto> listDto = new ArrayList<>();
-//        for (int i = 0; i < list.size(); i++){
-//            listDto.add(productConverter.fromProductToProductDto(list.get(i)));
-//        }
         return list;
     }
-
-    @Override
-    public Product createProduct(ProductDto productDto) {
-        Product product = productConverter.fromProductDtoToProduct(productDto);
-        product = saveProduct(product);
-        return product;
-    }
-
 
     @Override
     public List<Product> filter(int idCategory) {

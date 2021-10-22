@@ -9,6 +9,7 @@ import project.spaceshop.entity.enums.OrderStatusEnum;
 import project.spaceshop.entity.enums.PaymentMethodEnum;
 import project.spaceshop.entity.enums.PaymentStatusEnum;
 import project.spaceshop.repository.OrderRepository;
+import project.spaceshop.repository.ProductInOrderRepository;
 import project.spaceshop.service.api.AddressService;
 import project.spaceshop.service.api.OrderService;
 import project.spaceshop.service.api.UserService;
@@ -31,13 +32,16 @@ public class OrderServiceImpl implements OrderService {
 
     private final ConverterBasketProduct converterBasketProduct;
 
+    private final ProductInOrderRepository productInOrderRepository;
+
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, BasketProductServiceImpl basketProductService, AddressService addressService, ConverterBasketProduct converterBasketProduct) {
+    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, BasketProductServiceImpl basketProductService, AddressService addressService, ConverterBasketProduct converterBasketProduct, ProductInOrderRepository productInOrderRepository) {
         this.orderRepository = orderRepository;
         this.userService = userService;
         this.basketProductService = basketProductService;
         this.addressService = addressService;
         this.converterBasketProduct = converterBasketProduct;
+        this.productInOrderRepository = productInOrderRepository;
     }
 
     @Override
@@ -46,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
         UserAddress address = addressService.findAddressById(idAddress);
         Order order = new Order();
         order.setUser(address.getUser());
-        order.setUserAddress(address.toString());
+        order.setUserAddress(address.toStringForOrder());
         if (paymentType.equals("CASH")) {
             order.setPaymentMethod(PaymentMethodEnum.CASH.toString());
             order.setPaymentStatus(PaymentStatusEnum.AWAITING_PAYMENT.toString());
@@ -61,9 +65,11 @@ public class OrderServiceImpl implements OrderService {
         for (BasketProductDto basketItem : basket) {
             Product product = converterBasketProduct.fromBasketProductDtoToProduct(basketItem);
             ProductInOrder productInOrder = new ProductInOrder(order, product, basketItem.getAmount());
+//            productInOrderRepository.save(productInOrder);
             order.getProducts().add(productInOrder);
         }
         userService.saveUser(user);
+
         return orderRepository.save(order);
 
     }
@@ -97,9 +103,6 @@ public class OrderServiceImpl implements OrderService {
     public boolean changeOrderStatusById(int idOrder, String orderStatus) {
         Order order = orderRepository.getById(idOrder);
         switch (orderStatus) {
-            case "AWAITING_PAYMENT":
-                order.setOrderStatus(OrderStatusEnum.AWAITING_PAYMENT.toString());
-                break;
             case "AWAITING_SHIPMENT":
                 order.setOrderStatus(OrderStatusEnum.AWAITING_SHIPMENT.toString());
                 break;
@@ -111,23 +114,6 @@ public class OrderServiceImpl implements OrderService {
                 break;
             case "DONE":
                 order.setOrderStatus(OrderStatusEnum.DONE.toString());
-                break;
-            default:
-                break;
-        }
-        orderRepository.save(order);
-        return true;
-    }
-
-    @Override
-    public boolean changePaymentStatusById(int idOrder, String paymentStatus) {
-        Order order = orderRepository.getById(idOrder);
-        switch (paymentStatus) {
-            case "AWAITING_PAYMENT":
-                order.setPaymentStatus(PaymentStatusEnum.AWAITING_PAYMENT.toString());
-                break;
-            case "PAID":
-                order.setPaymentStatus(PaymentStatusEnum.PAID.toString());
                 break;
             default:
                 break;

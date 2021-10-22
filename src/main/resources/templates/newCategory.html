@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Creating category</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/style/main.css}" rel="stylesheet">
+</head>
+<body>
+<div th:insert="navbar.html"></div>
+<div class="container text-center mt-5 mb-5">
+  <h3 class="text-center">Creating new category</h3>
+</div>
+<div class="container text-center">
+  <form th:action="@{/admin/category/new-process}" th:object="${category}" method="post">
+    <div class="m-3">
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Category Name</label>
+        <div class="col-8">
+          <input type="text" th:field="*{categoryName}" class="form-control" required minlength="1" maxlength="25"/>
+        </div>
+      </div>
+      <div class="container text-center">
+        <button type="submit" class="btn btn-success">Save new category</button>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="container text-center mt-5">
+  <table class="table table-hover mt-5">
+    <div class="container text-center">
+      <h4 class="text-center">Existing categories</h4>
+    </div>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="category : ${categories}">
+      <td th:text="${category.getId()}"></td>
+      <td th:text="${category.getCategoryName()}"></td>
+      <td>
+        <form th:action="@{/admin/category/new/{idCategory}(idCategory = ${category.id})}" th:object="${category}"
+              method="post">
+          <button type="submit" class="btn btn-success">DELETE</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

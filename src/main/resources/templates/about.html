@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <title>main</title>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/style/main.css}" rel="stylesheet">
 </head>
 <body>
+<div th:insert="navbar.html"></div>
+<div class="text-center">
+    <p class="text-justify">We present a unique store where you can buy something from space, such as a planet, galaxy
+        or comet. Buying our product - you can be sure that no one else will have such a space thing. All our products
+        have no copies. We collected the most interesting ones. All items look like on picture.</p>
+    <p class="text-left">
+        PS: you can be God on your own planet ;) have a great shopping!
+    </p>
 
+    <div class="container text-center mt-xl-5" >
+        <h4><a th:href="@{/}">FIND YOUR OWN SPACE THING</a></h4>
+    </div>
+</div>
 </body>
 </html>

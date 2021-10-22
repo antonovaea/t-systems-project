@@ -11,25 +11,19 @@ public class ProductDto implements Serializable {
 
     private int id;
 
-    @NotNull
     private String productName;
 
-    @NotNull
     private Integer idCategory;
 
-    @NotNull
     private Integer price;
 
-    @NotNull
     private String productDescription;
 
-    @NotNull
     private Integer amountInStock;
 
     @Lob
     private byte[] productImage;
 
-    @NotNull
     @Column(name = "inhabitants")
     private String inhabitants;
 
@@ -53,48 +47,43 @@ public class ProductDto implements Serializable {
         this.productImage = productImage;
     }
 
-    @NotNull
     public String getProductName() {
         return productName;
     }
 
-    public void setProductName(@NotNull String productName) {
+    public void setProductName(String productName) {
         this.productName = productName;
     }
 
-    @NotNull
     public Integer getIdCategory() {
         return idCategory;
     }
 
-    public void setIdCategory(@NotNull Integer idCategory) {
+    public void setIdCategory(Integer idCategory) {
         this.idCategory = idCategory;
     }
 
-    @NotNull
     public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(@NotNull Integer price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    @NotNull
     public String getProductDescription() {
         return productDescription;
     }
 
-    public void setProductDescription(@NotNull String productDescription) {
+    public void setProductDescription(String productDescription) {
         this.productDescription = productDescription;
     }
 
-    @NotNull
     public Integer getAmountInStock() {
         return amountInStock;
     }
 
-    public void setAmountInStock(@NotNull Integer amountInStock) {
+    public void setAmountInStock(Integer amountInStock) {
         this.amountInStock = amountInStock;
     }
 
@@ -106,7 +95,7 @@ public class ProductDto implements Serializable {
         this.inhabitants = inhabitants;
     }
 
-    public ProductDto(int id, @NotNull String productName, @NotNull Integer idCategory, @NotNull Integer price, @NotNull String productDescription, @NotNull Integer amountInStock, byte[] productImage, @NotNull String inhabitants) {
+    public ProductDto(int id, String productName, Integer idCategory, Integer price, String productDescription, Integer amountInStock, byte[] productImage, String inhabitants) {
         this.id = id;
         this.productName = productName;
         this.idCategory = idCategory;

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import project.spaceshop.entity.Order;
 import project.spaceshop.entity.User;
 import project.spaceshop.entity.UserAddress;
+import project.spaceshop.entity.enums.PaymentMethodEnum;
 import project.spaceshop.service.BasketBean;
 import project.spaceshop.service.api.BasketProductService;
 import project.spaceshop.service.api.OrderService;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @Controller
 @PreAuthorize("hasAuthority('USER')")
-@RequestMapping(value = "/home/order")
+@RequestMapping(value = "/home")
 public class OrderController {
 
     private final OrderService orderService;
@@ -39,7 +40,7 @@ public class OrderController {
         this.productService = productService;
     }
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/order")
     public String orderPage(Model model) {
         User user = userService.findUserFromSecurityContextHolder();
         List<UserAddress> userAddressList = user.getUserAddresses();
@@ -49,10 +50,12 @@ public class OrderController {
         model.addAttribute("totalPrice", basketProductService.totalPrice((basketBean.getBasket())));
         model.addAttribute("user", userService.findUserFromSecurityContextHolder());
         model.addAttribute("basket", basketBean.getBasket());
+        model.addAttribute("CARD", PaymentMethodEnum.CARD.toString());
+        model.addAttribute("CASH", PaymentMethodEnum.CASH.toString());
         return "order";
     }
 
-    @GetMapping(value = "/pay")
+    @GetMapping(value = "/order/pay")
     public String orderPay(@RequestParam(name = "idAddress") int idAddress,
                            @RequestParam(name = "paymentType") String paymentType) {
         orderService.saveOrder(idAddress, paymentType, (basketBean.getBasket()));
@@ -60,9 +63,19 @@ public class OrderController {
         return "orderSuccess";
     }
 
-    @GetMapping(value = "/repeat/{id}")
+    @GetMapping(value = "/account/history")
+    public String orderHistory(Model model){
+        List<Order> list = orderService.findOrderByUser();
+        for (Order order : list){
+            model.addAttribute("order", order);
+            model.addAttribute("orders", list);
+        }
+        return "history";
+    }
+
+    @GetMapping(value = "/account/history/repeat/{id}")
     public String orderRepeat(final @PathVariable("id") int id) {
         basketBean.setBasket(orderService.repeatOrderById(id));
-        return "redirect:/order";
+        return "redirect:/home/order";
     }
 }

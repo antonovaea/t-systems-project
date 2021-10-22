@@ -1,5 +1,6 @@
 package project.spaceshop.service.api;
 
+import org.springframework.data.domain.Page;
 import project.spaceshop.dto.ProductDto;
 import project.spaceshop.dto.ProductSendDto;
 import project.spaceshop.entity.Category;
@@ -10,6 +11,8 @@ import java.util.Optional;
 
 public interface ProductService {
 
+    Page<Product> findPaginated(int pageNo, int pageSize);
+
     List<Product> findAllProducts();
 
     Product findProductById(int id);
@@ -17,8 +20,6 @@ public interface ProductService {
     Product saveProduct(Product product);
 
     List<Product> findProductByCategory(int id);
-
-    Product createProduct(ProductDto productDto);
 
     List<Product> filter(int idCategory);
 }
