@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/style/pagination.css}" rel="stylesheet">
 </head>
 <body>
 <div th:insert="navbar.html"></div>
@@ -37,7 +38,6 @@
         </div>
     </div>
 </div>
-<div class="container">
     <nav aria-label="Search results pages">
         <ul class="pagination">
             <li class="page-item"><a class="page-link" th:if="${currentPage < totalPages}"
@@ -54,6 +54,5 @@
                 <span th:unless="${currentPage < totalPages}">Next</span></li>
         </ul>
     </nav>
-</div>
 </body>
 </html>
