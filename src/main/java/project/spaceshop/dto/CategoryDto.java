@@ -3,6 +3,7 @@ package project.spaceshop.dto;
 import org.jetbrains.annotations.NotNull;
 
 public class CategoryDto {
+
     private int id;
 
     private String categoryName;

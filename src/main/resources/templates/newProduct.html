@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Creating product</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/style/main.css}" rel="stylesheet">
+</head>
+<body>
+<div th:insert="navbar.html"></div>
+<div class="container text-center mt-5 mb-5">
+    <h3 class="text-center">Creating new product</h3>
+</div>
+<div class="container text-center">
+    <form th:action="@{/admin/product/new-process}" th:object="${product}" method="post">
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Name</label>
+                <div class="col-8">
+                    <input type="text" th:field="*{productName}" class="form-control" required minlength="1"
+                           maxlength="25"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Price</label>
+                <div class="col-8">
+                    <input type="text" th:field="*{price}" class="form-control" required minlength="1" maxlength="25"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Description</label>
+                <div class="col-8">
+                    <input type="text" th:field="*{productDescription}" class="form-control" required minlength="1"
+                           maxlength="25"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">In stock</label>
+                <div class="col-8">
+                    <input type="text" th:field="*{amountInStock}" class="form-control" required minlength="1"
+                           maxlength="25"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Inhabitants</label>
+                <div class="col-8">
+                    <input type="text" th:field="*{inhabitants}" class="form-control" required minlength="1"
+                           maxlength="25"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Category</label>
+                <div class="col-8">
+                    <select th:field="*{category}">
+                        <option th:each="category : ${categories}" th:value="${category.getId()}"
+                                th:text="${category.getCategoryName()}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Image</label>
+                <div class="col-8">
+                    <input type="file" th:field="*{productImage}" class="form-control" required minlength="1"
+                           maxlength="25"/>
+                </div>
+            </div>
+            <div class="container text-center">
+                <button type="submit" class="btn btn-success">Create new product</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container text-center">
+    <div class="m-3">
+        <a th:href="@{/admin/existing/product}">
+            <button type="submit" class="btn btn-success">Existing products</button>
+        </a>
+    </div>
+</div>
+</body>
+</html>
