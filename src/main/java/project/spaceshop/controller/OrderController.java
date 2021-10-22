@@ -73,9 +73,4 @@ public class OrderController {
         return "history";
     }
 
-    @GetMapping(value = "/account/history/repeat/{id}")
-    public String orderRepeat(final @PathVariable("id") int id) {
-        basketBean.setBasket(orderService.repeatOrderById(id));
-        return "redirect:/home/order";
-    }
 }

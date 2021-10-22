@@ -10,8 +10,6 @@ public interface OrderService {
 
     List<Order> findOrderByUser();
 
-    List<BasketProductDto> repeatOrderById(int idOrder);
-
     List<Order> findAllOrder();
 
     boolean changeOrderStatusById(int idOrder, String orderStatus);

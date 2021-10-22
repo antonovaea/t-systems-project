@@ -23,13 +23,10 @@ public class ProductServiceImpl implements ProductService {
 
     private final CategoryService categoryService;
 
-    private final ProductConverter productConverter;
-
     @Autowired
     ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService, ProductConverter productConverter) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
-        this.productConverter = productConverter;
     }
 
     @Override
@@ -40,8 +37,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAllProducts() {
-        List<Product> list = productRepository.findAll();
-        return list;
+        return productRepository.findAll();
     }
 
     @Override
@@ -57,8 +53,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findProductByCategory(int id) {
-        List<Product> list = categoryService.findCategoryById(id).getProducts();
-        return list;
+        return categoryService.findCategoryById(id).getProducts();
     }
 
     @Override

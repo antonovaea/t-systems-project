@@ -82,18 +82,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<BasketProductDto> repeatOrderById(int idOrder) {
-        Order order = orderRepository.getById(idOrder);
-        List<BasketProductDto> basket = new ArrayList<>();
-        for (ProductInOrder productInOrder : order.getProducts()) {
-            BasketProductDto basketItem = new BasketProductDto(productInOrder.getProduct().getId(),
-                    productInOrder.getProduct().getProductName(), productInOrder.getAmountInOrder(), productInOrder.getProduct().getPrice());
-            basketProductService.addToBasket(basketItem, basket);
-        }
-        return basket;
-    }
-
-    @Override
     public List<Order> findAllOrder() {
         List<Order> list = orderRepository.findAll();
         return list;
