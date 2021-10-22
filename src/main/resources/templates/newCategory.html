@@ -44,7 +44,7 @@
       <td th:text="${category.getId()}"></td>
       <td th:text="${category.getCategoryName()}"></td>
       <td>
-        <form th:action="@{/admin/existing/product/{idCategory}(idCategory = ${category.id})}" th:object="${category}"
+        <form th:action="@{/admin/category/new/{idCategory}(idCategory = ${category.id})}" th:object="${category}"
               method="post">
           <button type="submit" class="btn btn-success">DELETE</button>
         </form>

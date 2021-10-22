@@ -78,7 +78,7 @@ public class AdminController {
         return "redirect:/admin/category/new";
     }
 
-    @PostMapping(value = "/admin/existing/product/{idCategory}")
+    @PostMapping(value = "/admin/category/new/{idCategory}")
     public String deleteCategoryById(@PathVariable("idCategory") int id){
         categoryService.deleteCategoryById(id);
         return "redirect:/admin/category/new";
@@ -105,8 +105,6 @@ public class AdminController {
         productService.saveProduct(product);
         return "redirect:/admin/product/new";
     }
-
-
 
 
 }
