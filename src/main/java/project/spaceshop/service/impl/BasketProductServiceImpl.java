@@ -102,4 +102,10 @@ public class BasketProductServiceImpl implements BasketProductService {
     public BasketProductDto createBasketProductFromProduct(Product product) {
         return new BasketProductDto(product.getId(), product.getProductName(), product.getProductImage(), 1, product.getPrice());
     }
+
+    @Override
+    public Product convertBasketProductDtoToProduct(BasketProductDto basketProductDto) {
+        if (basketProductDto == null) return null;
+        return productRepository.getById(basketProductDto.getId());
+    }
 }

@@ -25,10 +25,6 @@ public class OrderController {
     private final BasketBean basketBean;
     private final UserService userService;
     private final BasketProductService basketProductService;
-    private final ProductService productService;
-    private final ProductInOrderRepository productInOrderRepository;
-    private final ConverterBasketProduct converterBasketProduct;
-    private final ProductInOrderService productInOrderService;
 
     @Autowired
     public OrderController(OrderService orderService, BasketBean basketBean, ProductService productService,
@@ -37,10 +33,6 @@ public class OrderController {
         this.basketBean = basketBean;
         this.userService = userService;
         this.basketProductService = basketProductService;
-        this.productService = productService;
-        this.productInOrderRepository = productInOrderRepository;
-        this.converterBasketProduct = converterBasketProduct;
-        this.productInOrderService = productInOrderService;
     }
 
     @GetMapping(value = "/order")
@@ -62,17 +54,8 @@ public class OrderController {
 
     @GetMapping(value = "/order/pay")
     public String orderPay(@RequestParam(name = "idAddress") int idAddress,
-                           @RequestParam(name = "paymentType") String paymentType, Order order) {
-        User user = userService.findUserFromSecurityContextHolder();
+                           @RequestParam(name = "paymentType") String paymentType) {
         orderService.saveOrder(idAddress, paymentType, (basketBean.getBasket()));
-//        for (BasketProductDto basketProductDto : basketBean.getBasket()) {
-//            Product product = converterBasketProduct.fromBasketProductDtoToProduct(basketProductDto);
-//            ProductInOrder productInOrder = new ProductInOrder();
-//            productInOrder.setOrder(order);
-//            productInOrder.setProduct(product);
-//            productInOrder.setAmountInOrder(basketProductService.countProductsInBasketById(basketProductDto.getId(), basketBean.getBasket()));
-//            productInOrderService.saveProductInOrder(productInOrder);
-//        }
         basketBean.setBasket(new ArrayList<>());
         return "orderSuccess";
     }

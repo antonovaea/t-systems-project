@@ -13,9 +13,9 @@ import project.spaceshop.repository.OrderRepository;
 import project.spaceshop.repository.ProductInOrderRepository;
 import project.spaceshop.service.api.AddressService;
 import project.spaceshop.service.api.OrderService;
+import project.spaceshop.service.api.ProductInOrderService;
 import project.spaceshop.service.api.UserService;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,21 +31,19 @@ public class OrderServiceImpl implements OrderService {
 
     private final AddressService addressService;
 
-    private final ConverterBasketProduct converterBasketProduct;
-
-    private final ProductInOrderRepository productInOrderRepository;
+    private final ProductInOrderService productInOrderService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, BasketProductServiceImpl basketProductService, AddressService addressService, ConverterBasketProduct converterBasketProduct, ProductInOrderRepository productInOrderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, BasketProductServiceImpl basketProductService, AddressService addressService, ConverterBasketProduct converterBasketProduct, ProductInOrderRepository productInOrderRepository, ProductInOrderService productInOrderService) {
         this.orderRepository = orderRepository;
         this.userService = userService;
         this.basketProductService = basketProductService;
         this.addressService = addressService;
-        this.converterBasketProduct = converterBasketProduct;
-        this.productInOrderRepository = productInOrderRepository;
+        this.productInOrderService = productInOrderService;
     }
 
     @Override
+    @Transactional
     public Order saveOrder(int idAddress, String paymentType, List<BasketProductDto> basket) {
         User user = userService.findUserFromSecurityContextHolder();
         UserAddress address = addressService.findAddressById(idAddress);
@@ -64,26 +62,23 @@ public class OrderServiceImpl implements OrderService {
         int totalPrice = basketProductService.totalPrice(basket);
         order.setOrderPrice(totalPrice);
         for (BasketProductDto basketItem : basket) {
-            Product product = converterBasketProduct.fromBasketProductDtoToProduct(basketItem);
+            Product product = basketProductService.convertBasketProductDtoToProduct(basketItem);
             ProductInOrder productInOrder = new ProductInOrder(order, product, basketItem.getAmount());
-//            productInOrderRepository.save(productInOrder);
             order.getProducts().add(productInOrder);
+            productInOrderService.saveProductInOrder(productInOrder);
         }
-//        userService.saveUser(user);
         return orderRepository.save(order);
     }
 
     @Override
     public List<Order> findOrderByUser() {
         User user = userService.findUserFromSecurityContextHolder();
-        List<Order> list = orderRepository.findOrdersByUser(user);
-        return list;
+        return orderRepository.findOrdersByUser(user);
     }
 
     @Override
     public List<Order> findAllOrder() {
-        List<Order> list = orderRepository.findAll();
-        return list;
+        return orderRepository.findAll();
     }
 
     @Override

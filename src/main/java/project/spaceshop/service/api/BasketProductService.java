@@ -21,5 +21,6 @@ public interface BasketProductService {
 
     BasketProductDto createBasketProductFromProduct(Product product);
 
+    public Product convertBasketProductDtoToProduct(BasketProductDto basketProductDto);
 
 }
