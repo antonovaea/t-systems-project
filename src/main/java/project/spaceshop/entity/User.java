@@ -40,7 +40,7 @@ public class User {
     @Column("email")
     private String email;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserAddress> userAddresses = new ArrayList<>();
 
     @NotNull
@@ -62,6 +62,27 @@ public class User {
         this.userAddresses = userAddresses;
         this.password = password;
     }
+
+    public User(int id, @NotNull String userName, @NotNull String userSurname, @NotNull String userDateOfBirth, String role, @NotNull String phone, @NotNull String email, List<UserAddress> userAddresses, List<Order> orders, @NotNull String password) {
+        this.id = id;
+        this.userName = userName;
+        this.userSurname = userSurname;
+        this.userDateOfBirth = userDateOfBirth;
+        this.role = role;
+        this.phone = phone;
+        this.email = email;
+        this.userAddresses = userAddresses;
+//        this.orders = orders;
+        this.password = password;
+    }
+
+//    public List<Order> getOrders() {
+//        return orders;
+//    }
+//
+//    public void setOrders(List<Order> orders) {
+//        this.orders = orders;
+//    }
 
     public int getId() {
         return id;
