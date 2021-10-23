@@ -2,6 +2,7 @@ package project.spaceshop.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.spaceshop.dto.BasketProductDto;
 import project.spaceshop.dto.converter.ConverterBasketProduct;
 import project.spaceshop.entity.*;
@@ -68,10 +69,8 @@ public class OrderServiceImpl implements OrderService {
 //            productInOrderRepository.save(productInOrder);
             order.getProducts().add(productInOrder);
         }
-        userService.saveUser(user);
-
+//        userService.saveUser(user);
         return orderRepository.save(order);
-
     }
 
     @Override
@@ -85,6 +84,11 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> findAllOrder() {
         List<Order> list = orderRepository.findAll();
         return list;
+    }
+
+    @Override
+    public List<Order> findByDatePeriod(Date dateFirst, Date dateSecond) {
+        return orderRepository.findOrderByDateOrderBetween(dateFirst, dateSecond);
     }
 
     @Override

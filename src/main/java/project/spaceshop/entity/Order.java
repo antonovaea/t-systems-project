@@ -15,8 +15,7 @@ public class Order {
     @Column(name = "id_order")
     private int id;
 
-    @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_user")
     private User user;
 
@@ -28,7 +27,7 @@ public class Order {
     @Column(name = "order_status")
     private String orderStatus;
 
-    @NotNull
+//    @NotNull
     @Temporal(TemporalType.DATE)
     @Column(name = "date_order")
     private Date dateOrder;
@@ -76,7 +75,7 @@ public class Order {
         return user;
     }
 
-    public void setUser(@NotNull User client) {
+    public void setUser(@NotNull User user) {
         this.user = user;
     }
 

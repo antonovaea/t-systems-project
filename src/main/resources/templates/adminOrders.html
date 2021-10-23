@@ -37,7 +37,7 @@
                 <td th:text="${order.getPaymentStatus()}"></td>
                 <td th:text="${order.getOrderStatus()}"></td>
                 <td>
-                    <form th:action="@{/admins/orders/status}"
+                    <form th:action="@{/admin/order/status}"
                           method="get">
                         <select th:name="orderStatus">
                             <option value="AWAITING_SHIPMENT">AWAITING_SHIPMENT</option>

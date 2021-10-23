@@ -106,4 +106,9 @@ public class AdminController {
         return "redirect:/admin/product/new";
     }
 
+    @GetMapping(value = "/admin/statistic")
+    public String getStatistic(Model model){
+        return "adminStatistic";
+    }
+
 }
