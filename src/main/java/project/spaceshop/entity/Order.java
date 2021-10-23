@@ -27,7 +27,7 @@ public class Order {
     @Column(name = "order_status")
     private String orderStatus;
 
-//    @NotNull
+    @NotNull
     @Temporal(TemporalType.DATE)
     @Column(name = "date_order")
     private Date dateOrder;
