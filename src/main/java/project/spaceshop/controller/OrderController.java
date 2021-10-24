@@ -5,13 +5,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import project.spaceshop.dto.BasketProductDto;
 import project.spaceshop.dto.converter.ConverterBasketProduct;
 import project.spaceshop.entity.*;
 import project.spaceshop.entity.enums.PaymentMethodEnum;
 import project.spaceshop.repository.ProductInOrderRepository;
 import project.spaceshop.service.BasketBean;
 import project.spaceshop.service.api.*;
+import project.spaceshop.util.ImageUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +25,18 @@ public class OrderController {
     private final BasketBean basketBean;
     private final UserService userService;
     private final BasketProductService basketProductService;
+    private final ProductInOrderService productInOrderService;
+    private final ProductService productService;
 
     @Autowired
     public OrderController(OrderService orderService, BasketBean basketBean, ProductService productService,
-                           UserService userService, BasketProductService basketProductService, ProductInOrderRepository productInOrderRepository, ConverterBasketProduct converterBasketProduct, ProductInOrderService productInOrderService) {
+                           UserService userService, BasketProductService basketProductService, ProductInOrderRepository productInOrderRepository, ConverterBasketProduct converterBasketProduct, ProductInOrderService productInOrderService, ProductInOrderService productInOrderService1, ProductService productService1) {
         this.orderService = orderService;
         this.basketBean = basketBean;
         this.userService = userService;
         this.basketProductService = basketProductService;
+        this.productInOrderService = productInOrderService1;
+        this.productService = productService1;
     }
 
     @GetMapping(value = "/order")
@@ -68,6 +72,18 @@ public class OrderController {
             model.addAttribute("orders", list);
         }
         return "history";
+    }
+
+    @GetMapping(value = "/account/history/{idOrder}")
+    public String productsInOrderHistory(Model model, @PathVariable("idOrder") int idOrder){
+        List<ProductInOrder> productInOrderList = productInOrderService.findAllByOrderId(idOrder);
+        List<Product> products = new ArrayList<>();
+        for (ProductInOrder productInOrder : productInOrderList){
+            products.add(productService.findProductById(productInOrder.getProduct().getId()));
+        }
+        model.addAttribute("products", products);
+        model.addAttribute("imgUtil", new ImageUtil());
+        return "productHistory";
     }
 
 }
