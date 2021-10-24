@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Existing products</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/style/main.css}" rel="stylesheet">
+</head>
+<body>
+<div th:insert="navbar.html"></div>
+<div class="container text-center mt-5">
+  <table class="table table-hover mt-5">
+    <div class="container text-center">
+      <h4 class="text-center">Product History</h4>
+    </div>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Price</th>
+      <th>Image</th>
+      <th>Description</th>
+      <th>Inhabitants</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+      <td th:text="${product.getId()}"></td>
+      <td th:text="${product.getProductName()}"></td>
+      <td th:text="${product.getCategory().getCategoryName}"></td>
+      <td th:text="${product.getPrice()}"></td>
+      <td>
+        <img th:src="'data:jpg;base64,' + ${imgUtil.getImgData(product.getProductImage())}" class="card-img-top"
+             alt="no image yet"/>
+      </td>
+      <td th:text="${product.getProductDescription()}"></td>
+      <td th:text="${product.getInhabitants()}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

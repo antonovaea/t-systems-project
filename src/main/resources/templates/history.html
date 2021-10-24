@@ -28,7 +28,12 @@
             <tbody>
             <tr th:each="order : ${orders}">
                 <td th:text="${order.getId()}"></td>
-                <td th:text="${order.getProducts()}"></td>
+                <td>
+                    <form th:action="@{/home/account/history/{idOrder}(idOrder = ${order.id})}" th:object="${order}"
+                          method="get">
+                        <button type="submit" class="btn btn-success">See products</button>
+                    </form>
+                </td>
                 <td th:text="${order.getOrderPrice()}"></td>
                 <td th:text="${order.getUserAddress()}"></td>
                 <td th:text="${order.getDateOrder()}"></td>

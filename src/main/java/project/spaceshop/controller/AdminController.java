@@ -6,38 +6,35 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import project.spaceshop.dto.CategoryDto;
-import project.spaceshop.entity.Category;
 import project.spaceshop.entity.Product;
+import project.spaceshop.entity.ProductInOrder;
 import project.spaceshop.repository.CategoryRepository;
 import project.spaceshop.repository.ProductRepository;
-import project.spaceshop.service.CatalogFilter;
-import project.spaceshop.service.api.CategoryService;
-import project.spaceshop.service.api.OrderService;
-import project.spaceshop.service.api.ProductService;
-import project.spaceshop.service.api.UserService;
+import project.spaceshop.service.api.*;
 import project.spaceshop.util.ImageUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @PreAuthorize("hasAuthority('ADMIN')")
 public class AdminController {
 
-    private final UserService userService;
     private final OrderService orderService;
     private final ProductService productService;
     private final CategoryService categoryService;
-    private final CatalogFilter catalogFilter;
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
+    private final ProductInOrderService productInOrderService;
 
     @Autowired
-    public AdminController(UserService userService, OrderService orderService, ProductService productService, CategoryService categoryService, CatalogFilter catalogFilter, CategoryRepository categoryRepository, ProductRepository productRepository) {
-        this.userService = userService;
+    public AdminController(OrderService orderService, ProductService productService, CategoryService categoryService, CategoryRepository categoryRepository, ProductRepository productRepository, ProductInOrderService productInOrderService) {
         this.orderService = orderService;
         this.productService = productService;
         this.categoryService = categoryService;
-        this.catalogFilter = catalogFilter;
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
+        this.productInOrderService = productInOrderService;
     }
 
     @GetMapping(value = "/admin")
@@ -49,6 +46,18 @@ public class AdminController {
     public String getAllOrders(Model model) {
         model.addAttribute("orders", orderService.findAllOrder());
         return "adminOrders";
+    }
+
+    @GetMapping(value = "/admin/order/{idOrder}")
+    public String getProductsInOrder(Model model, @PathVariable("idOrder") int idOrder){
+        List<ProductInOrder> productInOrderList = productInOrderService.findAllByOrderId(idOrder);
+        List<Product> products = new ArrayList<>();
+        for (ProductInOrder productInOrder : productInOrderList){
+            products.add(productService.findProductById(productInOrder.getProduct().getId()));
+        }
+        model.addAttribute("products", products);
+        model.addAttribute("imgUtil", new ImageUtil());
+        return "adminProductsInOrder";
     }
 
     @GetMapping(value = "admin/order/status")
@@ -80,8 +89,11 @@ public class AdminController {
 
     @PostMapping(value = "/admin/category/new/{idCategory}")
     public String deleteCategoryById(@PathVariable("idCategory") int id){
-        categoryService.deleteCategoryById(id);
-        return "redirect:/admin/category/new";
+        if (productService.findProductByCategory(id).isEmpty()){
+            categoryService.deleteCategoryById(id);
+            return "redirect:/admin/category/new";
+        } else return "errorOfNotNullCategory";
+
     }
 
     @GetMapping(value = "/admin/existing/product")
