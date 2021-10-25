@@ -15,14 +15,11 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final UserConverter userConverter;
-
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserConverter userConverter, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.userConverter = userConverter;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -43,25 +40,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isEmailFree(String email) {
-        if (email == null || email.isEmpty()) return false;
-        return userRepository.findUserByEmail(email) == null;
-    }
-
-    @Override
-    public boolean isPhoneFree(String phone) {
-        if (phone == null) return false;
-        return userRepository.findUserByPhone(phone) == null;
-    }
-
-    @Override
     public void changePassword(String oldPassword, String newPassword) {
         User user = findUserFromSecurityContextHolder();
-        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
-            user.setPassword(passwordEncoder.encode(newPassword));
-            userRepository.save(user);
-        }
-
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 
     @Override

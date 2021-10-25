@@ -32,27 +32,32 @@
                     </a>
                 </div>
                 <h5 class="text-center" th:text="${product.productName}"></h5>
-                <p class="text-center" th:text="'Price: ' + ${product.getPrice()}"></p>
+                <div class="text-center" th:text="'Available: ' + ${product.getAmountInStock()}"></div>
+                <div class="text-center" th:text="'Price: ' + ${product.getPrice()}"></div>
                 <button type="submit" class="btn btn-success">ADD TO CART</button>
             </form>
         </div>
     </div>
 </div>
-    <nav aria-label="Search results pages">
-        <ul class="pagination">
-            <li class="page-item"><a class="page-link" th:if="${currentPage < totalPages}"
-                                     th:href="@{'/home/catalog/page/' + ${totalPages}}">Previous</a>
-                <span th:unless="${currentPage < totalPages}">Last</span></li>
-            <li class="page-item">
-                <span th:each="i : ${#numbers.sequence(1, totalPages)}">
-                <a class="page-link" th:if="${currentPage != i}" th:href="@{'/home/catalog/page/' + ${i}}">[[${i}]]</a>
+<div class="m-5">
+    <div class="d-flex justify-content-center">
+        <div class="p-2">
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{'/home/catalog/page/' + ${totalPages}}">Previous</a>
+            <span th:unless="${currentPage < totalPages}">Last</span>
+        </div>
+        <div class="p-2">
+    <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+                <a th:if="${currentPage != i}" th:href="@{'/home/catalog/page/' + ${i}}">[[${i}]]</a>
                 <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-            </span>
-            </li>
-            <li class="page-item"><a class="page-link" th:if="${currentPage < totalPages}"
-                                     th:href="@{'/home/catalog/page/' + ${currentPage + 1}}">Next</a>
-                <span th:unless="${currentPage < totalPages}">Next</span></li>
-        </ul>
-    </nav>
+    </span>
+        </div>
+        <div class="p-2">
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{'/home/catalog/page/' + ${currentPage + 1}}">Next</a>
+            <span th:unless="${currentPage < totalPages}">Next</span>
+        </div>
+    </div>
+</div>
 </body>
 </html>

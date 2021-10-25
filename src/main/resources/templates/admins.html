@@ -10,7 +10,7 @@
 <body>
 <div th:insert="navbar.html"></div>
 <div class="m-3">
-  <a th:href="@{/admin/order}"><button type="submit" class="btn btn-success">Admin Orders</button></a>
+  <a th:href="@{/admin/order/page/{pageNo}(pageNo = 1)}"><button type="submit" class="btn btn-success">Admin Orders</button></a>
   <a th:href="@{/admin/product}"><button type="submit" class="btn btn-success">Admin Products and Categories</button></a>
 </div>
 </body>

@@ -11,14 +11,6 @@ public interface UserService {
 
     User findUserFromSecurityContextHolder();
 
-    //Method checks is this email already exists, because it must be uniq
-
-    boolean isEmailFree(String email);
-
-    //Method checks is this phone already exists, because it must be uniq
-
-    boolean isPhoneFree(String phone);
-
     void changePassword(String oldPassword, String newPassword);
 
     void createUser(User user, String role);

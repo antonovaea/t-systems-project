@@ -8,6 +8,8 @@ import project.spaceshop.entity.Category;
 import project.spaceshop.repository.CategoryRepository;
 import project.spaceshop.service.api.CategoryService;
 
+import java.util.List;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -34,6 +36,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategoryById(int idCategory) {
         categoryRepository.deleteById(idCategory);
+    }
+
+    @Override
+    public List<Category> findAll() {
+        return categoryRepository.findAll();
     }
 
 }

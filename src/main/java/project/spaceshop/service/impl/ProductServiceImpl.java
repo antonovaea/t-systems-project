@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAllProducts() {
         return productRepository.findAll();
     }
-//add pagination to existing products and orders
+
     @Override
     public Product findProductById(int id) {
         return productRepository.getById(id);
