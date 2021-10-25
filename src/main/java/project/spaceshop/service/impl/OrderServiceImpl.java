@@ -1,6 +1,9 @@
 package project.spaceshop.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.spaceshop.dto.BasketProductDto;
@@ -71,15 +74,24 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findOrderByUser() {
+    public Page<Order> findPaginated(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return this.orderRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Order> findPaginatedOrderByUser(int pageNo, int pageSize){
         User user = userService.findUserFromSecurityContextHolder();
-        return orderRepository.findOrdersByUser(user);
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return orderRepository.findOrdersByUser(pageable, user);
     }
 
     @Override
     public List<Order> findAllOrder() {
         return orderRepository.findAll();
     }
+
+
 
     @Override
     public List<Order> findByDatePeriod(Date dateFirst, Date dateSecond) {

@@ -54,6 +54,7 @@ public class ProductController {
         catalogFilter.setIdCategory(idCategory);
         model.addAttribute("products", productService.filter(catalogFilter.getIdCategory()));
         model.addAttribute("imgUtil", new ImageUtil());
+        model.addAttribute("categories", categoryService.findAll());
         return "main";
     }
 

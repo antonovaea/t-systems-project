@@ -5,29 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>product</title>
     <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/style/main.css}" rel="stylesheet">
+    <link th:href="@{/style/details.css}" rel="stylesheet">
 </head>
 <body>
 <div th:insert="navbar.html"></div>
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-xl-3">
-            <form th:action="@{/home/basket/add/{id}(id = ${product.id})}" th:object="${product}" method="post">
-            <div class="card" style="width: 18rem;">
-                <img th:src="'data:jpg;base64,' + ${imgUtil.getImgData(product.getProductImage())}" class="card-img-top"
-                     alt="..."/>
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${product.getProductName}"></h5>
-                    <p class="card-text" th:text="${product.getProductDescription()}"></p>
-                    <p class="card-text" th:text="'Inhabitants: ' + ${product.getInhabitants()}"></p>
-                    <p class="card-text" th:text="'Price: ' + ${product.getPrice()}"></p>
-                    <button type="submit" class="btn btn-success">ADD TO CART</button>
-                </div>
+<div class="container centered mt-5 mb-5 ml-auto mr-auto">
+    <form th:action="@{/home/basket/add/{id}(id = ${product.id})}" th:object="${product}" method="post">
+        <div class="card" style="width: 60rem;">
+            <img th:src="'data:jpg;base64,' + ${imgUtil.getImgData(product.getProductImage())}" class="card-img-top"
+                 alt="no image yet"/>
+            <div class="card-body">
+                <h5 class="card-title" th:text="${product.getProductName}"></h5>
+                <p class="card-text" th:text="${product.getProductDescription()}"></p>
+                <p class="card-text" th:text="'Inhabitants: ' + ${product.getInhabitants()}"></p>
+                <p class="card-text" th:text="'Price: ' + ${product.getPrice()}"></p>
+                <button type="submit" class="btn btn-success">ADD TO CART</button>
             </div>
-            </form>
         </div>
-    </div>
+    </form>
 </div>
+
+
 
 </body>
 </html>

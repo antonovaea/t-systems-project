@@ -1,0 +1,25 @@
+body {
+    background-color: #B8B8B8;
+    font-family: "SB Sans Interface";
+    font-weight: 300;
+    font-size: 16px;
+    color: #555;
+
+    -webkit-font-smoothing: antialiased;
+    -webkit-overflow-scrolling: touch;
+
+    margin-top: 40px;
+}
+.image {
+    position: relative;
+    margin-top: 10px;
+
+}
+
+.image img{
+
+    max-height: 480px;
+    max-width: 850px;
+    vertical-align: middle;
+    horiz-align: center;
+}

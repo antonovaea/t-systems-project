@@ -1,11 +1,13 @@
 package project.spaceshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import project.spaceshop.dto.CategoryDto;
+import project.spaceshop.entity.Order;
 import project.spaceshop.entity.Product;
 import project.spaceshop.entity.ProductInOrder;
 import project.spaceshop.repository.CategoryRepository;
@@ -26,6 +28,7 @@ public class AdminController {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
     private final ProductInOrderService productInOrderService;
+    private final static int PAGE_SIZE = 6;
 
     @Autowired
     public AdminController(OrderService orderService, ProductService productService, CategoryService categoryService, CategoryRepository categoryRepository, ProductRepository productRepository, ProductInOrderService productInOrderService) {
@@ -42,9 +45,14 @@ public class AdminController {
         return "admins";
     }
 
-    @GetMapping(value = "/admin/order")
-    public String getAllOrders(Model model) {
-        model.addAttribute("orders", orderService.findAllOrder());
+    @GetMapping(value = "/admin/order/page/{pageNo}")
+    public String getAllOrders(@PathVariable("pageNo") int pageNo, Model model) {
+        Page<Order> page = orderService.findPaginated(pageNo, PAGE_SIZE);
+        List<Order> list = page.getContent();
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("orders", list);
         return "adminOrders";
     }
 
@@ -64,7 +72,7 @@ public class AdminController {
     public String changeOrderStatus(@RequestParam(name = "orderStatus") String orderStatus,
                                     @RequestParam(name = "orderId") int orderId) {
         orderService.changeOrderStatusById(orderId, orderStatus);
-        return "redirect:/admin/order";
+        return "redirect:/admin/order/page/1";
     }
 
     @GetMapping(value = "/admin/product")
@@ -96,9 +104,14 @@ public class AdminController {
 
     }
 
-    @GetMapping(value = "/admin/existing/product")
-    public String existingProducts(Model model){
-        model.addAttribute("products", productRepository.findAll());
+    @GetMapping(value = "/admin/existing/product/{pageNo}")
+    public String existingProducts(@PathVariable("pageNo") int pageNo, Model model){
+        Page<Product> page = productService.findPaginated(pageNo, PAGE_SIZE);
+        List<Product> list = page.getContent();
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("products", list);
         model.addAttribute("imgUtil", new ImageUtil());
         return "existingProducts";
     }

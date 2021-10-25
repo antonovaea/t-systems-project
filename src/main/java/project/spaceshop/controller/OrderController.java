@@ -1,6 +1,7 @@
 package project.spaceshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,7 @@ public class OrderController {
     private final BasketProductService basketProductService;
     private final ProductInOrderService productInOrderService;
     private final ProductService productService;
+    private final static int PAGE_SIZE = 6;
 
     @Autowired
     public OrderController(OrderService orderService, BasketBean basketBean, ProductService productService,
@@ -53,7 +55,12 @@ public class OrderController {
         model.addAttribute("basket", basketBean.getBasket());
         model.addAttribute("CARD", PaymentMethodEnum.CARD.toString());
         model.addAttribute("CASH", PaymentMethodEnum.CASH.toString());
-        return "order";
+        if (basketBean.getBasket().isEmpty()){
+            return "emptyOrderError";
+        } else{
+            return "order";
+        }
+
     }
 
     @GetMapping(value = "/order/pay")
@@ -64,9 +71,13 @@ public class OrderController {
         return "orderSuccess";
     }
 
-    @GetMapping(value = "/account/history")
-    public String orderHistory(Model model) {
-        List<Order> list = orderService.findOrderByUser();
+    @GetMapping(value = "/account/history/page/{pageNo}")
+    public String orderHistory(@PathVariable("pageNo") int pageNo, Model model) {
+        Page<Order> page = orderService.findPaginatedOrderByUser(pageNo, PAGE_SIZE);
+        List<Order> list = page.getContent();
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
         for (Order order : list) {
             model.addAttribute("order", order);
             model.addAttribute("orders", list);

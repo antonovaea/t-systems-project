@@ -3,6 +3,7 @@ package project.spaceshop.controller;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +21,16 @@ import java.util.List;
 @RequestMapping(value = "/")
 public class UserController extends CommonController {
 
-    private final UserAddressRepository userAddressRepository;
     private final UserService userService;
-    private final OrderService orderService;
     private final AddressService addressService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserDetailsService userDetailsService, UserAddressRepository userAddressRepository, UserService userService, OrderService orderService, AddressService addressService) {
+
+    public UserController(UserDetailsService userDetailsService, UserAddressRepository userAddressRepository, UserService userService, OrderService orderService, AddressService addressService, PasswordEncoder passwordEncoder) {
         super(userDetailsService);
-        this.userAddressRepository = userAddressRepository;
         this.userService = userService;
-        this.orderService = orderService;
         this.addressService = addressService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping(value = "/home/account")
@@ -47,8 +47,13 @@ public class UserController extends CommonController {
     @PostMapping(value = "/home/account/change_password")
     public String changePassword(@RequestParam(name = "oldPassword") String oldPassword, @RequestParam(name = "newPassword") String newPassword) {
         User user = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        userService.changePassword(oldPassword, newPassword);
-        return "/success";
+        if (passwordEncoder.matches(oldPassword, user.getPassword())){
+            userService.changePassword(oldPassword, newPassword);
+            return "success";
+        } else {
+            return "passwordError";
+        }
+
     }
 
     @GetMapping(value = "/home/account/address")
