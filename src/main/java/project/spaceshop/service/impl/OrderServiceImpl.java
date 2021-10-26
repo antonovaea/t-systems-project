@@ -46,7 +46,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
     public Order saveOrder(int idAddress, String paymentType, List<BasketProductDto> basket) {
         User user = userService.findUserFromSecurityContextHolder();
         UserAddress address = addressService.findAddressById(idAddress);
