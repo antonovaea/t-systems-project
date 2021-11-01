@@ -17,8 +17,6 @@ public interface OrderService {
 
     Page<Order> findPaginatedOrderByUser(int pageNo, int pageSize);
 
-//    List<Order> findOrderByUser();
-
     List<Order> findAllOrder();
 
     List<Order> findByDatePeriod(Date dateFirst,Date dateSecond);

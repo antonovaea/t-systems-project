@@ -19,7 +19,6 @@ public class TopCategory {
     @JoinColumn(name = "id_category")
     private Category category;
 
-    @NotNull
     @Column(name = "amount_of_sold_products")
     private Integer amountOfSoldProducts;
 
@@ -27,7 +26,7 @@ public class TopCategory {
 
     }
 
-    public TopCategory(int id, @NotNull Category category, @NotNull Integer amountOfSoldProducts) {
+    public TopCategory(int id, @NotNull Category category, Integer amountOfSoldProducts) {
         this.id = id;
         this.category = category;
         this.amountOfSoldProducts = amountOfSoldProducts;

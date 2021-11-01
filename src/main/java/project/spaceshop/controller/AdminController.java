@@ -89,6 +89,9 @@ public class AdminController {
         return "newCategory";
     }
 
+    //при создании новой категории, она дополнительно должна создаваться в топ категориях, а кол-во продаж
+    //присвоить 0
+
     @PostMapping(value = "/admin/category/new-process")
     public String createCategoryProcess(CategoryDto category){
         categoryService.saveCategory(category);
