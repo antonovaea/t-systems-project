@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import project.spaceshop.dto.BasketProductDto;
 import project.spaceshop.dto.converter.ConverterBasketProduct;
 import project.spaceshop.entity.*;
@@ -14,6 +13,7 @@ import project.spaceshop.entity.enums.PaymentMethodEnum;
 import project.spaceshop.entity.enums.PaymentStatusEnum;
 import project.spaceshop.repository.OrderRepository;
 import project.spaceshop.repository.ProductInOrderRepository;
+import project.spaceshop.repository.TopCategoryRepository;
 import project.spaceshop.service.api.AddressService;
 import project.spaceshop.service.api.OrderService;
 import project.spaceshop.service.api.ProductInOrderService;
@@ -26,6 +26,8 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    private final TopCategoryRepository topCategoryRepository;
+
     private final OrderRepository orderRepository;
 
     private final UserService userService;
@@ -37,7 +39,8 @@ public class OrderServiceImpl implements OrderService {
     private final ProductInOrderService productInOrderService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, BasketProductServiceImpl basketProductService, AddressService addressService, ConverterBasketProduct converterBasketProduct, ProductInOrderRepository productInOrderRepository, ProductInOrderService productInOrderService) {
+    public OrderServiceImpl(TopCategoryRepository topCategoryRepository, OrderRepository orderRepository, UserService userService, BasketProductServiceImpl basketProductService, AddressService addressService, ConverterBasketProduct converterBasketProduct, ProductInOrderRepository productInOrderRepository, ProductInOrderService productInOrderService) {
+        this.topCategoryRepository = topCategoryRepository;
         this.orderRepository = orderRepository;
         this.userService = userService;
         this.basketProductService = basketProductService;
@@ -66,8 +69,10 @@ public class OrderServiceImpl implements OrderService {
         for (BasketProductDto basketItem : basket) {
             Product product = basketProductService.convertBasketProductDtoToProduct(basketItem);
             ProductInOrder productInOrder = new ProductInOrder(order, product, basketItem.getAmount());
+            TopCategory topCategory = new TopCategory(product.getCategory(), basketItem.getAmount());
             order.getProducts().add(productInOrder);
             productInOrderService.saveProductInOrder(productInOrder);
+            topCategoryRepository.save(topCategory);
         }
         return orderRepository.save(order);
     }
