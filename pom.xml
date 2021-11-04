@@ -38,9 +38,6 @@
             <artifactId>amqp-client</artifactId>
             <version>5.13.1</version>
         </dependency>
-
-
-
         <!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -143,6 +140,11 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.58</version>
         </dependency>
 
     </dependencies>
