@@ -39,6 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
         TopCategory topCategory = new TopCategory();
         topCategory.setCategory(category);
         topCategory.setAmountOfSoldProducts(0);
+        topCategory.setTopCategoryName(category.getCategoryName());
         topCategoryService.saveTopCategory(topCategory);
     }
 
