@@ -71,6 +71,8 @@ public class OrderController {
         return "orderSuccess";
     }
 
+    //тут должно отправляться сообщение в кролика про update в топ категориях
+
     @GetMapping(value = "/account/history/page/{pageNo}")
     public String orderHistory(@PathVariable("pageNo") int pageNo, Model model) {
         Page<Order> page = orderService.findPaginatedOrderByUser(pageNo, PAGE_SIZE);

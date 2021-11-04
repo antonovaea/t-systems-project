@@ -30,6 +30,12 @@ public class Category {
         this.products = products;
     }
 
+    public Category(int id, String categoryName, List<Product> products, @NotNull TopCategory topCategory) {
+        this.id = id;
+        this.categoryName = categoryName;
+        this.products = products;
+    }
+
     public int getId() {
         return id;
     }
