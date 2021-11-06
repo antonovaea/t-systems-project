@@ -1,5 +1,11 @@
 package project.spaceshop.config;
 
+import com.rabbitmq.jms.admin.RMQConnectionFactory;
+import com.rabbitmq.jms.client.*;
+import com.rabbitmq.jms.util.RMQJMSException;
+import com.rabbitmq.jms.util.RMQJMSSecurityException;
+import com.rabbitmq.jms.util.WhiteListObjectInputStream;
+import javax.jms.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSON;
@@ -15,7 +21,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.amqp.support.converter.MessageConversionException;
 import org.springframework.amqp.support.converter.MessageConverter;
-import project.spaceshop.mq.RabbitMqSender;
 
 @Configuration
 public class RabbitConfiguration {

@@ -19,7 +19,11 @@ public class RabbitMqSender {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void send(List<TopCategoryDto> list){
-        rabbitTemplate.convertAndSend(SpaceshopApplication.EXCHANGE_NAME, SpaceshopApplication.ROUTING_KEY, list);
+    public void send(String msg){
+        rabbitTemplate.convertAndSend(SpaceshopApplication.EXCHANGE_NAME, SpaceshopApplication.ROUTING_KEY, msg);
     }
+
+//    public void send(List<TopCategoryDto> list){
+//        rabbitTemplate.convertAndSend(SpaceshopApplication.EXCHANGE_NAME, SpaceshopApplication.ROUTING_KEY, list);
+//    }
 }
