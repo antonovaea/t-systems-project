@@ -22,33 +22,33 @@ import java.util.concurrent.TimeoutException;
 @EntityScan("project.spaceshop.entity")
 @SpringBootApplication(scanBasePackages = "project.spaceshop")
 public class SpaceshopApplication {
-    @Bean
-    public Queue advertisingQueue() {
-        return new Queue("advertising.queue");
-    }
-
-    public static final String EXCHANGE_NAME = "exchange1";
-    public static final String DEFAULT_PARSING_QUEUE = "advertising.queue";
-    public static final String ROUTING_KEY = "routKey";
+//    @Bean
+//    public Queue advertisingQueue() {
+//        return new Queue("advertising.queue");
+//    }
+//
+//    public static final String EXCHANGE_NAME = "exchange1";
+//    public static final String DEFAULT_PARSING_QUEUE = "advertising.queue";
+//    public static final String ROUTING_KEY = "routKey";
 
     public static void main(String[] args) throws IOException, TimeoutException {
         SpringApplication.run(SpaceshopApplication.class, args);
     }
 
-    @Bean
-    public TopicExchange topicExchange(){
-        return new TopicExchange(EXCHANGE_NAME);
-    }
-
-    @Bean
-    public Queue defaultQueue(){
-        return new Queue(DEFAULT_PARSING_QUEUE);
-    }
-
-    @Bean
-    public Binding binding(){
-        return BindingBuilder.bind(defaultQueue()).to(topicExchange()).with(ROUTING_KEY);
-    }
+//    @Bean
+//    public TopicExchange topicExchange(){
+//        return new TopicExchange(EXCHANGE_NAME);
+//    }
+//
+//    @Bean
+//    public Queue defaultQueue(){
+//        return new Queue(DEFAULT_PARSING_QUEUE);
+//    }
+//
+//    @Bean
+//    public Binding binding(){
+//        return BindingBuilder.bind(defaultQueue()).to(topicExchange()).with(ROUTING_KEY);
+//    }
 
 
 }

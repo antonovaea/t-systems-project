@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import project.spaceshop.dto.converter.ConverterBasketProduct;
 import project.spaceshop.entity.*;
 import project.spaceshop.entity.enums.PaymentMethodEnum;
-import project.spaceshop.mq.RabbitMqSender;
+import project.spaceshop.mqactive.ActiveMQProducer;
 import project.spaceshop.repository.ProductInOrderRepository;
 import project.spaceshop.service.BasketBean;
 import project.spaceshop.service.api.*;
@@ -23,7 +23,8 @@ import java.util.List;
 @RequestMapping(value = "/home")
 public class OrderController {
 
-    private final RabbitMqSender rabbitMqSender;
+
+    private final ActiveMQProducer activeMQProducer;
     private final OrderService orderService;
     private final BasketBean basketBean;
     private final UserService userService;
@@ -34,12 +35,12 @@ public class OrderController {
 
     @Autowired
     public OrderController(OrderService orderService, BasketBean basketBean, ProductService productService,
-                           UserService userService, BasketProductService basketProductService, ProductInOrderRepository productInOrderRepository, ConverterBasketProduct converterBasketProduct, ProductInOrderService productInOrderService, RabbitMqSender rabbitMqSender, ProductInOrderService productInOrderService1, ProductService productService1) {
+                           UserService userService, BasketProductService basketProductService, ProductInOrderRepository productInOrderRepository, ConverterBasketProduct converterBasketProduct, ProductInOrderService productInOrderService, ActiveMQProducer activeMQProducer, ProductInOrderService productInOrderService1, ProductService productService1) {
         this.orderService = orderService;
         this.basketBean = basketBean;
         this.userService = userService;
         this.basketProductService = basketProductService;
-        this.rabbitMqSender = rabbitMqSender;
+        this.activeMQProducer = activeMQProducer;
         this.productInOrderService = productInOrderService1;
         this.productService = productService1;
     }
@@ -71,7 +72,7 @@ public class OrderController {
                            @RequestParam(name = "paymentType") String paymentType) {
         orderService.saveOrder(idAddress, paymentType, (basketBean.getBasket()));
         basketBean.setBasket(new ArrayList<>());
-        rabbitMqSender.send("update");
+        activeMQProducer.send("update");
         return "orderSuccess";
     }
 
