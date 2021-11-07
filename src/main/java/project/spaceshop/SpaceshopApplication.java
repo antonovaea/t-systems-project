@@ -24,7 +24,7 @@ import java.util.concurrent.TimeoutException;
 public class SpaceshopApplication {
     @Bean
     public Queue advertisingQueue() {
-        return new Queue("advertising.queue");
+        return new Queue("new");
     }
 
     public static final String EXCHANGE_NAME = "exchange1";
