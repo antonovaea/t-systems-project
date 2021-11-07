@@ -1,5 +1,6 @@
 package project.spaceshop.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +19,7 @@ import project.spaceshop.util.ImageUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Controller
 @PreAuthorize("hasAuthority('USER')")
 @RequestMapping(value = "/home")
@@ -73,10 +75,11 @@ public class OrderController {
         orderService.saveOrder(idAddress, paymentType, (basketBean.getBasket()));
         basketBean.setBasket(new ArrayList<>());
         activeMQProducer.send("update");
+        log.info("update message sent");
         return "orderSuccess";
     }
 
-    //тут должно отправляться сообщение в кролика про update в топ категориях
+    //тут должно отправляться сообщение про update в топ категориях
 
     @GetMapping(value = "/account/history/page/{pageNo}")
     public String orderHistory(@PathVariable("pageNo") int pageNo, Model model) {

@@ -30,8 +30,7 @@ public class AdvertisingRestController {
     @GetMapping(value = "/home/advertising/top")
     @ResponseBody
     public List<TopCategoryDto> getTopCategories(){
-        activeMQProducer.send(topCategoryService.findAllTop().toString());
-//        rabbitMqSender.send(topCategoryService.findAllTop());
+//        activeMQProducer.send(topCategoryService.findAllTop().toString());
         return topCategoryService.findAllTop();
     }
 
