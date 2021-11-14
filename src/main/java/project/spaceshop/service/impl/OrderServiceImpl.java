@@ -27,6 +27,8 @@ public class OrderServiceImpl implements OrderService {
 
     private static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
 
+    private final ProductService productService;
+
     private final TopCategoryRepository topCategoryRepository;
 
     private final TopCategoryService topCategoryService;
@@ -42,7 +44,8 @@ public class OrderServiceImpl implements OrderService {
     private final ProductInOrderService productInOrderService;
 
     @Autowired
-    public OrderServiceImpl(TopCategoryRepository topCategoryRepository, TopCategoryService topCategoryService, OrderRepository orderRepository, UserService userService, BasketProductServiceImpl basketProductService, AddressService addressService, ConverterBasketProduct converterBasketProduct, ProductInOrderRepository productInOrderRepository, ProductInOrderService productInOrderService) {
+    public OrderServiceImpl(ProductService productService, TopCategoryRepository topCategoryRepository, TopCategoryService topCategoryService, OrderRepository orderRepository, UserService userService, BasketProductServiceImpl basketProductService, AddressService addressService, ConverterBasketProduct converterBasketProduct, ProductInOrderRepository productInOrderRepository, ProductInOrderService productInOrderService) {
+        this.productService = productService;
         this.topCategoryRepository = topCategoryRepository;
         this.topCategoryService = topCategoryService;
         this.orderRepository = orderRepository;
@@ -54,7 +57,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order saveOrder(int idAddress, String paymentType, List<BasketProductDto> basket) {
-//        User user = userService.findUserFromSecurityContextHolder();
         UserAddress address = addressService.findAddressById(idAddress);
         Order order = new Order();
         order.setUser(address.getUser());
@@ -73,6 +75,8 @@ public class OrderServiceImpl implements OrderService {
         for (BasketProductDto basketItem : basket) {
             Product product = basketProductService.convertBasketProductDtoToProduct(basketItem);
             ProductInOrder productInOrder = new ProductInOrder(order, product, basketItem.getAmount());
+            product.setAmountInStock(product.getAmountInStock() - basketItem.getAmount());
+            productService.saveProduct(product);
             TopCategory topCategory = topCategoryRepository.findTopCategoryByCategory_Id(product.getCategory().getId());
             topCategoryService.changeAmountOfSoldProducts(topCategory, basketItem.getAmount());
             order.getProducts().add(productInOrder);

@@ -36,7 +36,6 @@ public class BasketProductServiceImpl implements BasketProductService {
                         return false;
                     basketProduct.setAmount(basketProductDto.getAmount());
                     basketProduct.setPrice(basketProductDto.getPrice());
-                    product.setAmountInStock(product.getAmountInStock() - basketProductDto.getAmount() + basketProduct.getAmount());
                     isFoundInBasket = true;
                     break;
                 }
@@ -45,9 +44,7 @@ public class BasketProductServiceImpl implements BasketProductService {
             if (!isFoundInBasket)
                 if (product.getAmountInStock() >= basketProductDto.getAmount()) {
                     basket.add(basketProductDto);
-                    product.setAmountInStock(product.getAmountInStock() - basketProductDto.getAmount());
                 } else return false;
-            productRepository.save(product);
             log.info("product " + basketProductDto.getProductName() + " added to the basket");
             return true;
         } catch (Exception e) {
@@ -61,9 +58,6 @@ public class BasketProductServiceImpl implements BasketProductService {
         try {
             for (BasketProductDto product : basket) {
                 if (product.getId() == id) {
-                    Product originalProduct = productRepository.getById(id);
-                    originalProduct.setAmountInStock(originalProduct.getAmountInStock() + product.getAmount());
-                    productRepository.save(originalProduct);
                     basket.remove(product);
                     log.info("product " + product.getProductName() + " removed from basket");
                     break;
