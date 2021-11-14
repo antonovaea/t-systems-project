@@ -1,9 +1,12 @@
 package project.spaceshop.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.spaceshop.dto.BasketProductDto;
 import project.spaceshop.entity.Product;
+import project.spaceshop.mq.RabbitMqSender;
 import project.spaceshop.repository.ProductRepository;
 import project.spaceshop.service.api.BasketProductService;
 
@@ -12,6 +15,8 @@ import java.util.List;
 
 @Service
 public class BasketProductServiceImpl implements BasketProductService {
+
+    private static final Logger log = LoggerFactory.getLogger(BasketProductServiceImpl.class);
 
     private final ProductRepository productRepository;
 
@@ -22,41 +27,54 @@ public class BasketProductServiceImpl implements BasketProductService {
 
     @Override
     public boolean addToBasket(BasketProductDto basketProductDto, List<BasketProductDto> basket) {
-        Product product = productRepository.getById(basketProductDto.getId());
-        boolean isFoundInBasket = false;
-        for (BasketProductDto basketProduct : basket) {
-            if (basketProduct.getId() == basketProductDto.getId()) {
-                if (product.getAmountInStock() <= basketProductDto.getAmount() - basketProduct.getAmount())
-                    return false;
-                basketProduct.setAmount(basketProductDto.getAmount());
-                basketProduct.setPrice(basketProductDto.getPrice());
-                product.setAmountInStock(product.getAmountInStock() - basketProductDto.getAmount() + basketProduct.getAmount());
-                isFoundInBasket = true;
-                break;
+        try {
+            Product product = productRepository.getById(basketProductDto.getId());
+            boolean isFoundInBasket = false;
+            for (BasketProductDto basketProduct : basket) {
+                if (basketProduct.getId() == basketProductDto.getId()) {
+                    if (product.getAmountInStock() <= basketProductDto.getAmount() - basketProduct.getAmount())
+                        return false;
+                    basketProduct.setAmount(basketProductDto.getAmount());
+                    basketProduct.setPrice(basketProductDto.getPrice());
+                    product.setAmountInStock(product.getAmountInStock() - basketProductDto.getAmount() + basketProduct.getAmount());
+                    isFoundInBasket = true;
+                    break;
+                }
             }
-        }
 
-        if (!isFoundInBasket)
-            if (product.getAmountInStock() >= basketProductDto.getAmount()) {
-                basket.add(basketProductDto);
-                product.setAmountInStock(product.getAmountInStock() - basketProductDto.getAmount());
-            } else return false;
-        productRepository.save(product);
-        return true;
+            if (!isFoundInBasket)
+                if (product.getAmountInStock() >= basketProductDto.getAmount()) {
+                    basket.add(basketProductDto);
+                    product.setAmountInStock(product.getAmountInStock() - basketProductDto.getAmount());
+                } else return false;
+            productRepository.save(product);
+            log.info("product " + basketProductDto.getProductName() + " added to the basket");
+            return true;
+        } catch (Exception e) {
+            log.info("product" + basketProductDto.getProductName() + " has not added to the basket");
+            return false;
+        }
     }
 
     @Override
     public boolean deleteFromBasketById(int id, List<BasketProductDto> basket) {
-        for (BasketProductDto product : basket) {
-            if (product.getId() == id) {
-                Product originalProduct = productRepository.getById(id);
-                originalProduct.setAmountInStock(originalProduct.getAmountInStock() + product.getAmount());
-                productRepository.save(originalProduct);
-                basket.remove(product);
-                break;
+        try {
+            for (BasketProductDto product : basket) {
+                if (product.getId() == id) {
+                    Product originalProduct = productRepository.getById(id);
+                    originalProduct.setAmountInStock(originalProduct.getAmountInStock() + product.getAmount());
+                    productRepository.save(originalProduct);
+                    basket.remove(product);
+                    log.info("product " + product.getProductName() + " removed from basket");
+                    break;
+                }
             }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("product has not removed");
+            return false;
         }
-        return true;
     }
 
     @Override
@@ -89,13 +107,19 @@ public class BasketProductServiceImpl implements BasketProductService {
 
     @Override
     public List<BasketProductDto> deleteFromBasket(List<BasketProductDto> basket) {
-        for (BasketProductDto product : basket) {
-            Product originalProduct = productRepository.getById(product.getId());
-            originalProduct.setAmountInStock(originalProduct.getAmountInStock() + product.getAmount());
-            productRepository.save(originalProduct);
+        try {
+            for (BasketProductDto product : basket) {
+                Product originalProduct = productRepository.getById(product.getId());
+                originalProduct.setAmountInStock(originalProduct.getAmountInStock() + product.getAmount());
+                productRepository.save(originalProduct);
+            }
+            log.info("all products removed from basket");
+            return new ArrayList<>();
+        } catch (Exception e) {
+            log.info("products have not removed from basket");
+            e.printStackTrace();
+            return basket;
         }
-
-        return new ArrayList<>();
     }
 
     @Override

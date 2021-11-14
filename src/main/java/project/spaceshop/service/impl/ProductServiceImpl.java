@@ -1,5 +1,7 @@
 package project.spaceshop.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +20,8 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    private static final Logger log = LoggerFactory.getLogger(ProductInOrderServiceImpl.class);
 
     private final ProductRepository productRepository;
 
@@ -47,7 +51,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
         public Product saveProduct(Product product) {
+        log.info("new product " + product.getProductName() + " saved");
         return productRepository.save(product);
+
     }
 
 

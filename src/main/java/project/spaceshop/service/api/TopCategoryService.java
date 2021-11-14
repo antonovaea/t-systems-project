@@ -12,7 +12,5 @@ public interface TopCategoryService {
 
     void changeAmountOfSoldProducts(TopCategory topCategory, int newAmount);
 
-//    List<TopCategory> findAllSortedByAmountOfSoldProducts(List<Integer> amountOfSoldProducts, Sort sort);
-
     List<TopCategoryDto> findAllTop();
 }

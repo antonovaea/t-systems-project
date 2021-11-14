@@ -1,5 +1,7 @@
 package project.spaceshop.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import project.spaceshop.dto.TopCategoryDto;
 import project.spaceshop.dto.converter.TopCategoryConverter;
@@ -14,6 +16,8 @@ import java.util.List;
 @Service
 public class TopCategoryServiceImpl implements TopCategoryService {
 
+    private static final Logger log = LoggerFactory.getLogger(TopCategoryServiceImpl.class);
+
     private final TopCategoryRepository topCategoryRepository;
 
     private final TopCategoryConverter topCategoryConverter;
@@ -25,14 +29,21 @@ public class TopCategoryServiceImpl implements TopCategoryService {
 
     @Override
     public TopCategory saveTopCategory(TopCategory topCategory){
+        log.info("top category saved " + topCategory.getTopCategoryName());
         return topCategoryRepository.save(topCategory);
     }
 
     @Override
     public void changeAmountOfSoldProducts(TopCategory topCategory, int newAmount){
-        int existingAmount = topCategory.getAmountOfSoldProducts();
-        topCategory.setAmountOfSoldProducts(existingAmount + newAmount);
-        topCategoryRepository.save(topCategory);
+        try {
+            int existingAmount = topCategory.getAmountOfSoldProducts();
+            topCategory.setAmountOfSoldProducts(existingAmount + newAmount);
+            topCategoryRepository.save(topCategory);
+            log.info("amount of sold products of top category " + topCategory.getTopCategoryName() + " changed");
+        } catch (Exception e) {
+            log.info("amount of sold products of top category " + topCategory.getTopCategoryName() + " has not changed");
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -46,19 +57,5 @@ public class TopCategoryServiceImpl implements TopCategoryService {
         }
         return topList;
     }
-
-//    @Override
-//    public List<TopCategory> findAllSortedByAmountOfSoldProducts(List<Integer> amountOfSoldProducts, Sort sort) {
-//        List<TopCategory> list = topCategoryRepository.findAll();
-//        List<TopCategory> topList = new ArrayList<>();
-//        for (TopCategory category : list){
-//            if(category.getAmountOfSoldProducts() != 0){
-//                topList.add(category);
-//            }
-//        }
-//
-//        Sort sort1 = new Sort(Sort.Direction.DESC, List<Integer> amountOfSoldProducts);
-//    }
-
 
 }

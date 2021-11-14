@@ -27,8 +27,14 @@ public class RabbitConfiguration {
     private static final Logger log = LoggerFactory.getLogger(RabbitConfiguration.class);
     @Bean
     public ConnectionFactory connectionFactory() {
-        ConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
-        return connectionFactory;
+        try {
+            ConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
+            return connectionFactory;
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("fail connection to rabbitMQ");
+            return connectionFactory();
+        }
     }
 
     @Bean

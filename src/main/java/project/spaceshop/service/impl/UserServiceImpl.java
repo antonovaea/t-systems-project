@@ -1,5 +1,7 @@
 package project.spaceshop.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +14,8 @@ import project.spaceshop.service.api.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final UserRepository userRepository;
 
@@ -42,22 +46,41 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changePassword(String oldPassword, String newPassword) {
         User user = findUserFromSecurityContextHolder();
-        user.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(user);
+        try {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+            log.info("password for user " + user.getId() + " changed");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("password for user " + user.getId() + "has not changed");
+        }
     }
 
     @Override
     public void createUser(User user, String role) {
-        user.setRole(role);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        try {
+            user.setRole(role);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+            log.info("new user created with id " + user.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("new user has not created");
+        }
 
     }
 
     @Override
     public boolean saveUser(User user) {
-        userRepository.save(user);
-        return true;
+        try {
+            userRepository.save(user);
+            log.info("user saved");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("user has not saved");
+            return false;
+        }
     }
 
     @Override
