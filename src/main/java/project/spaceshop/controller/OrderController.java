@@ -23,6 +23,7 @@ import java.util.List;
 @RequestMapping(value = "/home")
 public class OrderController {
 
+    private final TopCategoryService topCategoryService;
     private final RabbitMqSender rabbitMqSender;
     private final OrderService orderService;
     private final BasketBean basketBean;
@@ -34,11 +35,12 @@ public class OrderController {
 
     @Autowired
     public OrderController(OrderService orderService, BasketBean basketBean, ProductService productService,
-                           UserService userService, BasketProductService basketProductService, ProductInOrderRepository productInOrderRepository, ConverterBasketProduct converterBasketProduct, ProductInOrderService productInOrderService, RabbitMqSender rabbitMqSender, ProductInOrderService productInOrderService1, ProductService productService1) {
+                           UserService userService, BasketProductService basketProductService, ProductInOrderRepository productInOrderRepository, ConverterBasketProduct converterBasketProduct, ProductInOrderService productInOrderService, TopCategoryService topCategoryService, RabbitMqSender rabbitMqSender, ProductInOrderService productInOrderService1, ProductService productService1) {
         this.orderService = orderService;
         this.basketBean = basketBean;
         this.userService = userService;
         this.basketProductService = basketProductService;
+        this.topCategoryService = topCategoryService;
         this.rabbitMqSender = rabbitMqSender;
         this.productInOrderService = productInOrderService1;
         this.productService = productService1;
@@ -74,8 +76,6 @@ public class OrderController {
         rabbitMqSender.send("update");
         return "orderSuccess";
     }
-
-    //тут должно отправляться сообщение в кролика про update в топ категориях
 
     @GetMapping(value = "/account/history/page/{pageNo}")
     public String orderHistory(@PathVariable("pageNo") int pageNo, Model model) {

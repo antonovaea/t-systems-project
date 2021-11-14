@@ -1,5 +1,7 @@
 package project.spaceshop.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +24,8 @@ import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
+    private static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     private final TopCategoryRepository topCategoryRepository;
 
@@ -50,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order saveOrder(int idAddress, String paymentType, List<BasketProductDto> basket) {
-        User user = userService.findUserFromSecurityContextHolder();
+//        User user = userService.findUserFromSecurityContextHolder();
         UserAddress address = addressService.findAddressById(idAddress);
         Order order = new Order();
         order.setUser(address.getUser());
@@ -74,6 +78,7 @@ public class OrderServiceImpl implements OrderService {
             order.getProducts().add(productInOrder);
             productInOrderService.saveProductInOrder(productInOrder);
         }
+        log.info("order saved");
         return orderRepository.save(order);
     }
 
@@ -105,24 +110,31 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public boolean changeOrderStatusById(int idOrder, String orderStatus) {
         Order order = orderRepository.getById(idOrder);
-        switch (orderStatus) {
-            case "AWAITING_SHIPMENT":
-                order.setOrderStatus(OrderStatusEnum.AWAITING_SHIPMENT.toString());
-                break;
-            case "SHIPPED":
-                order.setOrderStatus(OrderStatusEnum.SHIPPED.toString());
-                break;
-            case "DELIVERED":
-                order.setOrderStatus(OrderStatusEnum.DELIVERED.toString());
-                break;
-            case "DONE":
-                order.setOrderStatus(OrderStatusEnum.DONE.toString());
-                break;
-            default:
-                break;
+        try {
+            switch (orderStatus) {
+                case "AWAITING_SHIPMENT":
+                    order.setOrderStatus(OrderStatusEnum.AWAITING_SHIPMENT.toString());
+                    break;
+                case "SHIPPED":
+                    order.setOrderStatus(OrderStatusEnum.SHIPPED.toString());
+                    break;
+                case "DELIVERED":
+                    order.setOrderStatus(OrderStatusEnum.DELIVERED.toString());
+                    break;
+                case "DONE":
+                    order.setOrderStatus(OrderStatusEnum.DONE.toString());
+                    break;
+                default:
+                    break;
+            }
+            orderRepository.save(order);
+            log.info("status for order with id " + idOrder + " changed");
+            return true;
+        } catch (Exception e) {
+            log.info("status for order with id " + idOrder + " has not changed");
+            e.printStackTrace();
+            return false;
         }
-        orderRepository.save(order);
-        return true;
     }
 
 }

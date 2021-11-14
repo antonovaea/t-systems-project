@@ -13,12 +13,11 @@ public class TopCategory implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_top_category")
-    private Integer id;
+    private int id;
 
     @Column(name = "top_category_name")
     private String topCategoryName;
 
-    @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_category")
     private Category category;
@@ -36,11 +35,18 @@ public class TopCategory implements Serializable {
         this.amountOfSoldProducts = amountOfSoldProducts;
     }
 
-    public TopCategory(String topCategoryName, @NotNull Category category, Integer amountOfSoldProducts) {
+    public TopCategory(int id, String topCategoryName, @NotNull Category category, Integer amountOfSoldProducts) {
+        this.id = id;
         this.topCategoryName = topCategoryName;
         this.category = category;
         this.amountOfSoldProducts = amountOfSoldProducts;
     }
+
+//    public TopCategory(String topCategoryName, Category category, Integer amountOfSoldProducts) {
+//        this.topCategoryName = topCategoryName;
+//        this.category = category;
+//        this.amountOfSoldProducts = amountOfSoldProducts;
+//    }
 
     public int getId() {
         return id;

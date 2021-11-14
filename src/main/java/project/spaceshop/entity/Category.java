@@ -24,13 +24,13 @@ public class Category {
 
     }
 
-    public Category(int id, @NotNull String categoryName, List<Product> products) {
+    public Category(int id, String categoryName, List<Product> products) {
         this.id = id;
         this.categoryName = categoryName;
         this.products = products;
     }
 
-    public Category(int id, String categoryName, List<Product> products, @NotNull TopCategory topCategory) {
+    public Category(int id, String categoryName, List<Product> products, TopCategory topCategory) {
         this.id = id;
         this.categoryName = categoryName;
         this.products = products;
