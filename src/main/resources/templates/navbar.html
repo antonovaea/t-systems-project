@@ -24,21 +24,21 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/home/about">About</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="isAnonymous()">
                     <a class="nav-link" href="/login">Sign in</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasAuthority('USER')">
                     <a class="nav-link" href="/home/account">Account</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasAuthority('USER')">
                     <a class="nav-link" href="/home/basket">Shopping Cart</a>
                 </li>
-                <li class="nav-item" sec:authorize="hasAnyRole('USER', 'ADMIN')">
-                    <div sec:authorize="isAuthenticated()">
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <div>
                         <a class="nav-link" href="/j_spring_security_logout">Sign out</a>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                     <a class="nav-link" href="/admin">Only for admins</a>
                 </li>
             </ul>
