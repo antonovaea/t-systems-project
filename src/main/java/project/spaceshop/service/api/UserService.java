@@ -11,9 +11,9 @@ public interface UserService {
 
     User findUserFromSecurityContextHolder();
 
-    void changePassword(String oldPassword, String newPassword);
+    boolean changePassword(String oldPassword, String newPassword);
 
-    void createUser(User user, String role);
+    boolean createUser(User user, String role);
 
     boolean saveUser(User user);
 

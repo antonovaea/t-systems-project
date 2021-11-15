@@ -44,28 +44,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changePassword(String oldPassword, String newPassword) {
+    public boolean changePassword(String oldPassword, String newPassword) {
         User user = findUserFromSecurityContextHolder();
         try {
             user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
             log.info("password for user " + user.getId() + " changed");
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             log.info("password for user " + user.getId() + "has not changed");
+            return false;
         }
     }
 
     @Override
-    public void createUser(User user, String role) {
+    public boolean createUser(User user, String role) {
         try {
             user.setRole(role);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
             log.info("new user created with id " + user.getId());
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             log.info("new user has not created");
+            return false;
         }
 
     }
@@ -73,9 +77,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean saveUser(User user) {
         try {
-            userRepository.save(user);
-            log.info("user saved");
-            return true;
+            if (user != null){
+                userRepository.save(user);
+                log.info("user saved");
+                return true;
+            } else return false;
+
         } catch (Exception e) {
             e.printStackTrace();
             log.info("user has not saved");
