@@ -119,26 +119,13 @@ public class UserAddress {
 
     @Override
     public String toString() {
-        return "ClientAddress{" +
-                "id=" + id +
-                ", user=" + user +
-                ", country='" + country + '\'' +
-                ", city='" + city + '\'' +
-                ", postcode='" + postcode + '\'' +
-                ", street='" + street + '\'' +
-                ", house='" + house + '\'' +
-                ", flat='" + flat + '\'' +
-                '}';
+        return "Address: " + "Country: " + country + " City: " + city + " Postcode: " + postcode + " Street " + street +
+                " House: " + house + " Flat: " + flat;
+
     }
 
     public String toStringForOrder() {
-        return "UserAddress{" +
-                "country='" + country + '\'' +
-                ", city='" + city + '\'' +
-                ", postcode='" + postcode + '\'' +
-                ", street='" + street + '\'' +
-                ", house='" + house + '\'' +
-                ", flat='" + flat + '\'' +
-                '}';
+        return "Address: " + "Country: " + country + " City: " + city + " Postcode: " + postcode + " Street " + street +
+                " House: " + house + " Flat: " + flat;
     }
 }
