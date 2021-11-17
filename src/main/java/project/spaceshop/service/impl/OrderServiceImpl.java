@@ -43,8 +43,10 @@ public class OrderServiceImpl implements OrderService {
 
     private final ProductInOrderService productInOrderService;
 
+    private final EmailService emailService;
+
     @Autowired
-    public OrderServiceImpl(ProductService productService, TopCategoryRepository topCategoryRepository, TopCategoryService topCategoryService, OrderRepository orderRepository, UserService userService, BasketProductServiceImpl basketProductService, AddressService addressService, ConverterBasketProduct converterBasketProduct, ProductInOrderRepository productInOrderRepository, ProductInOrderService productInOrderService) {
+    public OrderServiceImpl(ProductService productService, TopCategoryRepository topCategoryRepository, TopCategoryService topCategoryService, OrderRepository orderRepository, UserService userService, BasketProductServiceImpl basketProductService, AddressService addressService, ConverterBasketProduct converterBasketProduct, ProductInOrderRepository productInOrderRepository, ProductInOrderService productInOrderService, EmailService emailService) {
         this.productService = productService;
         this.topCategoryRepository = topCategoryRepository;
         this.topCategoryService = topCategoryService;
@@ -53,6 +55,7 @@ public class OrderServiceImpl implements OrderService {
         this.basketProductService = basketProductService;
         this.addressService = addressService;
         this.productInOrderService = productInOrderService;
+        this.emailService = emailService;
     }
 
     @Override
@@ -139,6 +142,23 @@ public class OrderServiceImpl implements OrderService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public void sendEmailMessage(Order order, User user, int idAddress) {
+        try {
+            String message = "Hello, " + user.getUserName() + "!" + System.lineSeparator() + System.lineSeparator()
+                    + "Your order ID = " + order.getId() + " is confirmed." + System.lineSeparator()
+                    + "Delivery address: " + addressService.findAddressById(idAddress).toString() + System.lineSeparator() + System.lineSeparator()
+                    + "Thank for you order!";
+
+            emailService.sendSimpleMessage(message);
+            log.info("email message for " + user.getEmail() + " has sent");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("email message for " + user.getEmail() + " has not sent");
+        }
+
     }
 
 }

@@ -18,7 +18,6 @@
                 <th>ID</th>
                 <th>Products</th>
                 <th>Total price</th>
-                <th>Address</th>
                 <th>Date</th>
                 <th>Status</th>
                 <th>Payment method</th>
@@ -35,7 +34,6 @@
                     </form>
                 </td>
                 <td th:text="${order.getOrderPrice()}"></td>
-                <td th:text="${order.getUserAddress()}"></td>
                 <td th:text="${order.getDateOrder()}"></td>
                 <td th:text="${order.getOrderStatus()}"></td>
                 <td th:text="${order.getPaymentMethod()}"></td>

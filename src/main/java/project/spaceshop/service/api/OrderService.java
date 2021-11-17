@@ -6,6 +6,7 @@ import project.spaceshop.dto.BasketProductDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import project.spaceshop.entity.Order;
 import project.spaceshop.entity.Product;
+import project.spaceshop.entity.User;
 
 import java.util.Date;
 import java.util.List;
@@ -22,4 +23,6 @@ public interface OrderService {
     List<Order> findByDatePeriod(Date dateFirst,Date dateSecond);
 
     boolean changeOrderStatusById(int idOrder, String orderStatus);
+
+    void sendEmailMessage(Order order, User user, int idAddress);
 }

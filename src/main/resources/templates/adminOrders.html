@@ -18,7 +18,6 @@
                 <th>ID</th>
                 <th>Products</th>
                 <th>Total price</th>
-                <th>Address</th>
                 <th>Date</th>
                 <th>Payment method</th>
                 <th>Payment status</th>
@@ -36,7 +35,6 @@
                     </form>
                 </td>
                 <td th:text="${order.getOrderPrice()}"></td>
-                <td th:text="${order.getUserAddress()}"></td>
                 <td th:text="${order.getDateOrder()}"></td>
                 <td th:text="${order.getPaymentMethod()}"></td>
                 <td th:text="${order.getPaymentStatus()}"></td>
@@ -50,7 +48,7 @@
                             <option value="DELIVERED">DELIVERED</option>
                             <option value="DONE">DONE</option>
                         </select>
-                        <input th:name="orderId" th:value="${order.getId()}"/>
+                        <input class="invisible" th:name="orderId" th:value="${order.getId()}"/>
                         <button type="submit" class="btn btn-success">CHANGE ORDER STATUS</button>
                     </form>
                 </td>
