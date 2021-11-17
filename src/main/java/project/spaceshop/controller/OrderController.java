@@ -13,6 +13,7 @@ import project.spaceshop.mq.RabbitMqSender;
 import project.spaceshop.repository.ProductInOrderRepository;
 import project.spaceshop.service.BasketBean;
 import project.spaceshop.service.api.*;
+import project.spaceshop.service.impl.EmailService;
 import project.spaceshop.util.ImageUtil;
 
 import java.util.ArrayList;
@@ -32,10 +33,11 @@ public class OrderController {
     private final ProductInOrderService productInOrderService;
     private final ProductService productService;
     private final static int PAGE_SIZE = 6;
+    private final EmailService emailService;
 
     @Autowired
     public OrderController(OrderService orderService, BasketBean basketBean, ProductService productService,
-                           UserService userService, BasketProductService basketProductService, ProductInOrderRepository productInOrderRepository, ConverterBasketProduct converterBasketProduct, ProductInOrderService productInOrderService, TopCategoryService topCategoryService, RabbitMqSender rabbitMqSender, ProductInOrderService productInOrderService1, ProductService productService1) {
+                           UserService userService, BasketProductService basketProductService, ProductInOrderRepository productInOrderRepository, ConverterBasketProduct converterBasketProduct, ProductInOrderService productInOrderService, TopCategoryService topCategoryService, RabbitMqSender rabbitMqSender, ProductInOrderService productInOrderService1, ProductService productService1, EmailService emailService) {
         this.orderService = orderService;
         this.basketBean = basketBean;
         this.userService = userService;
@@ -44,6 +46,7 @@ public class OrderController {
         this.rabbitMqSender = rabbitMqSender;
         this.productInOrderService = productInOrderService1;
         this.productService = productService1;
+        this.emailService = emailService;
     }
 
     @GetMapping(value = "/order")
@@ -71,9 +74,10 @@ public class OrderController {
     @GetMapping(value = "/order/pay")
     public String orderPay(@RequestParam(name = "idAddress") int idAddress,
                            @RequestParam(name = "paymentType") String paymentType) {
-        orderService.saveOrder(idAddress, paymentType, (basketBean.getBasket()));
+        Order order = orderService.saveOrder(idAddress, paymentType, (basketBean.getBasket()));
         basketBean.setBasket(new ArrayList<>());
         rabbitMqSender.send("update");
+        orderService.sendEmailMessage(order, userService.findUserFromSecurityContextHolder(), idAddress);
         return "orderSuccess";
     }
 

@@ -32,6 +32,11 @@ public class CategoryDto {
         this.categoryName = categoryName;
     }
 
+    public CategoryDto(int id, String categoryName) {
+        this.id = id;
+        this.categoryName = categoryName;
+    }
+
     @Override
     public String toString() {
         return "CategoryDto{" +

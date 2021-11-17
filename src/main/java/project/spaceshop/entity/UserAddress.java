@@ -119,8 +119,8 @@ public class UserAddress {
 
     @Override
     public String toString() {
-        return "Address: " + "Country: " + country + " City: " + city + " Postcode: " + postcode + " Street " + street +
-                " House: " + house + " Flat: " + flat;
+        return "Country: " + country + ", City: " + city + ", Postcode: " + postcode + ", Street " + street +
+                ", House: " + house + ", Flat: " + flat;
 
     }
 
