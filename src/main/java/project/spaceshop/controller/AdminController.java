@@ -17,11 +17,13 @@ import project.spaceshop.service.api.*;
 import project.spaceshop.util.ImageUtil;
 
 import java.beans.PropertyEditorSupport;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @PreAuthorize("hasAuthority('ADMIN')")
@@ -170,8 +172,9 @@ public class AdminController {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date dateStartParsed = format.parse(dateStart);
         Date dateEndParsed = format.parse(dateEnd);
-        String formattedNumber = String.valueOf(orderService.getIncomeByDatePeriod(dateStartParsed, dateEndParsed));
-        model.addAttribute("income", String.format(formattedNumber, "%,d"));
+        NumberFormat f = NumberFormat.getInstance(new Locale("ru", "RU"));
+        int i = orderService.getIncomeByDatePeriod(dateStartParsed, dateEndParsed);
+        model.addAttribute("income", f.format(i));
         return "adminIncome";
     }
 
