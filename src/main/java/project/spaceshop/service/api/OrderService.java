@@ -20,7 +20,7 @@ public interface OrderService {
 
     List<Order> findAllOrder();
 
-    List<Order> findByDatePeriod(Date dateFirst,Date dateSecond);
+    int getIncomeByDatePeriod(Date dateFirst,Date dateSecond);
 
     boolean changeOrderStatusById(int idOrder, String orderStatus);
 

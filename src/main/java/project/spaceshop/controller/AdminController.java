@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import project.spaceshop.dto.CategoryDto;
 import project.spaceshop.entity.Order;
@@ -15,7 +16,11 @@ import project.spaceshop.repository.ProductRepository;
 import project.spaceshop.service.api.*;
 import project.spaceshop.util.ImageUtil;
 
+import java.beans.PropertyEditorSupport;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -38,6 +43,22 @@ public class AdminController {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.productInOrderService = productInOrderService;
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+        dataBinder.setDisallowedFields("id");
+        dataBinder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String value) {
+                try {
+                    setValue(new SimpleDateFormat("dd/MM/yyyy").parse(value));
+                } catch (ParseException e) {
+                    setValue(null);
+                }
+            }
+        });
+
     }
 
     @GetMapping(value = "/admin")
@@ -130,10 +151,28 @@ public class AdminController {
         productService.saveProduct(product);
         return "redirect:/admin/product/new";
     }
+//
+//    @RequestParam(name = "dateStart") Date dateStart,
+//    @RequestParam(name = "dateEnd") Date dateEnd,
 
     @GetMapping(value = "/admin/statistic")
     public String getStatistic(Model model){
+        String dateStart = "";
+        String dateEnd = "";
+        model.addAttribute("dateStart", dateStart);
+        model.addAttribute("dateEnd", dateEnd);
         return "adminStatistic";
+    }
+
+    @GetMapping(value = "/admin/statistic/income")
+    public String getStatistic(@RequestParam(name = "dateStart", required = false) String dateStart,
+                               @RequestParam(name = "dateEnd", required = false) String dateEnd, Model model) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateStartParsed = format.parse(dateStart);
+        Date dateEndParsed = format.parse(dateEnd);
+        String formattedNumber = String.valueOf(orderService.getIncomeByDatePeriod(dateStartParsed, dateEndParsed));
+        model.addAttribute("income", String.format(formattedNumber, "%,d"));
+        return "adminIncome";
     }
 
 }
