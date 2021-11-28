@@ -32,6 +32,7 @@ public class SpaceshopApplication {
         SpringApplication.run(SpaceshopApplication.class, args);
     }
 
+
     @Bean
     public TopicExchange topicExchange(){
         return new TopicExchange(EXCHANGE_NAME);

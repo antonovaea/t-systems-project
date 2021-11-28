@@ -2,6 +2,9 @@ package project.spaceshop.dto;
 
 import java.io.Serializable;
 
+/**
+ *
+ */
 public class BasketProductDto implements Serializable {
 
     private Integer id;

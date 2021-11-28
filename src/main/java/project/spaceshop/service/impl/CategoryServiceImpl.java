@@ -18,14 +18,33 @@ import java.util.List;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
+    /**
+     * Logger
+     */
     private static final Logger log = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
+    /**
+     * Injected by spring CategoryRepository bean
+     */
     private final CategoryRepository categoryRepository;
 
+    /**
+     * Injected by spring TopCategoryService bean
+     */
     private final TopCategoryService topCategoryService;
 
+    /**
+     * Injected by spring CategoryConverter bean
+     */
     private final CategoryConverter categoryConverter;
 
+    /**
+     * Injected constructor.
+     *
+     * @param categoryRepository that must be injected.
+     * @param topCategoryService that must be injected.
+     * @param categoryConverter  that must be injected.
+     */
     @Autowired
     public CategoryServiceImpl(CategoryRepository categoryRepository, TopCategoryService topCategoryService, CategoryConverter categoryConverter) {
         this.categoryRepository = categoryRepository;
@@ -33,12 +52,22 @@ public class CategoryServiceImpl implements CategoryService {
         this.categoryConverter = categoryConverter;
     }
 
+    /**
+     * Method looks for category by id.
+     *
+     * @param id param id of required category.
+     * @return found category.
+     */
     @Override
-    public @NotNull Category findCategoryById(int id) {
+    public Category findCategoryById(int id) {
         return categoryRepository.getById(id);
     }
 
-
+    /**
+     * Method adds category to database.
+     *
+     * @param categoryDto category dto object which we receive from variable data.
+     */
     @Override
     public void saveCategory(CategoryDto categoryDto) {
         Category category = new Category();
@@ -57,6 +86,12 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
+    /**
+     * Method removes category from database by id.
+     *
+     * @param idCategory param id or category that must be removed.
+     * @return true if category successfully removed or false if not.
+     */
     @Override
     public boolean deleteCategoryById(int idCategory) {
         try {
@@ -70,6 +105,11 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
+    /**
+     * Method looks for all existing categories.
+     *
+     * @return all found categories in database.
+     */
     @Override
     public List<Category> findAll() {
         return categoryRepository.findAll();

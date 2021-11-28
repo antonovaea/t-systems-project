@@ -9,15 +9,32 @@ import project.spaceshop.service.api.UserService;
 @Service
 public class EmailService {
 
+    /**
+     * Injected by spring JavaMailSender bean
+     */
     private JavaMailSender emailSender;
+    /**
+     * Injected by spring UserService bean
+     */
     private final UserService userService;
 
+    /**
+     * Injected constructor.
+     *
+     * @param emailSender that must be injected.
+     * @param userService that must be injected.
+     */
     @Autowired
     public EmailService(JavaMailSender emailSender, UserService userService) {
         this.emailSender = emailSender;
         this.userService = userService;
     }
 
+    /**
+     * Method creates params for sending email messages.
+     *
+     * @param text text message that must be sent.
+     */
     public void sendSimpleMessage(String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("noreply@baeldung.com");
