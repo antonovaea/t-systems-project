@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 @Entity
 @Table(name = "products", schema = "planetshop")
 public class Product {

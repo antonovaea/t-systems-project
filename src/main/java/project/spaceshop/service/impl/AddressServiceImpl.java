@@ -15,19 +15,38 @@ import project.spaceshop.service.api.UserService;
 @Service
 public class AddressServiceImpl implements AddressService {
 
+    /**
+     * Logger
+     */
     private static final Logger log = LoggerFactory.getLogger(AddressServiceImpl.class);
 
+    /**
+     * Injected by Spring UserService bean.
+     */
     private final UserService userService;
 
+    /**
+     * Injected by Spring UserRepository bean.
+     */
     private final UserAddressRepository userAddressRepository;
 
+    /**
+     * Injected constructor.
+     *
+     * @param userService           that must be injected.
+     * @param userAddressRepository that must be injected.
+     */
     @Autowired
     public AddressServiceImpl(UserService userService, UserAddressRepository userAddressRepository) {
         this.userService = userService;
         this.userAddressRepository = userAddressRepository;
     }
 
-
+    /**
+     * Method adds address to database.
+     *
+     * @param userAddress that must be added.
+     */
     @Override
     public void saveAddress(UserAddress userAddress) {
         try {
@@ -42,8 +61,13 @@ public class AddressServiceImpl implements AddressService {
         }
     }
 
+    /**
+     * Method removes address from database.
+     *
+     * @param idAddress that must be removed.
+     */
     @Override
-    public void deleteAddress(int idAddress){
+    public void deleteAddress(int idAddress) {
         try {
             User user = userService.findUserFromSecurityContextHolder();
             user.getUserAddresses().remove(findAddressById(idAddress));
@@ -55,6 +79,12 @@ public class AddressServiceImpl implements AddressService {
         }
     }
 
+    /**
+     * Method looks for address by id.
+     *
+     * @param idAddress id of required address.
+     * @return found address.
+     */
     @Override
     public UserAddress findAddressById(int idAddress) {
         return userAddressRepository.getById(idAddress);
