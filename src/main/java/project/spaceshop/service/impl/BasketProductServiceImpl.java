@@ -102,19 +102,6 @@ public class BasketProductServiceImpl implements BasketProductService {
     @Override
     public List<BasketProductDto> deleteFromBasket(List<BasketProductDto> basket) {
         return new ArrayList<>();
-//        try {
-//            for (BasketProductDto product : basket) {
-//                Product originalProduct = productRepository.getById(product.getId());
-//                originalProduct.setAmountInStock(originalProduct.getAmountInStock() + product.getAmount());
-//                productRepository.save(originalProduct);
-//            }
-//            log.info("all products removed from basket");
-//            return new ArrayList<>();
-//        } catch (Exception e) {
-//            log.info("products have not removed from basket");
-//            e.printStackTrace();
-//            return basket;
-//        }
     }
 
     @Override
