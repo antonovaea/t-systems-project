@@ -153,9 +153,6 @@ public class AdminController {
         productService.saveProduct(product);
         return "redirect:/admin/product/new";
     }
-//
-//    @RequestParam(name = "dateStart") Date dateStart,
-//    @RequestParam(name = "dateEnd") Date dateEnd,
 
     @GetMapping(value = "/admin/statistic")
     public String getStatistic(Model model){

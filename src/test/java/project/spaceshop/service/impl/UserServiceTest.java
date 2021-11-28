@@ -19,8 +19,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
-class UserServiceImplTest {
-
+class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
@@ -46,38 +45,35 @@ class UserServiceImplTest {
     void findUserByEmail() {
         User user = initUser();
         when(userRepository.findUserByEmail(user.getEmail())).thenReturn(user);
-        User selectedUser = userRepository.findUserByEmail("java@mail.com");
-        assertEquals(user, selectedUser);
+        userServiceImpl.findUserByEmail(user.getEmail());
+        verify(userRepository).findUserByEmail(user.getEmail());
 
     }
 
     @Test
     void findUserByNullEmail() {
-
         User result = userServiceImpl.findUserByEmail(null);
         assertNull(result);
-
     }
 
     @Test
     void findUserByNotSuitableEmail() {
         User result = userServiceImpl.findUserByEmail("");
         assertNull(result);
-
     }
 
     @Test
     void findUserById() {
         User user = initUser();
-        when(userRepository.findUserById(user.getId())).thenReturn(user);
-        User selectedUser = userRepository.findUserById(1);
+        when(userRepository.getById(user.getId())).thenReturn(user);
+        User selectedUser = userServiceImpl.findUserById(1);
         assertEquals(user, selectedUser);
     }
 
     @Test
     void createUser() {
-
         User user = initUser();
+
         String role = "USER";
 
         boolean isUserCreated = userServiceImpl.createUser(user, role);

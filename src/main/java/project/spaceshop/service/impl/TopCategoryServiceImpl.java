@@ -28,9 +28,10 @@ public class TopCategoryServiceImpl implements TopCategoryService {
     }
 
     @Override
-    public TopCategory saveTopCategory(TopCategory topCategory){
+    public boolean saveTopCategory(TopCategory topCategory){
         log.info("top category saved " + topCategory.getTopCategoryName());
-        return topCategoryRepository.save(topCategory);
+        topCategoryRepository.save(topCategory);
+        return true;
     }
 
     @Override
