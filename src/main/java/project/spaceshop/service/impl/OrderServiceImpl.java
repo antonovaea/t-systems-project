@@ -107,16 +107,21 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findAll();
     }
 
-
-
     @Override
     public int getIncomeByDatePeriod(Date dateFirst, Date dateSecond) {
-        List<Order> list = orderRepository.findOrderByDateOrderBetween(dateFirst, dateSecond);
-        int income = 0;
-        for (Order order : list){
-            income += order.getOrderPrice();
+        try {
+            List<Order> list = orderRepository.findOrderByDateOrderBetween(dateFirst, dateSecond);
+            int income = 0;
+            for (Order order : list){
+                income += order.getOrderPrice();
+            }
+            log.info("income for the period is found = " + income);
+            return income;
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("income for the period is not found");
+            return 0;
         }
-        return income;
     }
 
     @Override

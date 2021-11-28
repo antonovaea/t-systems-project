@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TopCategoryService {
 
-    TopCategory saveTopCategory(TopCategory topCategory);
+    boolean saveTopCategory(TopCategory topCategory);
 
     void changeAmountOfSoldProducts(TopCategory topCategory, int newAmount);
 

@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import project.spaceshop.entity.User;
 import project.spaceshop.entity.UserAddress;
 import project.spaceshop.repository.UserAddressRepository;
-import project.spaceshop.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
-class AddressServiceImplTest {
+class AddressServiceTest {
 
     @Mock
     private UserServiceImpl userService;
@@ -63,11 +62,9 @@ class AddressServiceImplTest {
         User user = initUser();
         UserAddress userAddress = initUserAddress();
         List<UserAddress> addresses = new ArrayList<>();
-        userAddress.setUser(user);
         addresses.add(userAddress);
-        user.setUserAddresses(addresses);
-        when(userService.findUserById(user.getId())).thenReturn(user);
-        userService.saveUser(user);
+        when(userService.findUserFromSecurityContextHolder()).thenReturn(user);
+        addressService.saveAddress(userAddress);
         assertEquals(1, user.getUserAddresses().size());
 
     }
@@ -78,11 +75,10 @@ class AddressServiceImplTest {
         UserAddress userAddress = initUserAddress();
         UserAddress userAddress1 = initUserAddress();
         List<UserAddress> addresses = new ArrayList<>();
-        userAddress.setUser(user);
         addresses.add(userAddress);
         addresses.add(userAddress1);
+        when(userService.findUserFromSecurityContextHolder()).thenReturn(user);
         user.setUserAddresses(addresses);
-        when(userService.findUserById(user.getId())).thenReturn(user);
         userService.saveUser(user);
         user.getUserAddresses().remove(userAddress1);
         userService.saveUser(user);

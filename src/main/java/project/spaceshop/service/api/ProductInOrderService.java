@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ProductInOrderService {
 
-    ProductInOrder saveProductInOrder(ProductInOrder productInOrder);
+    boolean saveProductInOrder(ProductInOrder productInOrder);
 
     List<ProductInOrder> findAllByOrderId(int orderId);
 }

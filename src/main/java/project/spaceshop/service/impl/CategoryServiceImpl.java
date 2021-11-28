@@ -58,13 +58,15 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategoryById(int idCategory) {
+    public boolean deleteCategoryById(int idCategory) {
         try {
             categoryRepository.deleteById(idCategory);
             log.info("category with id " + idCategory + " removed");
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             log.info("category with id " + idCategory + " has not removed");
+            return false;
         }
     }
 

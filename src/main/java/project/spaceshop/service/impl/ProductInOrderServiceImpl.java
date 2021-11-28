@@ -19,8 +19,9 @@ public class ProductInOrderServiceImpl implements ProductInOrderService {
     }
 
     @Override
-    public ProductInOrder saveProductInOrder(ProductInOrder productInOrder) {
-        return productInOrderRepository.save(productInOrder);
+    public boolean saveProductInOrder(ProductInOrder productInOrder) {
+        productInOrderRepository.save(productInOrder);
+        return true;
     }
 
     @Override

@@ -12,7 +12,7 @@ public interface CategoryService {
 
     void saveCategory(CategoryDto categoryDto);
 
-    void deleteCategoryById(int idCategory);
+    boolean deleteCategoryById(int idCategory);
 
     List<Category> findAll();
 }
