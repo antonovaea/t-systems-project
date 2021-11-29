@@ -13,6 +13,7 @@ import project.spaceshop.entity.*;
 import project.spaceshop.entity.enums.OrderStatusEnum;
 import project.spaceshop.entity.enums.PaymentMethodEnum;
 import project.spaceshop.entity.enums.PaymentStatusEnum;
+import project.spaceshop.exeption.productAlreadySoldException;
 import project.spaceshop.repository.OrderRepository;
 import project.spaceshop.repository.ProductInOrderRepository;
 import project.spaceshop.repository.TopCategoryRepository;
@@ -109,7 +110,7 @@ public class OrderServiceImpl implements OrderService {
      * @return saved order.
      */
     @Override
-    public Order saveOrder(int idAddress, String paymentType, List<BasketProductDto> basket) {
+    public Order saveOrder(int idAddress, String paymentType, List<BasketProductDto> basket) throws productAlreadySoldException {
         UserAddress address = addressService.findAddressById(idAddress);
         Order order = new Order();
         order.setUser(address.getUser());
@@ -126,17 +127,22 @@ public class OrderServiceImpl implements OrderService {
         int totalPrice = basketProductService.totalPrice(basket);
         order.setOrderPrice(totalPrice);
         for (BasketProductDto basketItem : basket) {
-            Product product = basketProductService.convertBasketProductDtoToProduct(basketItem);
-            ProductInOrder productInOrder = new ProductInOrder(order, product, basketItem.getAmount());
-            product.setAmountInStock(product.getAmountInStock() - basketItem.getAmount());
-            productService.saveProduct(product);
-            TopCategory topCategory = topCategoryRepository.findTopCategoryByCategory_Id(product.getCategory().getId());
-            topCategoryService.changeAmountOfSoldProducts(topCategory, basketItem.getAmount());
-            order.getProducts().add(productInOrder);
-            productInOrderService.saveProductInOrder(productInOrder);
+                Product product = basketProductService.convertBasketProductDtoToProduct(basketItem);
+                if (product.getAmountInStock() != 0){
+                ProductInOrder productInOrder = new ProductInOrder(order, product, basketItem.getAmount());
+                product.setAmountInStock(product.getAmountInStock() - basketItem.getAmount());
+                productService.saveProduct(product);
+                TopCategory topCategory = topCategoryRepository.findTopCategoryByCategory_Id(product.getCategory().getId());
+                topCategoryService.changeAmountOfSoldProducts(topCategory, basketItem.getAmount());
+                order.getProducts().add(productInOrder);
+                productInOrderService.saveProductInOrder(productInOrder);
+                log.info("order saved");
+                return orderRepository.save(order);
+            } else {
+                    throw new productAlreadySoldException();
+                }
         }
-        log.info("order saved");
-        return orderRepository.save(order);
+        return order;
     }
 
     /**

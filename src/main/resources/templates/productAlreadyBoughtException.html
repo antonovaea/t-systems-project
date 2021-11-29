@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Error page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/style/main.css}" rel="stylesheet">
+</head>
+<body>
+<div th:insert="navbar.html"></div>
+<div class="container text-center">
+  <h3>
+    Someone has already bought item from your basket :(
+  </h3>
+  <h3>
+    Find something another
+  </h3>
+  <h4><a th:href="@{/}">Main page link</a></h4>
+</div>
+</body>
+</html>

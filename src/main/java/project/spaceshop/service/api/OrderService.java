@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import project.spaceshop.entity.Order;
 import project.spaceshop.entity.Product;
 import project.spaceshop.entity.User;
+import project.spaceshop.exeption.productAlreadySoldException;
 
 import java.util.Date;
 import java.util.List;
@@ -23,7 +24,7 @@ public interface OrderService {
      * @param basket      all ordered products.
      * @return saved order.
      */
-    Order saveOrder(int idAddress, String paymentType, List<BasketProductDto> basket);
+    Order saveOrder(int idAddress, String paymentType, List<BasketProductDto> basket) throws productAlreadySoldException;
 
     /**
      * Method divides list of existing orders on pages.
