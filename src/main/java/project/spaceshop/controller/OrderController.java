@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import project.spaceshop.dto.converter.ConverterBasketProduct;
 import project.spaceshop.entity.*;
 import project.spaceshop.entity.enums.PaymentMethodEnum;
+import project.spaceshop.exeption.productAlreadySoldException;
 import project.spaceshop.mq.RabbitMqSender;
 import project.spaceshop.repository.ProductInOrderRepository;
 import project.spaceshop.service.BasketBean;
@@ -73,7 +74,7 @@ public class OrderController {
 
     @GetMapping(value = "/order/pay")
     public String orderPay(@RequestParam(name = "idAddress") int idAddress,
-                           @RequestParam(name = "paymentType") String paymentType) {
+                           @RequestParam(name = "paymentType") String paymentType) throws productAlreadySoldException {
         Order order = orderService.saveOrder(idAddress, paymentType, (basketBean.getBasket()));
         basketBean.setBasket(new ArrayList<>());
         rabbitMqSender.send("update");
@@ -105,6 +106,11 @@ public class OrderController {
         model.addAttribute("products", products);
         model.addAttribute("imgUtil", new ImageUtil());
         return "productHistory";
+    }
+
+    @ExceptionHandler(value = {productAlreadySoldException.class})
+    public String ExceptionHandler(productAlreadySoldException exception){
+        return "productAlreadyBoughtException";
     }
 
 }

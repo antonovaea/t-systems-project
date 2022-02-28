@@ -119,7 +119,12 @@ public class Product {
     }
 
     public void setAmountInStock(Integer amountInStock) {
-        this.amountInStock = amountInStock;
+        if (amountInStock >= 0){
+            this.amountInStock = amountInStock;
+        } else {
+            this.amountInStock = 0;
+        }
+
     }
 
     public boolean isAvailable() {
